@@ -316,6 +316,58 @@ html[data-theme="dark"] .cbtn.primary{color:#160C06}
 .poster-link svg{flex:none;opacity:.6}
 .poster-link:hover svg{opacity:1}
 
+/* ---- Document register ----
+   Reads like the parts list on an engineering drawing: index,
+   designation, class, extent. Accent rail on hover marks the row. */
+.sub-h{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;gap:11px;margin:0 0 4px;
+}
+.sub-h::after{content:"";height:1px;flex:1;background:var(--line)}
+.sub-h + .sub-h,.reg + .sub-h{margin-top:34px}
+.reg{list-style:none;margin:0;padding:0}
+.reg li{border-bottom:1px solid var(--line)}
+.reg-row{
+  position:relative;display:grid;gap:17px;align-items:start;
+  grid-template-columns:26px minmax(0,1fr) 92px 54px 15px;
+  padding:16px 8px 16px 3px;text-decoration:none;color:inherit;
+  transition:padding .2s,background .2s;
+}
+.reg-row::before{
+  content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;
+  background:var(--accent);transform:scaleY(0);transform-origin:top;
+  transition:transform .24s cubic-bezier(.4,0,.2,1);
+}
+.reg-row:hover{padding-left:13px;background:var(--surface)}
+.reg-row:hover::before{transform:scaleY(1)}
+.reg-i{
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--faint);
+  font-variant-numeric:tabular-nums;transition:color .2s;margin-top:3px;
+}
+.reg-row:hover .reg-i{color:var(--accent)}
+.reg-t{
+  display:block;font-family:var(--display);font-size:15px;font-weight:600;
+  letter-spacing:-.013em;line-height:1.36;
+}
+.reg-s{display:block;font-size:12.7px;color:var(--muted);line-height:1.5;margin-top:4px}
+.reg-tag{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;white-space:nowrap;padding:3px 7px;border-radius:4px;
+  background:var(--navy-soft);color:var(--navy);
+  justify-self:start;margin-top:1px;
+}
+.reg-p{
+  font-family:var(--mono);font-size:11px;color:var(--faint);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+  justify-self:end;margin-top:3px;
+}
+.reg-row svg{
+  opacity:0;transform:translateX(-5px);color:var(--accent);margin-top:4px;
+  transition:opacity .2s,transform .2s;
+}
+.reg-row:hover svg{opacity:1;transform:translateX(0)}
+
 /* ---- Certificate link ---- */
 .certs{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
 .cert{
@@ -448,6 +500,8 @@ html[data-theme="dark"] .badge.award{color:#160C06}
   .hero-top{gap:18px}
   .portrait{width:66px;height:88px;margin-top:2px}
   .poster-link img{height:132px}
+  .reg-row{grid-template-columns:24px minmax(0,1fr) auto;gap:13px}
+  .reg-tag,.reg-row svg{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
@@ -548,6 +602,12 @@ html[data-theme="dark"] .badge.award{color:#160C06}
             <div class="metric"><span class="k">Middle</span><span class="v">28%</span><span class="base">vs 6% baseline</span></div>
             <div class="metric"><span class="k">Hard</span><span class="v">18%</span><span class="base">vs 0% baseline</span></div>
           </div>
+          <div class="certs">
+            <a class="cert" href="assets/certificates/kitech-training-certificate.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/></svg>
+              Training Certificate
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -567,10 +627,21 @@ html[data-theme="dark"] .badge.award{color:#160C06}
         <div class="tl-item">
           <div class="tl-date">Apr. 2026 — Jun. 2026</div>
           <h3 class="tl-title">H-Mobility Class — Robotics Track</h3>
-          <p class="tl-org">Hyundai Motor Group <span class="loc">· Industry-academia program</span></p>
+          <p class="tl-org">Hyundai NGV, Hyundai Motor Group <span class="loc">· Industry-academia program</span></p>
           <ul class="tl-body">
             <li>ROS/Python, kinematics &amp; motion planning, control &amp; dynamics, perception &amp; state estimation.</li>
+            <li>Completed the <b>Car Inside Out</b> track in parallel — vehicle architecture and powertrain fundamentals.</li>
           </ul>
+          <div class="certs">
+            <a class="cert" href="assets/certificates/hmobility-robotics-track.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/></svg>
+              Robotics Track
+            </a>
+            <a class="cert" href="assets/certificates/hmobility-car-inside-out.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/></svg>
+              Car Inside Out
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -620,6 +691,10 @@ html[data-theme="dark"] .badge.award{color:#160C06}
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
               Excellence · Creative Tech
             </a>
+            <a class="cert" href="assets/docs/2025-team-kai-formula-technical-report.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+              Technical Report
+            </a>
           </div>
         </div>
         <div class="tl-item">
@@ -653,6 +728,79 @@ html[data-theme="dark"] .badge.award{color:#160C06}
           <ul class="tl-body"><li>Semester GPA <b>4.50 / 4.50</b>.</li></ul>
         </div>
       </div>
+    </section>
+
+    <!-- TECHNICAL DOCUMENTATION -->
+    <section class="sec">
+      <div class="sec-h"><h2>Technical Documentation</h2><span class="count">6</span></div>
+
+      <div class="sub-h">KITECH Field Training · Jan. 2026 — Jun. 2026</div>
+      <ol class="reg">
+        <li><a class="reg-row" href="assets/docs/viva-architecture-report.pdf" target="_blank" rel="noopener">
+          <span class="reg-i">01</span>
+          <span class="reg-main">
+            <span class="reg-t">VIVA — VLM-Instructed VLA Architecture</span>
+            <span class="reg-s">Hierarchical VLM–VLA design, asynchronous instruction rewriting, and the evaluation protocol behind the KSME 2026 poster.</span>
+          </span>
+          <span class="reg-tag">Report</span>
+          <span class="reg-p">20 pp</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a></li>
+        <li><a class="reg-row" href="assets/docs/skillwise-expert-data-generation-report.pdf" target="_blank" rel="noopener">
+          <span class="reg-i">02</span>
+          <span class="reg-main">
+            <span class="reg-t">Skill-wise Expert based Data Generation</span>
+            <span class="reg-s">Pipeline for generating VLA fine-tuning data from simulator rollouts — teleop demos, Diffusion Policy BC, Residual RL.</span>
+          </span>
+          <span class="reg-tag">Report</span>
+          <span class="reg-p">41 pp</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a></li>
+        <li><a class="reg-row" href="assets/docs/lekiwi-teleoperation-setup-manual.pdf" target="_blank" rel="noopener">
+          <span class="reg-i">03</span>
+          <span class="reg-main">
+            <span class="reg-t">Lekiwi Setup &amp; Teleoperation Manual</span>
+            <span class="reg-s">Mobile-manipulator bring-up end to end: motor IDs, calibration, leader–follower teleoperation, and object spawning.</span>
+          </span>
+          <span class="reg-tag">Manual</span>
+          <span class="reg-p">53 pp</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a></li>
+        <li><a class="reg-row" href="assets/docs/vlm-finetuning-manual.pdf" target="_blank" rel="noopener">
+          <span class="reg-i">04</span>
+          <span class="reg-main">
+            <span class="reg-t">VLM Fine-tuning Manual</span>
+            <span class="reg-s">Workspace and Conda setup through data collection, training, inference, and troubleshooting — with a Qwen3.5-9B fallback comparison.</span>
+          </span>
+          <span class="reg-tag">Manual</span>
+          <span class="reg-p">49 pp</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a></li>
+      </ol>
+
+      <div class="sub-h">Competition Reports</div>
+      <ol class="reg">
+        <li><a class="reg-row" href="assets/docs/2025-team-kai-formula-technical-report.pdf" target="_blank" rel="noopener">
+          <span class="reg-i">05</span>
+          <span class="reg-main">
+            <span class="reg-t">Team K.A.I. — Formula Technical Report</span>
+            <span class="reg-s">Full design report submitted for the 2025 Univ. Creative Mobility Competition, where the team took Special and Excellence awards.</span>
+          </span>
+          <span class="reg-tag">Tech Report</span>
+          <span class="reg-p">119 pp</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a></li>
+        <li><a class="reg-row" href="assets/docs/physical-ai-hackathon-report.pdf" target="_blank" rel="noopener">
+          <span class="reg-i">06</span>
+          <span class="reg-main">
+            <span class="reg-t">1st Physical AI Hackathon — Fine Folding</span>
+            <span class="reg-s">Write-up of the bimanual cloth-folding entry that won the Seoul RISE Director's Award: teleop rig, demo collection, ACT policy.</span>
+          </span>
+          <span class="reg-tag">Report</span>
+          <span class="reg-p">6 pp</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a></li>
+      </ol>
     </section>
   </div>
 
