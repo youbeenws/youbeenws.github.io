@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yubin Jeon — Robot Learning &amp; Long-Horizon Manipulation</title>
+<meta name="author" content="Yubin Jeon">
+<meta name="description" content="Yubin Jeon (전유빈) — B.S. Candidate in Smart Vehicle Engineering, Konkuk University. Vision-Language-Action models, data generation for robot foundation models, long-horizon manipulation.">
+<meta property="og:title" content="Yubin Jeon — Robot Learning &amp; Long-Horizon Manipulation">
+<meta property="og:description" content="Vision-Language-Action models, data generation for robot foundation models, and long-horizon task planning.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   Palette: industrial-robotics. Cool grey ground, slate-navy
+   structure, safety orange reserved for waypoints + active state.
+   ============================================================ */
+:root{
+  --bg:#F4F5F7;
+  --surface:#FFFFFF;
+  --surface-2:#EDEFF3;
+  --ink:#101319;
+  --ink-2:#2C3540;
+  --muted:#626C7A;
+  --faint:#8A94A2;
+  --line:#DFE3E9;
+  --line-2:#C9D0DA;
+  --accent:#E8500F;
+  --accent-soft:#FCEDE6;
+  --navy:#16324F;
+  --navy-soft:#E7EDF3;
+  --shadow:0 1px 2px rgba(16,19,25,.04), 0 8px 24px rgba(16,19,25,.06);
+  --shadow-lift:0 2px 4px rgba(16,19,25,.06), 0 16px 40px rgba(16,19,25,.10);
+
+  --display:"Space Grotesk","Noto Sans KR",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Noto Sans KR",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --maxw:1120px;
+  --radius:10px;
+}
+html[data-theme="dark"]{
+  --bg:#0C0F14;
+  --surface:#141922;
+  --surface-2:#1B212C;
+  --ink:#EDF0F4;
+  --ink-2:#C7CEDA;
+  --muted:#98A2B2;
+  --faint:#6E7889;
+  --line:#242C39;
+  --line-2:#323C4C;
+  --accent:#FF7038;
+  --accent-soft:#2A1710;
+  --navy:#9DC3E6;
+  --navy-soft:#182430;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --shadow-lift:0 2px 4px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:4px;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--maxw);margin:0 auto;padding:0 28px;
+  height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{
+  font-family:var(--mono);font-size:13.5px;font-weight:600;
+  letter-spacing:-.01em;text-decoration:none;color:var(--ink);
+  display:flex;align-items:center;gap:9px;
+}
+.brand .dot{
+  width:7px;height:7px;background:var(--accent);
+  transform:rotate(45deg);flex:none;
+}
+.nav-right{display:flex;align-items:center;gap:8px}
+.tabs{display:flex;gap:2px;background:var(--surface-2);padding:3px;border-radius:8px}
+.tab{
+  font-family:var(--body);font-size:13.5px;font-weight:500;
+  padding:6px 15px;border:0;border-radius:6px;background:transparent;
+  color:var(--muted);cursor:pointer;transition:.16s;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.icon-btn{
+  width:34px;height:34px;display:grid;place-items:center;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  border-radius:8px;cursor:pointer;transition:.16s;
+}
+.icon-btn:hover{color:var(--ink);border-color:var(--line-2)}
+
+/* ============================================================
+   HERO — the research statement is the thesis
+   ============================================================ */
+.hero{padding:72px 0 8px}
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  display:flex;align-items:center;gap:10px;margin-bottom:22px;
+}
+.eyebrow::after{content:"";height:1px;flex:1;background:var(--line-2);max-width:180px}
+.name{
+  font-family:var(--display);font-size:clamp(38px,6.2vw,62px);
+  font-weight:700;letter-spacing:-.035em;line-height:1.02;margin:0;
+}
+.name .kr{
+  font-family:var(--body);font-size:.36em;font-weight:500;
+  color:var(--faint);letter-spacing:0;margin-left:14px;vertical-align:.42em;
+}
+.role{
+  font-family:var(--mono);font-size:13px;color:var(--muted);
+  margin:16px 0 0;letter-spacing:-.005em;
+}
+.thesis{
+  font-family:var(--display);font-size:clamp(19px,2.5vw,25px);
+  font-weight:400;line-height:1.5;letter-spacing:-.018em;
+  color:var(--ink-2);max-width:44ch;margin:30px 0 0;
+}
+.thesis strong{font-weight:600;color:var(--ink);box-shadow:inset 0 -.42em 0 var(--accent-soft)}
+.contact{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}
+.cbtn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 15px;border:1px solid var(--line);border-radius:8px;
+  background:var(--surface);text-decoration:none;
+  font-size:13.5px;color:var(--ink-2);transition:.16s;
+}
+.cbtn:hover{border-color:var(--line-2);box-shadow:var(--shadow);transform:translateY(-1px)}
+.cbtn svg{flex:none;opacity:.62}
+.cbtn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.cbtn.primary svg{opacity:.9}
+.cbtn.primary:hover{background:#d0470d;border-color:#d0470d}
+html[data-theme="dark"] .cbtn.primary{color:#160C06}
+
+/* ============================================================
+   INTEREST STRIP
+   ============================================================ */
+.interests{
+  margin-top:56px;padding:26px 0 0;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+.ipill{display:flex;gap:13px;align-items:flex-start}
+.ipill .mk{
+  width:9px;height:9px;background:var(--accent);transform:rotate(45deg);
+  flex:none;margin-top:7px;
+}
+.ipill p{margin:0;font-size:13.8px;color:var(--ink-2);line-height:1.5}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.sheet{padding:64px 0 96px}
+.cols{display:grid;grid-template-columns:1fr 268px;gap:56px;align-items:start}
+.sec{margin-bottom:56px}
+.sec:last-child{margin-bottom:0}
+.sec-h{
+  display:flex;align-items:baseline;gap:14px;margin-bottom:26px;
+  padding-bottom:11px;border-bottom:1px solid var(--line);
+}
+.sec-h h2{
+  font-family:var(--display);font-size:15px;font-weight:600;
+  letter-spacing:.03em;text-transform:uppercase;margin:0;
+}
+.sec-h .count{
+  font-family:var(--mono);font-size:11.5px;color:var(--faint);
+  margin-left:auto;
+}
+
+/* ---- Timeline: waypoints on a planned path ---- */
+.tl{position:relative;padding-left:26px}
+.tl::before{
+  content:"";position:absolute;left:4px;top:9px;bottom:9px;width:1px;
+  background:var(--line-2);
+}
+.tl-item{position:relative;padding-bottom:30px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{
+  content:"";position:absolute;left:-26px;top:6px;
+  width:9px;height:9px;background:var(--surface);
+  border:1.5px solid var(--line-2);transform:rotate(45deg);
+}
+.tl-item.live::before{
+  background:var(--accent);border-color:var(--accent);
+}
+.tl-item.live::after{
+  content:"";position:absolute;left:-30px;top:2px;width:17px;height:17px;
+  border:1.5px solid var(--accent);border-radius:50%;opacity:.5;
+  animation:ping 2.6s ease-out infinite;
+}
+@keyframes ping{
+  0%{transform:scale(.55);opacity:.75}
+  70%{transform:scale(1.15);opacity:0}
+  100%{opacity:0}
+}
+.tl-date{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  color:var(--accent);letter-spacing:.01em;
+}
+.tl-title{
+  font-family:var(--display);font-size:17px;font-weight:600;
+  letter-spacing:-.015em;margin:3px 0 1px;
+}
+.tl-org{font-size:13.5px;color:var(--muted);margin:0 0 9px}
+.tl-org .loc{color:var(--faint)}
+.tl-body{margin:0;padding:0;list-style:none}
+.tl-body li{
+  position:relative;padding-left:15px;margin-bottom:8px;
+  font-size:14px;color:var(--ink-2);line-height:1.58;
+}
+.tl-body li::before{
+  content:"";position:absolute;left:0;top:9px;width:5px;height:1.5px;
+  background:var(--line-2);
+}
+.tl-body b{font-weight:600;color:var(--ink)}
+
+/* ---- Metric readout ---- */
+.metrics{
+  display:flex;flex-wrap:wrap;gap:0;margin-top:12px;
+  border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;background:var(--surface);
+}
+.metric{
+  flex:1;min-width:82px;padding:11px 14px;
+  border-right:1px solid var(--line);
+}
+.metric:last-child{border-right:0}
+.metric .k{
+  font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint);display:block;
+}
+.metric .v{
+  font-family:var(--display);font-size:19px;font-weight:600;
+  letter-spacing:-.02em;color:var(--accent);display:block;margin-top:2px;
+}
+.metric .base{
+  font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  display:block;margin-top:1px;
+}
+
+/* ---- Publication ---- */
+.pub{
+  border:1px solid var(--line);border-left:2px solid var(--accent);
+  border-radius:var(--radius);padding:17px 19px;background:var(--surface);
+}
+.pub .venue{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  color:var(--muted);display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+}
+.pub .ttl{
+  font-family:var(--display);font-size:16px;font-weight:600;
+  letter-spacing:-.015em;margin:9px 0 6px;line-height:1.38;
+}
+.pub .auth{font-size:13.3px;color:var(--muted);margin:0}
+.pub .auth b{color:var(--ink);font-weight:600}
+.chip-mini{
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;padding:2.5px 7px;border-radius:4px;
+  background:var(--navy-soft);color:var(--navy);font-weight:600;
+}
+
+/* ---- Sidebar ---- */
+.side{position:sticky;top:82px;display:flex;flex-direction:column;gap:26px}
+.side-b h3{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--faint);
+  margin:0 0 12px;
+}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{
+  font-family:var(--mono);font-size:11.5px;padding:4.5px 10px;
+  border:1px solid var(--line);border-radius:6px;
+  background:var(--surface);color:var(--ink-2);
+}
+.tag.hi{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.side-note{
+  font-size:12.5px;color:var(--muted);line-height:1.55;
+  padding:13px 15px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius);
+}
+.side-note b{color:var(--ink);font-weight:600;font-family:var(--display)}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.p-head{padding:64px 0 0;max-width:52ch}
+.p-head h1{
+  font-family:var(--display);font-size:clamp(30px,4.4vw,44px);
+  font-weight:700;letter-spacing:-.032em;line-height:1.06;margin:0;
+}
+.p-head p{color:var(--muted);font-size:15px;margin:16px 0 0}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:34px 0 32px}
+.chip{
+  font-family:var(--body);font-size:13px;font-weight:500;
+  padding:7px 15px;border:1px solid var(--line);border-radius:99px;
+  background:var(--surface);color:var(--muted);cursor:pointer;transition:.16s;
+}
+.chip:hover{color:var(--ink);border-color:var(--line-2)}
+.chip[aria-pressed="true"]{
+  background:var(--ink);border-color:var(--ink);color:var(--bg);
+}
+.grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  padding-bottom:96px;
+}
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s, border-color .2s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift);border-color:var(--line-2)}
+.thumb{
+  position:relative;aspect-ratio:16/10;background:var(--surface-2);
+  border-bottom:1px solid var(--line);overflow:hidden;
+}
+.thumb svg{width:100%;height:100%;display:block}
+.badge{
+  position:absolute;top:10px;left:10px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 9px;border-radius:5px;
+  background:var(--ink);color:var(--bg);
+}
+.badge.award{background:var(--accent);color:#fff}
+.badge.pub{background:var(--navy);color:#fff}
+html[data-theme="dark"] .badge.pub{color:#0C0F14}
+html[data-theme="dark"] .badge.award{color:#160C06}
+.card-b{padding:17px 18px 19px;display:flex;flex-direction:column;flex:1}
+.card-meta{
+  font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;
+}
+.card h3{
+  font-family:var(--display);font-size:16.5px;font-weight:600;
+  letter-spacing:-.018em;line-height:1.3;margin:0 0 9px;
+}
+.card p{font-size:13.6px;color:var(--muted);line-height:1.55;margin:0 0 14px}
+.card p b{color:var(--ink-2);font-weight:600}
+.card .tags{margin-top:auto;padding-top:2px}
+.card .tag{font-size:10.8px;padding:3.5px 8px}
+.role-line{
+  font-family:var(--mono);font-size:11px;color:var(--accent);
+  margin:0 0 9px;letter-spacing:.02em;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot{
+  border-top:1px solid var(--line);padding:30px 0 44px;
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+  flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--faint);
+}
+.foot a{color:var(--muted);text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+[hidden]{display:none !important}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:940px){
+  .cols{grid-template-columns:1fr;gap:44px}
+  .side{position:static;flex-direction:row;flex-wrap:wrap;gap:26px}
+  .side-b{flex:1;min-width:210px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .interests{grid-template-columns:1fr;gap:13px}
+}
+@media(max-width:680px){
+  .wrap,.nav-in{padding-left:20px;padding-right:20px}
+  .hero{padding-top:44px}
+  .grid{grid-template-columns:1fr}
+  .brand span.d{display:none}
+  .sheet{padding-top:44px}
+  .metrics{flex-direction:column}
+  .metric{border-right:0;border-bottom:1px solid var(--line)}
+  .metric:last-child{border-bottom:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="dot"></span>yubinjeon<span class="d">.dev</span></a>
+    <div class="nav-right">
+      <div class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" role="tab" aria-selected="true" data-view="resume">Resume</button>
+        <button class="tab" role="tab" aria-selected="false" data-view="projects">Projects</button>
+      </div>
+      <button class="icon-btn" id="theme" aria-label="Switch to dark theme" title="Switch theme">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== RESUME ==================== -->
+<main id="view-resume">
+<header class="hero wrap" id="top">
+  <div class="eyebrow">Robot Learning &amp; Manipulation</div>
+  <h1 class="name">Yubin Jeon<span class="kr">전유빈</span></h1>
+  <p class="role">B.S. Candidate, Smart Vehicle Engineering &nbsp;·&nbsp; Konkuk University, Seoul</p>
+
+  <p class="thesis">I work on how robots can perform <strong>long-horizon tasks</strong> in homes and factories using foundation models — and on how to <strong>collect the data</strong> that makes those models work.</p>
+
+  <div class="contact">
+    <a class="cbtn primary" href="Yubin_Jeon_CV.pdf">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+      Download CV
+    </a>
+    <a class="cbtn" href="mailto:yoobin1liyfcb@gmail.com">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      yoobin1liyfcb@gmail.com
+    </a>
+    <a class="cbtn" href="https://github.com/yubinws" rel="me">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.62-2.8 5.64-5.48 5.94.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
+      GitHub
+    </a>
+  </div>
+
+  <div class="interests">
+    <div class="ipill"><span class="mk"></span><p>Vision-Language-Action models and robot foundation models</p></div>
+    <div class="ipill"><span class="mk"></span><p>Efficient data collection — teleoperation, human demos, simulation rollouts</p></div>
+    <div class="ipill"><span class="mk"></span><p>Task planning for long-horizon manipulation</p></div>
+  </div>
+</header>
+
+<div class="sheet wrap">
+<div class="cols">
+  <div>
+
+    <!-- PUBLICATIONS -->
+    <section class="sec">
+      <div class="sec-h"><h2>Publications</h2><span class="count">1</span></div>
+      <div class="pub">
+        <div class="venue">
+          <span class="chip-mini">Poster</span>
+          KSME 2026 Spring Annual Conference · Apr. 2026
+        </div>
+        <p class="ttl">VIVA: VLM-Instructed VLA Architecture for Long-Horizon Tasks and Skill-wise Expert based Data Generation Pipeline</p>
+        <p class="auth"><b>Yubin Jeon*</b>, S. Bae, Y.-G. Eun, S.-W. Kim</p>
+      </div>
+    </section>
+
+    <!-- RESEARCH EXPERIENCE -->
+    <section class="sec">
+      <div class="sec-h"><h2>Research Experience</h2></div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-date">Jan. 2026 — Jun. 2026</div>
+          <h3 class="tl-title">Student Researcher</h3>
+          <p class="tl-org">Korea Institute of Industrial Technology (KITECH), National Engineering R&amp;D Center <span class="loc">· Ansan, Korea</span></p>
+          <ul class="tl-body">
+            <li><b>VIVA (VLM-Instructed VLA Architecture)</b> — designed a hierarchical VLM-VLA architecture to break the long-horizon limit of a single VLA. Qwen3-VL decomposes a command into a skill plan and asynchronously rewrites π0.5's instruction from real-time scene understanding.</li>
+            <li><b>Skill-wise Expert based Data Generation</b> — cut the cost of teleoperation data by generating VLA fine-tuning data from simulator rollouts with skill-wise experts (teleop demos → Diffusion Policy BC → Residual RL).</li>
+          </ul>
+          <div class="metrics" role="group" aria-label="VIVA success rate versus VLA-only baseline">
+            <div class="metric"><span class="k">Easy</span><span class="v">38%</span><span class="base">vs 2% baseline</span></div>
+            <div class="metric"><span class="k">Middle</span><span class="v">28%</span><span class="base">vs 6% baseline</span></div>
+            <div class="metric"><span class="k">Hard</span><span class="v">18%</span><span class="base">vs 0% baseline</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="sec">
+      <div class="sec-h"><h2>Education</h2></div>
+      <div class="tl">
+        <div class="tl-item live">
+          <div class="tl-date">Mar. 2021 — Feb. 2027 (Expected)</div>
+          <h3 class="tl-title">B.S. in Smart Vehicle Engineering</h3>
+          <p class="tl-org">Konkuk University, Institute of Convergence Engineering <span class="loc">· Seoul, Korea</span></p>
+          <ul class="tl-body">
+            <li>Cumulative GPA <b>4.06 / 4.50</b> &nbsp;·&nbsp; Major GPA <b>4.08 / 4.50</b></li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Apr. 2026 — Jun. 2026</div>
+          <h3 class="tl-title">H-Mobility Class — Robotics Track</h3>
+          <p class="tl-org">Hyundai Motor Group <span class="loc">· Industry-academia program</span></p>
+          <ul class="tl-body">
+            <li>ROS/Python, kinematics &amp; motion planning, control &amp; dynamics, perception &amp; state estimation.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- AWARDS -->
+    <section class="sec">
+      <div class="sec-h"><h2>Awards &amp; Honors</h2><span class="count">7</span></div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-date">Feb. 2026</div>
+          <h3 class="tl-title">Seoul RISE Director's Award — 1st Physical AI Hackathon</h3>
+          <p class="tl-org">Team Lead, Team Ipalcheongchun <span class="loc">· Track: Fine Folding (bimanual cloth folding)</span></p>
+          <ul class="tl-body"><li>Bimanual teleop setup, demo collection, ACT model training and inference.</li></ul>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Nov. 2025</div>
+          <h3 class="tl-title">Encouragement Award — HL FMA 2025 aMAP Stride Championship</h3>
+          <p class="tl-org">Team Lead, Team Ganadi <span class="loc">· MORAI + ROS1</span></p>
+          <ul class="tl-body"><li>GPS–IMU fusion for state estimation, curvature-based velocity planning, custom ROS messages for planning and control.</li></ul>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Nov. 2025</div>
+          <h3 class="tl-title">Special &amp; Excellence Awards — 2025 Univ. Creative Mobility Competition</h3>
+          <p class="tl-org">Planning/Control SW Module, Team KAI <span class="loc">· Autonomous Driving + Creative Technology tracks</span></p>
+          <ul class="tl-body">
+            <li>Centroid-graph-based greedy path planner with steering-sensitivity adaptive Pure Pursuit.</li>
+            <li>Delaunay-triangulation path generation for cone-gate driving with curvature- and velocity-adaptive Pure Pursuit.</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Aug. 2025</div>
+          <h3 class="tl-title">Grand Prize — 8th Kookmin Univ. Autonomous Driving Competition</h3>
+          <p class="tl-org">Team Lead, Team KAI</p>
+          <ul class="tl-body"><li>Reed–Shepp + Stanley parking in the preliminary (Gazebo); YOLO lane estimation and camera–LiDAR calibration for overtaking in the final (ROS2, real vehicle).</li></ul>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Jul. 2025</div>
+          <h3 class="tl-title">ETRI Director's Award — 4th Intl. Collegiate EV Autonomous Driving Competition</h3>
+          <p class="tl-org">Team Lead, Team S.V.E. <span class="loc">· Basic Autonomous Mobility Race</span></p>
+          <ul class="tl-body"><li>micro-ROS Arduino–Jetson communication pipeline, 2D LiDAR + VFH wall-section driving, encoder + IMU odometry for waypoint navigation.</li></ul>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Spring 2025</div>
+          <h3 class="tl-title">President's List — Rank 1 / 37</h3>
+          <p class="tl-org">Konkuk University, Institute of Convergence Engineering</p>
+          <ul class="tl-body"><li>Semester GPA <b>4.50 / 4.50</b>.</li></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="side-b">
+      <h3>Focus</h3>
+      <div class="tags">
+        <span class="tag hi">VLA</span><span class="tag hi">Robot Foundation Models</span>
+        <span class="tag hi">Imitation Learning</span><span class="tag hi">Long-Horizon Planning</span>
+        <span class="tag hi">Teleoperation</span>
+      </div>
+    </div>
+    <div class="side-b">
+      <h3>Languages</h3>
+      <div class="tags"><span class="tag">Python</span><span class="tag">C++</span></div>
+    </div>
+    <div class="side-b">
+      <h3>Frameworks &amp; Tools</h3>
+      <div class="tags">
+        <span class="tag">ROS2</span><span class="tag">ROS1</span><span class="tag">PyTorch</span>
+        <span class="tag">Isaac Sim</span><span class="tag">Gazebo</span><span class="tag">CARLA</span>
+        <span class="tag">PyBullet</span><span class="tag">MORAI</span><span class="tag">Linux</span><span class="tag">Git</span>
+      </div>
+    </div>
+    <div class="side-note">
+      <b>Open to research positions</b><br>
+      Graduating Feb. 2027. Looking for M.S. / Ph.D. openings in robot learning and manipulation.
+    </div>
+  </aside>
+</div>
+</div>
+</main>
+
+<!-- ==================== PROJECTS ==================== -->
+<main id="view-projects" hidden>
+<header class="p-head wrap">
+  <h1>Research &amp; Projects</h1>
+  <p>Robot learning, autonomous driving, and the systems built around them. Filter by area below.</p>
+</header>
+<div class="wrap">
+  <div class="filters" role="group" aria-label="Filter projects">
+    <button class="chip" aria-pressed="true" data-f="all">All</button>
+    <button class="chip" aria-pressed="false" data-f="robot">Robot Learning</button>
+    <button class="chip" aria-pressed="false" data-f="driving">Autonomous Driving</button>
+    <button class="chip" aria-pressed="false" data-f="ml">Machine Learning</button>
+    <button class="chip" aria-pressed="false" data-f="award">Competitions</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+</main>
+
+<footer class="foot wrap">
+  <span>© 2026 Yubin Jeon</span>
+  <span><a href="mailto:yoobin1liyfcb@gmail.com">Email</a> · <a href="https://github.com/yubinws">GitHub</a> · <a href="Yubin_Jeon_CV.pdf">CV</a></span>
+</footer>
+
+<script>
+/* ---------- Theme ---------- */
+const root=document.documentElement, tbtn=document.getElementById('theme');
+tbtn.addEventListener('click',()=>{
+  const dark=root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme',dark?'light':'dark');
+  tbtn.setAttribute('aria-label',dark?'Switch to dark theme':'Switch to light theme');
+});
+
+/* ---------- Tabs ---------- */
+const views={resume:document.getElementById('view-resume'),projects:document.getElementById('view-projects')};
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected','false'));
+    t.setAttribute('aria-selected','true');
+    const v=t.dataset.view;
+    Object.entries(views).forEach(([k,el])=>el.hidden=(k!==v));
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+});
+
+/* ---------- Procedural thumbnails ----------
+   Each project gets a diagram drawn from its own method,
+   not a stock image. Swap in real photos/GIFs when available. */
+const A='var(--accent)', N='var(--navy)', L='var(--line-2)', M='var(--faint)', S='var(--surface-2)';
+const F=(inner)=>`<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="320" height="200" fill="${S}"/>${inner}</svg>`;
+
+const THUMBS={
+  viva:F(`<g stroke="${L}" stroke-width="1"><path d="M0 40h320M0 80h320M0 120h320M0 160h320"/></g>
+    <rect x="24" y="30" width="76" height="26" rx="4" fill="${N}"/><text x="62" y="47" font-family="monospace" font-size="9" fill="#fff" text-anchor="middle">VLM plan</text>
+    <path d="M100 43h34" stroke="${M}" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <g font-family="monospace" font-size="8.5" fill="${M}">
+      <rect x="140" y="30" width="54" height="26" rx="4" fill="none" stroke="${L}"/><text x="167" y="47" text-anchor="middle">reach</text>
+      <rect x="202" y="30" width="54" height="26" rx="4" fill="none" stroke="${L}"/><text x="229" y="47" text-anchor="middle">grasp</text>
+      <rect x="264" y="30" width="42" height="26" rx="4" fill="none" stroke="${L}"/><text x="285" y="47" text-anchor="middle">place</text>
+    </g>
+    <path d="M167 60v22M229 60v22M285 60v22" stroke="${A}" stroke-width="1.2"/>
+    <rect x="24" y="86" width="282" height="30" rx="4" fill="${A}" opacity=".14" stroke="${A}"/>
+    <text x="165" y="105" font-family="monospace" font-size="10" fill="${A}" text-anchor="middle">π0.5 · instruction updated asynchronously</text>
+    <g stroke="${N}" stroke-width="2" fill="none"><path d="M40 170q40-38 82-10t78-26 76 6"/></g>
+    <g fill="${A}"><circle cx="40" cy="170" r="3.5"/><circle cx="276" cy="140" r="3.5"/></g>`),
+
+  data:F(`<g stroke="${L}" stroke-width="1"><path d="M32 168h258M32 168V28"/></g>
+    <g stroke="${M}" stroke-width="1" fill="none" opacity=".5">
+      <path d="M48 158q46-30 84-46t92-44"/><path d="M48 160q52-18 96-42t88-30"/><path d="M48 156q40-40 90-40t96-52"/></g>
+    <path d="M48 162q54-26 100-52t92-38" stroke="${A}" stroke-width="2.5" fill="none"/>
+    <g fill="${N}"><circle cx="48" cy="162" r="4"/></g><g fill="${A}"><circle cx="240" cy="72" r="4"/></g>
+    <g font-family="monospace" font-size="8.5" fill="${M}">
+      <text x="56" y="182">teleop demos</text><text x="132" y="182">→ BC</text><text x="176" y="182">→ residual RL</text>
+      <text x="20" y="34" transform="rotate(-90 20 34)">success</text></g>
+    <rect x="196" y="34" width="98" height="20" rx="4" fill="${A}" opacity=".14"/>
+    <text x="245" y="48" font-family="monospace" font-size="9" fill="${A}" text-anchor="middle">skill-wise expert</text>`),
+
+  fold:F(`<g stroke="${L}" stroke-width="1" stroke-dasharray="4 4"><path d="M160 24v152"/></g>
+    <rect x="56" y="62" width="104" height="76" rx="3" fill="${N}" opacity=".16" stroke="${N}"/>
+    <rect x="160" y="62" width="104" height="76" rx="3" fill="${A}" opacity=".16" stroke="${A}"/>
+    <path d="M160 62 208 100 160 138" fill="none" stroke="${A}" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <g stroke="${M}" stroke-width="2" fill="none"><path d="M56 62 34 32M264 62l22-30"/></g>
+    <g fill="${M}"><rect x="24" y="18" width="20" height="14" rx="3"/><rect x="276" y="18" width="20" height="14" rx="3"/></g>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="160" y="166" text-anchor="middle">bimanual · ACT policy</text></g>`),
+
+  plan:F(`<g stroke="${L}" stroke-width=".8">${Array.from({length:15},(_,i)=>`<path d="M${20+i*20} 20v160"/>`).join('')}${Array.from({length:9},(_,i)=>`<path d="M20 ${20+i*20}h280"/>`).join('')}</g>
+    <g fill="${M}" opacity=".55"><rect x="80" y="60" width="40" height="40"/><rect x="160" y="100" width="40" height="60"/><rect x="220" y="40" width="20" height="60"/></g>
+    <path d="M30 170 60 150 80 110 130 90 150 60 200 40 250 30 290 40" fill="none" stroke="${A}" stroke-width="2.5" stroke-linejoin="round"/>
+    <g fill="${A}"><circle cx="30" cy="170" r="4.5"/></g>
+    <g fill="none" stroke="${N}" stroke-width="2"><circle cx="290" cy="40" r="6"/></g>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="24" y="192">A* · B-spline · RRT · D* Lite</text></g>`),
+
+  uav:F(`<path d="M20 168h280" stroke="${L}" stroke-width="1"/>
+    <path d="M40 160 110 160" stroke="${N}" stroke-width="2.5"/>
+    <path d="M110 154q54-96 128-24" fill="none" stroke="${A}" stroke-width="2.5" stroke-dasharray="5 4"/>
+    <path d="M238 136 200 160 130 160" stroke="${N}" stroke-width="2.5" fill="none"/>
+    <g fill="${N}"><rect x="30" y="152" width="20" height="12" rx="2"/><rect x="120" y="152" width="20" height="12" rx="2"/></g>
+    <g stroke="${A}" stroke-width="2" fill="none"><path d="M104 118h20M114 118v6"/><path d="M232 100h20M242 100v6"/></g>
+    <g fill="none" stroke="${A}" stroke-width="1.2"><rect x="228" y="76" width="28" height="20"/><path d="M234 82h4v8h-4zM244 82h4v8h-4z"/></g>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="30" y="188">UGV transport → UAV recon → rendezvous</text>
+    <text x="200" y="70">ArUco</text></g>`),
+
+  ts:F(`<g stroke="${L}" stroke-width="1"><path d="M32 168h262M32 168V26"/></g>
+    <path d="M32 120 60 116 88 124 116 112 144 122 172 104 200 128 214 74 228 52 244 40 268 34" fill="none" stroke="${N}" stroke-width="2"/>
+    <path d="M32 88h262" stroke="${A}" stroke-width="1.2" stroke-dasharray="5 4"/>
+    <text x="286" y="84" font-family="monospace" font-size="8" fill="${A}" text-anchor="end">threshold</text>
+    <g fill="${A}"><circle cx="214" cy="74" r="5"/></g>
+    <path d="M214 74v-26" stroke="${A}" stroke-width="1.2"/>
+    <rect x="176" y="26" width="76" height="20" rx="4" fill="${A}"/>
+    <text x="214" y="40" font-family="monospace" font-size="9" fill="#fff" text-anchor="middle">early warning</text>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="32" y="186">brake failure · F1 0.89</text></g>`),
+
+  park:F(`<g stroke="${L}" stroke-width="1"><path d="M200 40h100M200 90h100M200 140h100M200 40v100"/></g>
+    <rect x="212" y="48" width="76" height="34" rx="3" fill="${M}" opacity=".35"/>
+    <rect x="212" y="98" width="76" height="34" rx="3" fill="${M}" opacity=".35"/>
+    <path d="M40 160q60 4 92-28t76-16" fill="none" stroke="${A}" stroke-width="2.5"/>
+    <path d="M208 116 240 108" stroke="${A}" stroke-width="2.5" stroke-dasharray="4 3"/>
+    <rect x="228" y="100" width="42" height="24" rx="3" fill="none" stroke="${A}" stroke-width="2"/>
+    <g fill="${N}"><rect x="30" y="152" width="24" height="14" rx="2"/></g>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="30" y="186">Reed–Shepp + Stanley</text></g>`),
+
+  cone:F(`<g fill="${A}">${[[60,60],[100,110],[140,50],[180,104],[220,44],[260,96]].map(([x,y])=>`<path d="M${x} ${y}l7 14h-14z"/>`).join('')}</g>
+    <g fill="${N}">${[[70,150],[112,168],[152,142],[196,164],[236,138],[276,158]].map(([x,y])=>`<path d="M${x} ${y}l7 14h-14z"/>`).join('')}</g>
+    <g stroke="${L}" stroke-width=".9" fill="none"><path d="M60 66 70 156 100 116 112 174 140 56 152 148 180 110 196 170 220 50 236 144 260 102 276 164"/><path d="M60 66 100 116 140 56 180 110 220 50 260 102M70 156 112 174 152 148 196 170 236 144 276 164"/></g>
+    <path d="M66 112 106 142 146 100 188 138 228 96 268 130" fill="none" stroke="${A}" stroke-width="2.5"/>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="24" y="192">Delaunay gates · adaptive Pure Pursuit</text></g>`),
+
+  fusion:F(`<g stroke="${L}" stroke-width="1"><path d="M24 100h272"/></g>
+    <path d="M28 108q30-24 58 4t56-26 60 18 62-30" fill="none" stroke="${M}" stroke-width="1.4" opacity=".7"/>
+    <path d="M28 92q32 26 56-6t60 22 58-20 62 26" fill="none" stroke="${N}" stroke-width="1.4" opacity=".7"/>
+    <path d="M28 100q32 2 58 0t58 0 60 0 60 0" fill="none" stroke="${A}" stroke-width="2.6"/>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="24" y="42">GPS</text><text x="24" y="168">IMU</text></g>
+    <text x="296" y="88" font-family="monospace" font-size="9" fill="${A}" text-anchor="end">fused pose</text>
+    <g fill="${A}"><circle cx="284" cy="100" r="4"/></g>`),
+
+  vfh:F(`<g stroke="${L}" stroke-width="1"><path d="M20 168h280"/></g>
+    <rect x="20" y="30" width="14" height="130" fill="${M}" opacity=".3"/>
+    <rect x="286" y="30" width="14" height="130" fill="${M}" opacity=".3"/>
+    <g fill="${N}" opacity=".7">${[26,40,52,38,24,18,30,46,58,44,28].map((h,i)=>`<rect x="${64+i*17}" y="${150-h}" width="12" height="${h}" rx="1.5"/>`).join('')}</g>
+    <path d="M160 160 160 60" stroke="${A}" stroke-width="2.5"/>
+    <path d="M160 60 154 72M160 60l6 12" stroke="${A}" stroke-width="2.5" fill="none"/>
+    <g fill="${A}">${[[100,44],[220,44]].map(([x,y])=>`<rect x="${x-4}" y="${y-4}" width="8" height="8" transform="rotate(45 ${x} ${y})"/>`).join('')}</g>
+    <g font-family="monospace" font-size="8.5" fill="${M}"><text x="20" y="186">2D LiDAR · VFH histogram · waypoints</text></g>`)
+};
+
+/* ---------- Project data ---------- */
+const PROJECTS=[
+ {t:'viva',cat:['robot'],badge:{txt:'KSME 2026',cls:'pub'},
+  meta:'KITECH · Jan – Jun 2026',
+  title:'VIVA — VLM-Instructed VLA Architecture',
+  role:'Student Researcher · first author',
+  desc:'A hierarchical VLM–VLA system for long-horizon manipulation. Qwen3-VL decomposes a command into a skill plan and asynchronously rewrites π0.5\'s instruction from real-time scene understanding. <b>38% / 28% / 18%</b> success on Easy / Middle / Hard vs. <b>2% / 6% / 0%</b> for VLA alone.',
+  tags:['VLA','Qwen3-VL','π0.5','Long-Horizon','Skill Planning']},
+
+ {t:'data',cat:['robot'],badge:null,
+  meta:'KITECH · Jan – Jun 2026',
+  title:'Skill-wise Expert Data Generation',
+  role:'Student Researcher',
+  desc:'Teleoperation data is the bottleneck for VLA fine-tuning. This pipeline generates it from simulator rollouts instead — teleop demos seed a Diffusion Policy BC model, which residual RL then sharpens into per-skill experts.',
+  tags:['Diffusion Policy','Residual RL','Behavior Cloning','Data Generation']},
+
+ {t:'fold',cat:['robot','award'],badge:{txt:'Director\'s Award',cls:'award'},
+  meta:'1st Physical AI Hackathon · Feb 2026',
+  title:'Fine Folding — Bimanual Cloth Manipulation',
+  role:'Team Lead, Team Ipalcheongchun',
+  desc:'Seoul RISE Director\'s Award. Built the bimanual teleoperation setup, collected the demonstrations, and trained and deployed an <b>ACT</b> policy for cloth folding — deformable objects, two arms, one weekend.',
+  tags:['ACT','Teleoperation','Bimanual','Imitation Learning']},
+
+ {t:'plan',cat:['driving'],badge:null,
+  meta:'Konkuk Dream Semester · Mar – Jun 2025',
+  title:'Path Planning &amp; Control in Complex Driving',
+  role:'Independent project',
+  desc:'A ROS2 + CARLA stack that drives to a destination through static and dynamic obstacles and barricaded routes. Designed the node architecture and the pipeline that switches algorithms by driving context: <b>A*</b> global planning, cubic/B-spline interpolation with curvature-based velocity, <b>RRT</b> avoidance, <b>D* Lite</b> replanning.',
+  tags:['ROS2','CARLA','A*','RRT','D* Lite','B-spline']},
+
+ {t:'uav',cat:['driving'],badge:{txt:'1st in course',cls:''},
+  meta:'Autonomous System Platform · Mar – Jun 2025',
+  title:'UAV–UGV Cooperative Reconnaissance',
+  role:'UGV planning &amp; control, UAV localization',
+  desc:'A UGV carries a UAV to a takeoff point, the UAV flies recon, and both meet at a rendezvous point for precision landing. Built velocity profiles that keep the UAV seated in transit, and converted ArUco marker detections from camera frame to world frame using UAV pose.',
+  tags:['ROS2','PX4','Gazebo','ArUco','Precision Landing']},
+
+ {t:'ts',cat:['ml','driving'],badge:null,
+  meta:'Machine Learning course · Sep – Dec 2025',
+  title:'Real-time Emergency-Stop Failure Prediction',
+  role:'Course project',
+  desc:'A time-series classifier that predicts braking failure from road-condition changes (rain, snow) and fires an early warning before it happens. Trained on PyBullet rollouts with randomized speed, mass, friction and braking timing. Transformer reached <b>F1 0.89 / 93.4% accuracy</b> with 93% precision, against GRU\'s 53%.',
+  tags:['PyTorch','Transformer','PyBullet','Time-Series']},
+
+ {t:'park',cat:['driving','award'],badge:{txt:'Grand Prize',cls:'award'},
+  meta:'8th Kookmin Univ. Competition · Aug 2025',
+  title:'Autonomous Parking &amp; Overtaking',
+  role:'Team Lead, Team KAI',
+  desc:'Grand Prize. Reed–Shepp path generation with Stanley control for the Gazebo parking preliminary; in the real-vehicle final, YOLO lane estimation and camera–LiDAR calibration for obstacle distance during overtaking.',
+  tags:['ROS2','Reed–Shepp','Stanley','YOLO','Camera–LiDAR Calib']},
+
+ {t:'cone',cat:['driving','award'],badge:{txt:'Special + Excellence',cls:'award'},
+  meta:'2025 Univ. Creative Mobility · Nov 2025',
+  title:'Cone-Gate Driving &amp; Adaptive Pure Pursuit',
+  role:'Planning/Control SW Module, Team KAI',
+  desc:'Two awards across two tracks. Delaunay-triangulation path generation through cone gates, plus Pure Pursuit variants that adapt lookahead to curvature, velocity, and steering sensitivity.',
+  tags:['Delaunay','Pure Pursuit','Path Planning','Control']},
+
+ {t:'fusion',cat:['driving','award'],badge:{txt:'Encouragement',cls:'award'},
+  meta:'HL FMA aMAP Stride · Nov 2025',
+  title:'GPS–IMU Fusion for State Estimation',
+  role:'Team Lead, Team Ganadi',
+  desc:'MORAI + ROS1 racing stack. Fused GPS and IMU into a stable pose estimate, added curvature-based velocity planning, and defined custom ROS messages to keep planning and control in sync.',
+  tags:['MORAI','ROS1','Sensor Fusion','State Estimation']},
+
+ {t:'vfh',cat:['driving','award'],badge:{txt:'ETRI Director\'s Award',cls:'award'},
+  meta:'4th Intl. Collegiate EV Competition · Jul 2025',
+  title:'Embedded Waypoint Navigation',
+  role:'Team Lead, Team S.V.E.',
+  desc:'Basic Autonomous Mobility Race. Built the micro-ROS Arduino–Jetson communication pipeline, wall-section driving from 2D LiDAR with the VFH algorithm, and global pose from motor encoder + IMU odometry for waypoint navigation.',
+  tags:['micro-ROS','2D LiDAR','VFH','Odometry','Jetson']}
+];
+
+const grid=document.getElementById('grid');
+function render(f){
+  grid.innerHTML=PROJECTS.filter(p=>f==='all'||p.cat.includes(f)).map(p=>`
+    <article class="card">
+      <div class="thumb">${THUMBS[p.t]}${p.badge?`<span class="badge ${p.badge.cls}">${p.badge.txt}</span>`:''}</div>
+      <div class="card-b">
+        <div class="card-meta">${p.meta}</div>
+        <h3>${p.title}</h3>
+        <p class="role-line">${p.role}</p>
+        <p>${p.desc}</p>
+        <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </article>`).join('');
+}
+render('all');
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+    c.setAttribute('aria-pressed','true');
+    render(c.dataset.f);
+  });
+});
+</script>
+</body>
+</html>
