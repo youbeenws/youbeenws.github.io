@@ -159,6 +159,16 @@ a{color:inherit}
 .cbtn.primary:hover{background:#d0470d;border-color:#d0470d}
 html[data-theme="dark"] .cbtn.primary{color:#160C06}
 
+/* ---- Hero portrait ---- */
+.hero-top{display:flex;align-items:flex-start;gap:28px}
+.hero-txt{flex:1;min-width:0}
+.portrait{
+  flex:none;width:84px;height:112px;margin-top:6px;
+  border:1px solid var(--line);border-radius:9px;overflow:hidden;
+  background:var(--surface-2);box-shadow:var(--shadow);
+}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover}
+
 /* ============================================================
    INTEREST STRIP
    ============================================================ */
@@ -285,6 +295,40 @@ html[data-theme="dark"] .cbtn.primary{color:#160C06}
   background:var(--navy-soft);color:var(--navy);font-weight:600;
 }
 
+/* ---- Poster preview ---- */
+.poster-link{
+  display:block;margin-top:15px;border:1px solid var(--line);
+  border-radius:8px;overflow:hidden;text-decoration:none;
+  background:var(--surface-2);transition:.16s;
+}
+.poster-link:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.poster-link img{
+  display:block;width:100%;height:168px;
+  object-fit:cover;object-position:top center;
+}
+.poster-link .pl-label{
+  display:flex;align-items:center;gap:7px;padding:9px 13px;
+  border-top:1px solid var(--line);background:var(--surface);
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+}
+.poster-link:hover .pl-label{color:var(--accent)}
+.poster-link svg{flex:none;opacity:.6}
+.poster-link:hover svg{opacity:1}
+
+/* ---- Certificate link ---- */
+.certs{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.cert{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 9px;border:1px solid var(--line);border-radius:6px;
+  background:var(--surface);text-decoration:none;transition:.16s;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+}
+.cert:hover{color:var(--accent);border-color:var(--accent);box-shadow:var(--shadow)}
+.cert svg{flex:none;opacity:.55}
+.cert:hover svg{opacity:1}
+
 /* ---- Sidebar ---- */
 .side{position:sticky;top:82px;display:flex;flex-direction:column;gap:26px}
 .side-b h3{
@@ -401,6 +445,9 @@ html[data-theme="dark"] .badge.award{color:#160C06}
   .metrics{flex-direction:column}
   .metric{border-right:0;border-bottom:1px solid var(--line)}
   .metric:last-child{border-bottom:0}
+  .hero-top{gap:18px}
+  .portrait{width:66px;height:88px;margin-top:2px}
+  .poster-link img{height:132px}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
@@ -427,9 +474,14 @@ html[data-theme="dark"] .badge.award{color:#160C06}
 <!-- ==================== RESUME ==================== -->
 <main id="view-resume">
 <header class="hero wrap" id="top">
-  <div class="eyebrow">Robot Learning &amp; Manipulation</div>
-  <h1 class="name">Yubin Jeon<span class="kr">전유빈</span></h1>
-  <p class="role">B.S. Candidate, Smart Vehicle Engineering &nbsp;·&nbsp; Konkuk University, Seoul</p>
+  <div class="hero-top">
+    <div class="hero-txt">
+      <div class="eyebrow">Robot Learning &amp; Manipulation</div>
+      <h1 class="name">Yubin Jeon<span class="kr">전유빈</span></h1>
+      <p class="role">B.S. Candidate, Smart Vehicle Engineering &nbsp;·&nbsp; Konkuk University, Seoul</p>
+    </div>
+    <div class="portrait"><img src="assets/profile.jpg" alt="Yubin Jeon" width="84" height="112"></div>
+  </div>
 
   <p class="thesis">I work on how robots can perform <strong>long-horizon tasks</strong> in homes and factories using foundation models — and on how to <strong>collect the data</strong> that makes those models work.</p>
 
@@ -469,6 +521,13 @@ html[data-theme="dark"] .badge.award{color:#160C06}
         </div>
         <p class="ttl">VIVA: VLM-Instructed VLA Architecture for Long-Horizon Tasks and Skill-wise Expert based Data Generation Pipeline</p>
         <p class="auth"><b>Yubin Jeon*</b>, S. Bae, Y.-G. Eun, S.-W. Kim</p>
+        <a class="poster-link" href="assets/posters/2026-viva-skillwise-expert-poster.pdf" target="_blank" rel="noopener">
+          <img src="assets/posters/2026-viva-skillwise-expert-poster.png" alt="Preview of the VIVA conference poster" loading="lazy">
+          <span class="pl-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+            View full poster (PDF)
+          </span>
+        </a>
       </div>
     </section>
 
@@ -525,12 +584,24 @@ html[data-theme="dark"] .badge.award{color:#160C06}
           <h3 class="tl-title">Seoul RISE Director's Award — 1st Physical AI Hackathon</h3>
           <p class="tl-org">Team Lead, Team Ipalcheongchun <span class="loc">· Track: Fine Folding (bimanual cloth folding)</span></p>
           <ul class="tl-body"><li>Bimanual teleop setup, demo collection, ACT model training and inference.</li></ul>
+          <div class="certs">
+            <a class="cert" href="assets/awards/2026-02-physical-ai-hackathon.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Certificate
+            </a>
+          </div>
         </div>
         <div class="tl-item">
           <div class="tl-date">Nov. 2025</div>
           <h3 class="tl-title">Encouragement Award — HL FMA 2025 aMAP Stride Championship</h3>
           <p class="tl-org">Team Lead, Team Ganadi <span class="loc">· MORAI + ROS1</span></p>
           <ul class="tl-body"><li>GPS–IMU fusion for state estimation, curvature-based velocity planning, custom ROS messages for planning and control.</li></ul>
+          <div class="certs">
+            <a class="cert" href="assets/awards/2025-11-hl-fma-amap-stride.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Certificate
+            </a>
+          </div>
         </div>
         <div class="tl-item">
           <div class="tl-date">Nov. 2025</div>
@@ -540,18 +611,40 @@ html[data-theme="dark"] .badge.award{color:#160C06}
             <li>Centroid-graph-based greedy path planner with steering-sensitivity adaptive Pure Pursuit.</li>
             <li>Delaunay-triangulation path generation for cone-gate driving with curvature- and velocity-adaptive Pure Pursuit.</li>
           </ul>
+          <div class="certs">
+            <a class="cert" href="assets/awards/2025-11-mobility-autonomous-driving.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Special · Autonomous Driving
+            </a>
+            <a class="cert" href="assets/awards/2025-11-mobility-creative-tech.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Excellence · Creative Tech
+            </a>
+          </div>
         </div>
         <div class="tl-item">
           <div class="tl-date">Aug. 2025</div>
           <h3 class="tl-title">Grand Prize — 8th Kookmin Univ. Autonomous Driving Competition</h3>
           <p class="tl-org">Team Lead, Team KAI</p>
           <ul class="tl-body"><li>Reed–Shepp + Stanley parking in the preliminary (Gazebo); YOLO lane estimation and camera–LiDAR calibration for overtaking in the final (ROS2, real vehicle).</li></ul>
+          <div class="certs">
+            <a class="cert" href="assets/awards/2025-08-kookmin-autonomous-driving.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Certificate
+            </a>
+          </div>
         </div>
         <div class="tl-item">
           <div class="tl-date">Jul. 2025</div>
           <h3 class="tl-title">ETRI Director's Award — 4th Intl. Collegiate EV Autonomous Driving Competition</h3>
           <p class="tl-org">Team Lead, Team S.V.E. <span class="loc">· Basic Autonomous Mobility Race</span></p>
           <ul class="tl-body"><li>micro-ROS Arduino–Jetson communication pipeline, 2D LiDAR + VFH wall-section driving, encoder + IMU odometry for waypoint navigation.</li></ul>
+          <div class="certs">
+            <a class="cert" href="assets/awards/2025-07-intl-ev-autonomous-driving.pdf" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Certificate
+            </a>
+          </div>
         </div>
         <div class="tl-item">
           <div class="tl-date">Spring 2025</div>
