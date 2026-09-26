@@ -78,7 +78,8 @@ a:hover { text-decoration-color: var(--accent); }
   transition: border-color .3s;
 }
 .bar.scrolled { border-bottom-color: var(--line); }
-.bar .wrap { display: flex; align-items: center; justify-content: flex-end; gap: 16px; height: 56px; }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; }
+.brand { font: 400 21px/1 var(--serif); text-decoration: none; }
 .nav { display: flex; align-items: center; gap: 22px; font-size: 14px; }
 .nav a { position: relative; padding-block: 4px; color: var(--ink-2); text-decoration: none; }
 .nav a:hover, .nav a.on { color: var(--ink); }
@@ -329,6 +330,7 @@ a:hover { text-decoration-color: var(--accent); }
 
 <header class="bar">
   <div class="wrap">
+    <a class="brand" href="#top">YouBeen Jeon</a>
     <nav class="nav" aria-label="Sections">
       <a href="#research">Research</a>
       <a href="#publications">Publications</a>
