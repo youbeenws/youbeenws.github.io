@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=1100">
 <title>Yubin Jeon · Robot Learning for Manipulation</title>
 <meta name="description" content="Yubin Jeon, B.S. candidate in Smart Vehicle Engineering at Konkuk University, working on robot learning for manipulation: human-demonstration data collection and hierarchical planning and control for long-horizon, contact-rich tasks.">
 <meta name="author" content="Yubin Jeon">
@@ -11,8 +11,7 @@
 <meta property="og:url" content="https://yubinws.github.io/">
 <meta property="og:title" content="Yubin Jeon · Robot Learning for Manipulation">
 <meta property="og:description" content="Human-demonstration data collection and hierarchical planning and control for long-horizon, contact-rich manipulation.">
-<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#faf9f6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10.5' fill='none' stroke='%23d2461f' stroke-width='5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,13 +24,12 @@
   --sunk: #f1efea;
   --ink: #161615;
   --ink-2: #4a4944;
-  --ink-3: #7f7d75;
+  --ink-3: #74726a;
   --line: #e7e4dd;
   --line-2: #d4d0c6;
   --accent: #d2461f;
   --accent-ink: #b1391a;
   --dot: rgb(22 22 21 / .085);
-  --hatch: rgb(22 22 21 / .045);
   --shadow: 0 1px 2px rgb(0 0 0 / .05), 0 10px 24px -12px rgb(0 0 0 / .22);
   --serif: "Instrument Serif", "Times New Roman", serif;
   --sans: "Geist", "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
@@ -40,24 +38,6 @@
   --gutter: clamp(16px, 4vw, 40px);
   --ease: cubic-bezier(.2, .7, .2, 1);
   color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121211;
-    --surface: #1a1a18;
-    --sunk: #1f1e1c;
-    --ink: #edebe6;
-    --ink-2: #bdbab2;
-    --ink-3: #8e8b83;
-    --line: #2a2926;
-    --line-2: #3d3c38;
-    --accent: #ff6f45;
-    --accent-ink: #ff8a66;
-    --dot: rgb(237 235 230 / .07);
-    --hatch: rgb(237 235 230 / .045);
-    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 30px -12px rgb(0 0 0 / .7);
-    color-scheme: dark;
-  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -107,12 +87,6 @@ a:hover { text-decoration-color: var(--accent); }
   content: ""; position: absolute; left: 50%; bottom: -5px;
   width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--accent);
 }
-.nav .cv {
-  padding: 7px 12px; border: 1px solid var(--line-2); border-radius: 999px;
-  font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink);
-}
-.nav .cv:hover { border-color: var(--ink); }
-@media (max-width: 720px) { .nav a:not(.cv) { display: none; } }
 
 /* ---------- hero ---------- */
 .hero { position: relative; isolation: isolate; padding-block: clamp(56px, 11vw, 124px) clamp(48px, 8vw, 88px); }
@@ -123,19 +97,15 @@ a:hover { text-decoration-color: var(--accent); }
   -webkit-mask-image: radial-gradient(ellipse 60% 75% at 88% 22%, #000 8%, transparent 72%);
   mask-image: radial-gradient(ellipse 60% 75% at 88% 22%, #000 8%, transparent 72%);
 }
-.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: start; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: center; }
 .hero h1 { margin: 0 0 20px; font: 400 clamp(56px, 10vw, 104px)/.92 var(--serif); letter-spacing: -.015em; }
 .role { margin: 0 0 28px; color: var(--ink-2); }
 .lede { margin: 0 0 32px; max-width: 34em; font-size: clamp(18px, 2.1vw, 21px); line-height: 1.5; }
 .links { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 0; padding: 0; list-style: none; font: 400 13.5px/1.4 var(--mono); }
 .links a { overflow-wrap: anywhere; }
 .portrait {
-  width: 90px; height: 120px; margin-top: 12px; object-fit: cover;
-  border-radius: 6px; outline: 1px solid var(--line); outline-offset: 5px;
-}
-@media (max-width: 640px) {
-  .hero .wrap { grid-template-columns: 1fr; gap: 28px; }
-  .portrait { order: -1; width: 72px; height: 96px; margin-top: 0; }
+  width: 240px; height: auto;
+  border-radius: 10px; outline: 1px solid var(--line); outline-offset: 6px;
 }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 .rise { animation: rise .8s var(--ease) both; animation-delay: calc(var(--d, 0) * 90ms + 60ms); }
@@ -150,26 +120,16 @@ a:hover { text-decoration-color: var(--accent); }
 .idx { display: block; margin-bottom: 10px; font: 500 12px/1 var(--mono); letter-spacing: .08em; color: var(--accent-ink); }
 .sec h2 { margin: 0; font: 400 clamp(28px, 3.2vw, 36px)/1.05 var(--serif); }
 .sec-body { max-width: 740px; }
-@media (max-width: 860px) {
-  .sec > .wrap { grid-template-columns: 1fr; }
-  .sec-head { position: static; }
-}
 .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js .reveal.in { opacity: 1; transform: none; }
 
 /* ---------- entries ---------- */
-.entry + .entry { margin-top: 40px; }
+.entry + .entry { margin-top: 44px; padding-top: 44px; border-top: 1px solid var(--line); }
 .top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 24px; align-items: baseline; }
 .entry h3 { margin: 0; font: 600 17px/1.35 var(--sans); letter-spacing: -.005em; }
 .sub { margin: 3px 0 0; font: italic 400 18px/1.35 var(--serif); color: var(--ink-2); }
 .meta { margin: 0; text-align: right; white-space: nowrap; font: 400 12.5px/1.6 var(--mono); color: var(--ink-3); }
 .meta span { display: block; }
-@media (max-width: 560px) {
-  .top { grid-template-columns: 1fr; }
-  .meta { margin-top: 6px; text-align: left; white-space: normal; }
-  .meta span { display: inline; }
-  .meta span + span::before { content: " · "; }
-}
 .pts { margin: 14px 0 0; padding: 0; list-style: none; font-size: 15.5px; color: var(--ink-2); }
 .pts > li { position: relative; padding-left: 20px; }
 .pts > li + li { margin-top: 8px; }
@@ -186,13 +146,21 @@ a:hover { text-decoration-color: var(--accent); }
 .stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
 .stack li { padding: 5px 8px; border-radius: 4px; background: var(--sunk); font: 500 11.5px/1 var(--mono); color: var(--ink-2); }
 
+/* entries that open a detail view */
+.open { text-decoration: none; }
+.open::after {
+  content: "→"; display: inline-block; margin-left: .35em;
+  font: 400 .85em/1 var(--mono); color: var(--accent-ink); transition: transform .25s var(--ease);
+}
+.open:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+.open:hover::after { transform: translateX(3px); }
+
 /* research interests */
 .focus { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .focus article { padding: 22px 22px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
 .focus h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font: 600 16px/1.35 var(--sans); }
 .focus h3::before { content: ""; flex: none; width: 7px; height: 7px; border: 1.5px solid var(--accent); border-radius: 50%; }
 .focus p { margin: 0; font-size: 15px; color: var(--ink-2); }
-@media (max-width: 640px) { .focus { grid-template-columns: 1fr; } }
 
 /* publications */
 .pub h3 { font: 400 23px/1.25 var(--serif); letter-spacing: 0; }
@@ -211,55 +179,105 @@ a:hover { text-decoration-color: var(--accent); }
 .skills div { display: grid; grid-template-columns: 200px 1fr; gap: 4px 20px; }
 .skills dt { font: 500 12px/1.9 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
 .skills dd { margin: 0; font-size: 15.5px; }
-@media (max-width: 560px) { .skills div { grid-template-columns: 1fr; } }
 
-/* ---------- media slots ---------- */
-.media { display: flex; flex-wrap: wrap; gap: 14px 12px; margin-top: 18px; }
-.tile, .slot { display: inline-flex; flex-direction: column; gap: 7px; }
-.tile {
-  appearance: none; margin: 0; padding: 0; border: 0; background: none;
-  color: inherit; font: inherit; text-align: left; cursor: zoom-in;
-}
-.frame {
-  position: relative; display: grid; place-items: center;
-  width: 144px; height: 108px; overflow: hidden; border-radius: 6px; background: var(--sunk);
+/* ---------- thumbnails on the page ---------- */
+.thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 20px; }
+.thumb {
+  position: relative; display: block; height: 196px; overflow: hidden; border-radius: 8px;
+  background: var(--sunk); text-decoration: none;
   transition: box-shadow .3s var(--ease), transform .3s var(--ease);
 }
-[data-shape="doc"] .frame { width: 92px; }
-[data-shape="wide"] .frame { width: 192px; }
-.tile .frame::after {
+.thumb[data-shape="land"] { width: 314px; }
+.thumb[data-shape="doc"] { width: 147px; }
+.thumb::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08);
 }
-.tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
-.tile[data-shape="doc"] img { object-position: top; }
-.tile:hover .frame { box-shadow: var(--shadow); transform: translateY(-2px); }
-.tile:hover img { transform: scale(1.045); }
-.tile .play {
-  position: absolute; display: grid; place-items: center;
-  width: 38px; height: 38px; border-radius: 50%; background: rgb(0 0 0 / .55); color: #fff;
+.thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.thumb[data-shape="doc"] img { object-position: top; }
+.thumb:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.thumb:hover img { transform: scale(1.045); }
+.play {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  background: rgb(0 0 0 / .55); color: #fff;
 }
-.tile .play svg { width: 16px; height: 16px; margin-left: 2px; }
-.tile .pages {
-  position: absolute; right: 5px; bottom: 5px; padding: 2px 5px; border-radius: 3px;
-  background: rgb(22 22 21 / .72); color: #fff; font: 500 10px/1.2 var(--mono);
+.play svg { width: 16px; height: 16px; margin-left: 2px; }
+.rest {
+  position: absolute; right: 8px; bottom: 8px; padding: 4px 9px; border-radius: 999px;
+  background: rgb(12 12 11 / .72); color: #fff; font: 500 12px/1 var(--mono);
 }
-.slot .frame {
-  border: 1px dashed var(--line-2); color: var(--ink-3);
-  background: repeating-linear-gradient(-45deg, transparent 0 7px, var(--hatch) 7px 8px);
-}
-.slot .frame svg { width: 20px; height: 20px; }
-.cap { font: 500 10.5px/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); }
 
-/* ---------- viewer ---------- */
+/* ---------- detail view ---------- */
+#detail {
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+}
+#detail[open] {
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
+  animation: d-in .3s var(--ease) both;
+}
+#detail::backdrop { background: transparent; }
+@keyframes d-in { from { opacity: 0; transform: translateY(10px); } }
+.d-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  height: 56px; padding-inline: var(--gutter); border-bottom: 1px solid var(--line);
+}
+.d-kicker { font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+.d-close {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px; padding: 0;
+  border: 1px solid var(--line-2); border-radius: 50%; background: none; color: var(--ink); cursor: pointer;
+}
+.d-close:hover { border-color: var(--ink); }
+.d-close svg { width: 16px; height: 16px; }
+.d-scroll { overflow-y: auto; overscroll-behavior: contain; }
+.d-scroll:focus { outline: none; }
+.d-body { max-width: 1040px; margin-inline: auto; padding: clamp(28px, 5vw, 56px) var(--gutter) 96px; }
+.d-head h2 { margin: 0; font: 400 clamp(32px, 4.6vw, 50px)/1.06 var(--serif); letter-spacing: -.01em; }
+.d-head .sub { margin-top: 8px; font-size: 21px; }
+.d-meta { margin: 12px 0 0; font: 400 13px/1.6 var(--mono); color: var(--ink-3); }
+.d-text { max-width: 760px; margin-top: 8px; }
+/* one competition with several awards: each award is a block inside the same entry */
+.award { margin-top: 20px; }
+.award-name { margin: 0; font-size: 16px; color: var(--ink-3); }
+.award-name b { font-weight: 600; color: var(--ink); }
+.award-name span { font: italic 400 17.5px/1.35 var(--serif); color: var(--ink-2); }
+.award .pts { margin-top: 8px; }
+.gallery { columns: 3 260px; column-gap: 16px; margin-top: 40px; }
+.gallery.single .g-item:not(.g-wide) { max-width: 640px; }
+.g-item { margin: 0 0 20px; break-inside: avoid; }
+.g-wide { column-span: all; }
+.g-item video { width: 100%; max-height: 78vh; border-radius: 8px; background: #000; }
+.g-open {
+  display: block; width: 100%; padding: 0; border: 0; overflow: hidden;
+  border-radius: 8px; background: var(--sunk); cursor: zoom-in;
+}
+.g-open img {
+  width: 100%; height: auto; outline: 1px solid rgb(0 0 0 / .08); outline-offset: -1px;
+  transition: transform .5s var(--ease);
+}
+.g-open:hover img { transform: scale(1.02); }
+.credit { margin: 8px 0 0; font-size: 13px; color: var(--ink-3); }
+
+/* certificates: plain links that open just that document */
+.docs { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; font-size: 14.5px; }
+.doc-link { color: var(--ink-2); text-decoration: none; }
+.doc-link::before { content: "→"; display: inline-block; margin-right: .45em; font-family: var(--mono); color: var(--accent-ink); }
+.doc-link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+
+/* ---------- image viewer ---------- */
 #viewer {
   width: 100%; height: 100%; max-width: none; max-height: none;
   margin: 0; padding: 0; border: 0; overflow: hidden;
-  background: rgb(12 12 11 / .94); color: #ecebe6;
+  background: rgb(12 12 11 / .97); color: #ecebe6;
 }
-#viewer[open] { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); animation: vfade .22s ease both; }
+#viewer[open] {
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
+  animation: v-in .22s ease both;
+}
 #viewer::backdrop { background: transparent; }
-@keyframes vfade { from { opacity: 0; } }
+@keyframes v-in { from { opacity: 0; } }
 .v-top {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 12px clamp(14px, 3vw, 28px); font: 400 12.5px/1.4 var(--mono);
@@ -280,20 +298,14 @@ a:hover { text-decoration-color: var(--accent); }
   position: relative; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center;
   min-height: 0; padding: 4px clamp(12px, 7vw, 84px) 28px;
 }
-.v-stage > img, .v-stage > video {
-  max-width: 100%; max-height: 100%;
-  border-radius: 4px; box-shadow: 0 30px 80px -20px rgb(0 0 0 / .7);
-}
-.v-stage > video { background: #000; }
+.v-stage > img { max-width: 100%; max-height: 100%; border-radius: 4px; box-shadow: 0 30px 80px -20px rgb(0 0 0 / .7); cursor: zoom-in; }
+/* click the image to see it at full resolution; drag or scroll to move around */
+.v-stage.zoom { display: block; overflow: auto; padding: 0; cursor: grab; }
+.v-stage.zoom.drag { cursor: grabbing; }
+.v-stage.zoom > img { max-width: none; max-height: none; margin: 0 auto; border-radius: 0; cursor: inherit; }
 .v-prev, .v-next { position: absolute; top: 50%; translate: 0 -50%; }
 .v-prev { left: clamp(8px, 2vw, 24px); }
 .v-next { right: clamp(8px, 2vw, 24px); }
-@media (max-width: 640px) {
-  .v-stage { padding: 4px 12px 72px; }
-  .v-prev, .v-next { top: auto; bottom: 18px; translate: none; }
-  .v-prev { left: calc(50% - 50px); }
-  .v-next { right: calc(50% - 50px); }
-}
 
 /* ---------- footer ---------- */
 .foot { border-top: 1px solid var(--line); }
@@ -308,7 +320,7 @@ a:hover { text-decoration-color: var(--accent); }
   .js .reveal { opacity: 1; transform: none; }
 }
 @media print {
-  .bar, #viewer { display: none; }
+  .bar, #viewer, #detail { display: none; }
   .js .reveal { opacity: 1; transform: none; }
 }
 </style>
@@ -324,7 +336,6 @@ a:hover { text-decoration-color: var(--accent); }
       <a href="#publications">Publications</a>
       <a href="#projects">Projects</a>
       <a href="#awards">Awards</a>
-      <a class="cv" href="Yubin_Jeon_CV.pdf">CV</a>
     </nav>
   </div>
 </header>
@@ -335,13 +346,13 @@ a:hover { text-decoration-color: var(--accent); }
       <div>
         <h1 class="rise" style="--d:0">Yubin Jeon</h1>
         <p class="role rise" style="--d:1">B.S. Candidate, Smart Vehicle Engineering, Konkuk University</p>
-        <p class="lede rise" style="--d:2">Robot learning for manipulation: how to collect and structure training data, and how to combine high-level planning with low-level control, to solve long-horizon, contact-rich tasks.</p>
+        <p class="lede rise" style="--d:2">My research interest is robot learning for manipulation — in particular, how to collect and structure training data, and how to combine high-level planning with low-level control, so that robots can solve long-horizon, contact-rich tasks.</p>
         <ul class="links rise" style="--d:3">
           <li><a href="mailto:yoobin1liyfcb@gmail.com">yoobin1liyfcb@gmail.com</a></li>
           <li><a href="Yubin_Jeon_CV.pdf">CV (PDF)</a></li>
         </ul>
       </div>
-      <img class="portrait rise" style="--d:1" src="assets/profile.jpg" width="90" height="120" alt="Portrait of Yubin Jeon">
+      <img class="portrait rise" style="--d:1" src="assets/profile.webp" width="591" height="748" alt="Portrait of Yubin Jeon">
     </div>
   </section>
 
@@ -377,7 +388,7 @@ a:hover { text-decoration-color: var(--accent); }
             <li>Cumulative GPA: <span class="num">4.06 / 4.50</span> &nbsp;·&nbsp; Major GPA: <span class="num">4.08 / 4.50</span></li>
           </ul>
         </article>
-        <article class="entry">
+        <article class="entry" data-media="hmobility">
           <div class="top">
             <div>
               <h3>H-Mobility Class — Robotics Track</h3>
@@ -394,7 +405,7 @@ a:hover { text-decoration-color: var(--accent); }
     <div class="wrap reveal">
       <div class="sec-head"><span class="idx">03</span><h2 id="h-research">Research Experience</h2></div>
       <div class="sec-body">
-        <article class="entry">
+        <article class="entry" data-media="dgist">
           <div class="top">
             <div>
               <h3>Daegu Gyeongbuk Institute of Science and Technology (DGIST)</h3>
@@ -403,7 +414,7 @@ a:hover { text-decoration-color: var(--accent); }
             <p class="meta"><span>Jul. 2026 – Sep. 2026</span><span>Daegu, Republic of Korea</span></p>
           </div>
           <ul class="pts">
-            <li><b><a href="#pub-vicon">VICON</a> (Visual–Inertial–Contact based Hand–Object Tracking)</b>: Developed a multimodal human-demonstration framework that jointly captures hand motion, object pose, contact locations, and normal-force measurements using a wearable glove and a single RGB-D camera, enabling contact-rich data collection without a motion-capture setup.
+            <li><b><a href="#/vicon">VICON</a> (Visual–Inertial–Contact based Hand–Object Tracking)</b>: Developed a multimodal human-demonstration framework that jointly captures hand motion, object pose, contact locations, and normal-force measurements using a wearable glove and a single RGB-D camera, enabling contact-rich data collection without a motion-capture setup.
               <ul>
                 <li><b>Occlusion-Robust Object Tracking</b>: designed an offline factor-graph refinement that combines visibility-aware object-pose estimates with contact-conditioned hand-motion cues, maintaining trajectories through severe hand occlusion and reducing tracking failures from <span class="num">50.9%</span> (FoundationPose) to <span class="num">2.5%</span>.</li>
                 <li><b>Contact &amp; Force Annotation</b>: reconstructed metric object meshes from monocular video and mapped synchronized glove force measurements onto the object surface to recover object-frame contact points and calibrated normal forces.</li>
@@ -412,7 +423,7 @@ a:hover { text-decoration-color: var(--accent); }
             </li>
           </ul>
         </article>
-        <article class="entry">
+        <article class="entry" data-media="kitech">
           <div class="top">
             <div>
               <h3>Korea Institute of Industrial Technology (KITECH)</h3>
@@ -422,7 +433,7 @@ a:hover { text-decoration-color: var(--accent); }
           </div>
           <ul class="pts">
             <li><b>Skill-wise Expert based Data Generation</b>: To reduce the high cost of teleoperation data collection, generated VLA fine-tuning data by simulator rollouts with skill-wise experts (teleop demos → Diffusion Policy based BC → Residual RL).</li>
-            <li><b><a href="#pub-viva">VIVA</a> (VLM-Instructed VLA Architecture)</b>: To overcome the long-horizon limitation of a single VLA model, designed a hierarchical VLM-VLA architecture where Qwen3-VL decomposes commands into skill plans and asynchronously updates π<sub>0.5</sub>’s instructions based on real-time scene understanding. Achieved <span class="num">38% / 28% / 18%</span> success rates on Easy / Middle / Hard tasks vs. <span class="num">2% / 6% / 0%</span> (Only VLA baseline).</li>
+            <li><b><a href="#/viva">VIVA</a> (VLM-Instructed VLA Architecture)</b>: To overcome the long-horizon limitation of a single VLA model, designed a hierarchical VLM-VLA architecture where Qwen3-VL decomposes commands into skill plans and asynchronously updates π<sub>0.5</sub>’s instructions based on real-time scene understanding. Achieved <span class="num">38% / 28% / 18%</span> success rates on Easy / Middle / Hard tasks vs. <span class="num">2% / 6% / 0%</span> (Only VLA baseline).</li>
           </ul>
         </article>
       </div>
@@ -549,31 +560,27 @@ a:hover { text-decoration-color: var(--accent); }
             <li><b>Contribution</b>: GPS–IMU fusion for state estimation, curvature-based velocity planning, custom ROS messages for planning and control.</li>
           </ul>
         </article>
-        <article class="entry" data-media="mobility-autonomous" data-title="Special Award — 2025 University Creative Mobility Competition, Autonomous Driving Track">
+        <article class="entry" data-media="mobility-creative">
           <div class="top">
             <div>
-              <h3>Special Award</h3>
-              <p class="sub">2025 University Creative Mobility Competition, Autonomous Driving Track</p>
+              <h3>2025 University Creative Mobility Competition</h3>
             </div>
             <p class="meta"><span>Nov. 2025</span></p>
           </div>
-          <ul class="pts">
-            <li><b>Planning/Control SW Module Member</b>, Team KAI.</li>
-            <li><b>Contribution</b>: Centroid-graph-based Greedy path planner, control using steering sensitivity adaptive Pure Pursuit algorithm.</li>
-          </ul>
-        </article>
-        <article class="entry" data-media="mobility-creative" data-title="Excellence Award — 2025 University Creative Mobility Competition, Creative Technology Track">
-          <div class="top">
-            <div>
-              <h3>Excellence Award</h3>
-              <p class="sub">2025 University Creative Mobility Competition, Creative Technology Track</p>
-            </div>
-            <p class="meta"><span>Nov. 2025</span></p>
+          <div class="award" data-docs="mobility-special" data-title="Special Award — 2025 University Creative Mobility Competition, Autonomous Driving Track">
+            <p class="award-name"><b>Special Award</b> — <span>Autonomous Driving Track</span></p>
+            <ul class="pts">
+              <li><b>Planning/Control SW Module Member</b>, Team KAI.</li>
+              <li><b>Contribution</b>: Centroid-graph-based Greedy path planner, control using steering sensitivity adaptive Pure Pursuit algorithm.</li>
+            </ul>
           </div>
-          <ul class="pts">
-            <li><b>Planning/Control SW Module Member</b>, Team KAI.</li>
-            <li><b>Contribution</b>: Delaunay-triangulation based path generation for cone gate driving, control using curvature and velocity adaptive Pure Pursuit algorithm.</li>
-          </ul>
+          <div class="award" data-docs="mobility-excellence" data-title="Excellence Award — 2025 University Creative Mobility Competition, Creative Technology Track">
+            <p class="award-name"><b>Excellence Award</b> — <span>Creative Technology Track</span></p>
+            <ul class="pts">
+              <li><b>Planning/Control SW Module Member</b>, Team KAI.</li>
+              <li><b>Contribution</b>: Delaunay-triangulation based path generation for cone gate driving, control using curvature and velocity adaptive Pure Pursuit algorithm.</li>
+            </ul>
+          </div>
         </article>
         <article class="entry" data-media="kookmin-autonomous" data-title="Grand Prize — 8th Kookmin University Autonomous Driving Competition">
           <div class="top">
@@ -627,7 +634,17 @@ a:hover { text-decoration-color: var(--accent); }
   </div>
 </footer>
 
-<dialog id="viewer" aria-label="Media viewer">
+<dialog id="detail" aria-labelledby="d-title">
+  <div class="d-bar">
+    <span class="d-kicker"></span>
+    <button class="d-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="d-scroll" tabindex="-1"><div class="d-body"></div></div>
+</dialog>
+
+<dialog id="viewer" aria-label="Image viewer">
   <div class="v-top">
     <p class="v-cap"></p>
     <div class="v-act">
@@ -652,175 +669,593 @@ a:hover { text-decoration-color: var(--accent); }
   'use strict';
 
   /* ------------------------------------------------------------------
-     MEDIA: one entry per item that carries data-media="…" in the page.
-     Every slot is listed; an empty slot renders as a dashed placeholder.
-     Fill a slot with the helpers below, for example
-       award: [doc('assets/awards/kookmin/award')],
-       shot:  [photo('assets/awards/kookmin/photo-1', 'Final round')],
-     photo(base, alt)  base.jpg  (base.thumb.jpg used as thumbnail when present)
-     video(base, alt)  base.mp4  (base.jpg as poster frame)
-     doc(base, pages)  base.pdf  + page images base.jpg, or base-1.jpg … base-N.jpg
+     MEDIA: one list per entry that carries data-media="…" in the page.
+     The page shows up to two thumbnails per entry (items wrapped in
+     cover(), or else the first items); the title or a thumbnail opens
+     the detail view with the CV text and every item in order.
+     Certificates live in DOCS instead and open one at a time.
+       photo(base, alt)      base.jpg (+ base.thumb.jpg)
+       clip(base, alt)       short silent loop: base.mp4 + base.jpg poster
+       video(base, alt)      video with controls: base.mp4 + base.jpg poster
+       doc(base, label, n)   base.pdf + page images base.jpg, or base-1.jpg … base-n.jpg
+     alt is only used as the image description for screen readers.
   ------------------------------------------------------------------ */
   const photo = (base, alt = '') => ({ type: 'photo', full: `${base}.jpg`, thumb: `${base}.thumb.jpg`, alt });
+  const clip = (base, alt = '') => ({ type: 'clip', src: `${base}.mp4`, poster: `${base}.jpg`, alt });
   const video = (base, alt = '') => ({ type: 'video', src: `${base}.mp4`, poster: `${base}.jpg`, alt });
-  const doc = (base, pages = 1) => ({
-    type: 'doc', pdf: `${base}.pdf`,
+  const doc = (base, label, pages = 1) => ({
+    type: 'doc', label, pdf: `${base}.pdf`,
     pages: pages === 1 ? [base] : Array.from({ length: pages }, (_, i) => `${base}-${i + 1}`),
   });
+  const cover = (item) => ({ ...item, cover: true });
+  const wide = (item) => ({ ...item, wide: true });
+  const series = (make, base, captions) => captions.map((c, i) => make(`${base}-${i + 1}`, c));
+
+  // one "→ …" link per entry; its documents open together, page after page
+  const bundle = (label, docs) => ({ label, docs });
+  const certs = (dir, { award = 'award', pages = 1 } = {}) => bundle('Certificate of Award and Participation', [
+    doc(`assets/awards/${dir}/${award}`, ''),
+    doc(`assets/awards/${dir}/participation`, '', pages),
+  ]);
+  const CE = 'assets/certificates/';
+  const ES = 'assets/projects/emergency-stop/';
+  const UV = 'assets/projects/uav-ugv/';
+  const CP = 'assets/projects/carla-planning/';
+  const KM = 'assets/awards/2025-08-kookmin/';
+  const HL = 'assets/awards/2025-11-hl-fma/';
+  const MOB = 'assets/awards/2025-11-creative-mobility/';
+  const PAI = 'assets/awards/2026-02-physical-ai/';
+  const IEV = 'assets/awards/2025-07-intl-ev/';
+
+  const mobilityIntro = [
+    photo(`${MOB}intro-1`, 'Cone-course run at the competition (broadcast frame)'),
+    photo(`${MOB}intro-2`, 'Team KAI’s vehicle with the Special Award and Excellence Award signs'),
+  ];
+  const FSD_REPO = '<a href="https://github.com/imhyeonwoo/Formula-Student-Driverless-Planning-Control">Team K.A.I. planning &amp; control repository</a> by Hyeonwoo Im (MIT License)';
+
+  const CREDIT = {
+    'mobility-creative': `Planning visualizations: ${FSD_REPO}.`,
+    'uav-ugv': 'Videos from the team’s <a href="https://github.com/imhyeonwoo/AutonomousSystemPlatform">project repository</a>; the map image is provided by the course.',
+    'kookmin-autonomous': 'Some images are vendor assets and sample data bundled with the contest code base (Xytron, YDLidar).',
+  };
+
+  // certificates: shown as a link under the entry, never mixed into the gallery
+  const DOCS = {
+    hmobility: bundle('Certificate of Education', [doc(`${CE}hmobility-robotics-track`, ''), doc(`${CE}hmobility-car-inside-out`, '')]),
+    dgist: bundle('Certificate of Experience', [doc(`${CE}dgist-certificate`, '')]),
+    kitech: bundle('Certificate of Experience', [doc(`${CE}kitech-training-certificate`, '')]),
+    'carla-planning': bundle('Project Certification', [doc(`${CE}dream-semester-project`, '')]),
+    'physical-ai-hackathon': certs('2026-02-physical-ai'),
+    'hl-fma-amap': certs('2025-11-hl-fma'),
+    'mobility-special': certs('2025-11-creative-mobility', { award: 'award-autonomous', pages: 2 }),
+    'mobility-excellence': certs('2025-11-creative-mobility', { award: 'award-creative-tech', pages: 2 }),
+    'kookmin-autonomous': certs('2025-08-kookmin'),
+    'intl-ev': certs('2025-07-intl-ev'),
+  };
 
   const MEDIA = {
     // Publications & Presentations
-    vicon: { video: [] },
-    viva: { poster: [] },
+    vicon: [
+      video('assets/pubs/vicon/vicon', 'Supplementary video: glove hand tracking, object pose, contact points and normal forces'),
+      cover(photo('assets/pubs/vicon/fig1', 'VICON overview figure')),
+      cover(photo('assets/pubs/vicon/fig5', 'VICON tracking results figure')),
+    ],
+    viva: [
+      cover(photo('assets/pubs/viva/skills', 'Skill stages: navigate, approach and lift, carry, approach and place')),
+      doc('assets/pubs/viva/poster', 'Poster'),
+    ],
     // Projects
-    'emergency-stop': { photo: [], video: [] },
-    'carla-planning': { photo: [], video: [] },
-    'uav-ugv': { photo: [], video: [] },
-    // Awards & Honors: competitions (shot = photo or video)
-    'physical-ai-hackathon': { shot: [], participation: [], award: [] },
-    'hl-fma-amap': { shot: [], participation: [], award: [] },
-    'mobility-autonomous': { shot: [], participation: [], award: [] },
-    'mobility-creative': { shot: [], participation: [], award: [] },
-    'kookmin-autonomous': { shot: [], participation: [], award: [] },
-    'intl-ev': { shot: [], participation: [], award: [] },
+    'emergency-stop': [
+      ...series(clip, `${ES}video`, [
+        'Case 2: passes the pre-drive check, then a runtime warning fires on approach (red floor)',
+        'PyBullet simulation: the robot drives the walled curve toward the red stop wall',
+        'Case 1: pre-drive risk exceeds the threshold, so the warning fires at the start',
+      ]),
+      ...series(photo, `${ES}sim`, [
+        'PyBullet track: walled curved road with the red stop wall',
+        'Warning state: red floor',
+        'Safe state: green floor',
+      ]),
+      ...series(photo, `${ES}photo`, [
+        'Project pipeline, from the PyBullet environment to the warning policy',
+        'UML deployment diagram',
+        'Layered software architecture',
+        'UML class diagram: simulator, prediction models and warning policy',
+        'Deliverables and platform stack',
+        'Time-weighted BCE loss',
+        'Transformer confusion matrix on 2,033 held-out episodes (threshold 0.58)',
+        'Predicted failure probability with the 0.58 threshold',
+        'Predicted failure probability by true class',
+        'Pre-drive risk by road surface',
+        'In-drive risk by road surface (log scale)',
+        'GRU confusion matrix (threshold 0.65)',
+        'GRU input and temporal attention for one episode',
+        'GRU SHAP feature importance',
+        'Transformer SHAP feature importance',
+        'Future work: closing the loop between the simulator and the trained Transformer',
+      ]),
+    ],
+    'carla-planning': [
+      cover(video(`${CP}video-1`, 'Ego car following the global route in Town03 with pure pursuit (chase and top views)')),
+      ...series(clip, `${CP}video`, [
+        '', 'Dynamic obstacle car driving through the Town03 roundabout',
+        'RViz view of the spawned static and dynamic obstacle positions',
+        'Raw LiDAR point cloud in RViz while the ego car drives',
+        'LiDAR point cloud after ground removal and height filtering',
+        'DBSCAN clusters (green) marking nearby vehicles and structures while driving',
+        'RRT tree growing around obstacles until a path to the goal is found',
+        'RRT generating a detour when an obstacle appears on the current path',
+        'DWA local planner steering toward the goal on an RViz grid map with obstacles',
+        'DWA local planner run on a second obstacle grid',
+        'DWA local planner run on a third obstacle grid',
+      ]).slice(1),
+      ...series(photo, `${CP}photo`, [
+        'CARLA Town03 test course: start, barricade, static and dynamic obstacles, goal (Korean labels)',
+        'CARLA Town03 roundabout from street level in the simulator',
+        'Fire trucks placed as a barricade blocking the road ahead',
+        'Aerial view of the Town03 roundabout with a spawned dynamic obstacle car',
+        'ROS2 node architecture: waypoint, global/local path, planner manager and control nodes',
+        'rqt_graph of the launched ROS2 nodes: CARLA bridge, path publishers and pure pursuit',
+        'Town03 lane waypoints published over ROS2 and drawn in RViz',
+        'A* global route (blue dots) from start to goal on Town03',
+        'A* global route (blue dots) planned on Town01',
+        'A* global route (blue) planned on Town04',
+        'A* global route (blue dots) planned on Town05',
+        'Third-degree B-spline smoothing of the global route waypoints in RViz',
+        'Curvature-based speed plan along the global route; bar height shows target speed',
+        'Ego car tracking the planned route (blue dots) toward a red look-ahead point',
+        'LiDAR points clustered with DBSCAN (green) to detect obstacles around the ego car',
+        'RRT practice in RViz: tree (green) grows around obstacles, path to goal in blue',
+        'RRT replanning in RViz: detour (blue) around an obstacle placed on the old path (red)',
+        'RRT avoidance path around a static obstacle car on a two-lane road',
+        'Ego car following an RRT detour around the next static obstacle',
+        'Ego car stopped at the fire-truck barricade before replanning its route',
+        'Global route before D* Lite replanning (RViz)',
+        'Global route after D* Lite replanning around the blocked road (RViz)',
+        'Ego car at the roundabout entry with its planned path as another car circulates',
+        'Ego car stopped at the final goal, with its global route in RViz',
+      ]).map((it, i) => (i === 0 ? cover(it) : it)),
+    ],
+    'uav-ugv': [
+      cover(wide(photo(`${UV}mission`, 'Mission overview: take-off, waypoint following, obstacle avoidance, exploration points and rendezvous landing'))),
+      cover(video(`${UV}video-1`, 'Full mission in simulation: UGV driving, UAV flight, marker tracking and precision landing')),
+      video(`${UV}video-2`, 'UAV waypoint flight with gimbal control and ArUco marker localization in RViz'),
+      photo(`${UV}photo-1`, 'Simulation map with ArUco-marked targets (provided by the course)'),
+    ],
+    // Awards & Honors
+    'physical-ai-hackathon': [
+      photo(`${PAI}intro-1`, 'Bimanual robot-arm setup for the Fine Folding track'),
+      photo(`${PAI}intro-2`, 'Bimanual arms folding cloth during the hackathon'),
+    ],
+    'hl-fma-amap': [
+      cover(video(`${HL}screen-video-1`, 'Ego car in MORAI: waits for green, slows through an S-curve, speeds up on the straight')),
+      video(`${HL}run-1`, 'Autonomous run in the MORAI simulator, recorded from the screen (1)'),
+      video(`${HL}run-2`, 'Autonomous run in the MORAI simulator, recorded from the screen (2)'),
+      cover(photo(`${HL}screen-photo-1`, 'Ego vehicle in MORAI turning left at an intersection at 10 km/h')),
+      photo(`${HL}screen-photo-2`, 'Top-down view of the ego vehicle stopped in the finish zone'),
+      photo(`${HL}screen-photo-3`, 'MORAI sensor setup for the ego vehicle: camera, 3D LiDAR, GNSS and IMU'),
+      photo(`${HL}intro-1`, 'Ego vehicle driving in the MORAI simulator'),
+      photo(`${HL}intro-2`, 'Ego vehicle passing a bus in the MORAI simulator'),
+    ],
+    // one competition, two awards: the media live here and both entries open this page
+    'mobility-creative': [
+      clip(`${MOB}ad-video-1`, 'Greedy graph-guided centerline search between cone boundary lines, with driving HUD'),
+      ...series(clip, `${MOB}shared-video`, [
+        'Adaptive Pure Pursuit on driving data: look-ahead point, steering command and Ld HUD',
+        'Potential-field planning (top view): cone repulsion map and trough waypoints',
+        'Potential-field surface in 3D with the smoothed local path along its trough',
+      ]),
+      ...series(clip, `${MOB}ct-video`, [
+        'RTK-GPS global path in RViz: the reference used to sort cones into left and right',
+        'Simulated cones along the GPS path, with the fan-shaped cone ROI ahead of the car',
+        'ROI cones labeled left (blue) / right (yellow) against the path via Frenet + k-d tree',
+        'Delaunay triangulation of left/right cones; left-right edge midpoints form the path',
+        'Delaunay midpoints smoothed and resampled into evenly spaced waypoints',
+        'Cone safety radii and the safe corridor around the Delaunay local path',
+        'Local speed planning: per-waypoint target speeds (magenta bars) on the Delaunay path',
+        'Pure Pursuit tracking the Delaunay path: look-ahead point and steering arrow',
+        'Delaunay local path with speed bars over a long cone corridor (MPC test input)',
+        'MPC path output (green heading ticks) along the cone corridor, with speed bars',
+      ]).map((it, i) => (i === 3 ? cover(it) : it)),
+      ...series(photo, `${MOB}shared-photo`, [
+        'Path curvature from three waypoints via the circumradius formula (slide)',
+        'Averaging upcoming path curvature as a feed-forward speed input (slide)',
+        'Target speed under lateral and longitudinal acceleration limits (slide)',
+        'Path curvature vs. distance from a speed-planner debug run',
+        'Minimum slack vs. time from a speed-planner debug run',
+        'Commanded vs. measured vehicle speed over time',
+        'Curvature limit, forward-pass limit and final speed profile vs. distance',
+        'ROS node graph of the planning stack (rqt_graph)',
+      ]),
+      mobilityIntro[0],
+      cover(mobilityIntro[1]),
+    ],
+    'kookmin-autonomous': [
+      cover(video(`${KM}final-full`, 'Final round (real car): full video of Team KAI’s runs')),
+      video(`${KM}prelim-video-1`, 'Preliminary Task 1 (simulator): traffic-light start, cone lane, lane-change overtaking'),
+      clip(`${KM}final-video-1`, 'Final (ROS 2, real car, bag replay): YOLO car/lane detection during an overtake'),
+      clip(`${KM}final-video-2`, 'Final (ROS 2, real car, bag replay): YOLO traffic-light detection starts the cone mission'),
+      cover(photo(`${KM}final-photo-1`, 'Final (Aug 28, 2025): Team KAI’s 1/10-scale car with the 1st-place board')),
+      photo(`${KM}intro-1`, 'Final round run (broadcast frame)'),
+      photo(`${KM}intro-2`, 'Final round obstacle run (broadcast frame)'),
+      ...series(photo, `${KM}prelim-photo`, [
+        'Preliminary Task 2 plan: Reeds–Shepp parking path from start pose into the goal slot (RViz2)',
+        'Preliminary Task 2 plan: Reeds–Shepp path with lateral offset into the parking slot',
+        'Preliminary Task 2 plan: start/goal poses and parking slot for a path test (start yaw 150°)',
+        'Preliminary Task 2 plan: start/goal poses and parking slot for a path test (start yaw 180°)',
+        'Preliminary Task 2 plan: Gazebo test world with the car model and an AprilTag (top view)',
+        'Preliminary Task 2 plan: Gazebo world with an AprilTag 36h11 marker and the car model',
+        'Preliminary Task 2 plan: Gazebo car after a manual test drive toward the AprilTag',
+        'Preliminary Task 2 plan: simulated car camera (rqt) viewing the AprilTag in Gazebo',
+        'Preliminary Task 2 plan: AprilTag #0 detected with a 3D pose box on a real camera',
+        'Preliminary Task 2 plan: checkerboard calibration of the USB camera',
+        'Preliminary Task 2 plan: undistorted camera frame of a striped test pattern',
+        'Preliminary Task 2 plan: parking stack of AprilTag perception, Reeds–Shepp and Stanley',
+        'Preliminary Task 2 plan: ROS 2 node graph, AprilTag → Reeds–Shepp → Stanley → motor',
+      ]),
+      clip(`${KM}final-video-3`, 'Repo study sample: onboard-camera drive on an indoor model-car track'),
+      clip(`${KM}final-video-4`, 'Repo study sample: highway dashcam clip for lane-detection practice'),
+      clip(`${KM}final-video-5`, 'Repo study sample: mountain-road dashcam clip for lane-detection practice'),
+      ...['indoor lab track camera frame', 'indoor lab track frame with a curved lane', 'indoor lab track frame with an AprilTag stand',
+        'indoor lab track frame with a stop line and model car', 'indoor lab track frame with a curve and AprilTag', 'Hough line-segment output']
+        .map((c, i) => photo(`${KM}final-photo-${i + 2}`, `Repo study sample: ${c}`)),
+      ...series(photo, `${KM}repo-extra`, [
+        'Repo study sample: blank (all-black) frame',
+        'Repo asset: car icon (path-planning app)',
+        'Repo asset: Xytron logo (path-planning app)',
+        'Repo asset: car image (ultrasonic viewer app)',
+        'Repo asset: Xytron logo (ultrasonic viewer app)',
+        'YDLidar driver docs: EAI banner',
+        'YDLidar driver docs: product photo',
+        'YDLidar driver docs: point-cloud view',
+        'YDLidar driver docs: RViz setup',
+        'YDLidar driver docs: build finished',
+        'YDLidar driver docs: CMake error',
+      ]),
+    ],
+    'intl-ev': [
+      photo(`${IEV}intro-1`, 'Team S.V.E.’s 1/10-scale vehicle next to a wall section on the track'),
+      photo(`${IEV}intro-2`, 'Team S.V.E.’s vehicle driving on the lane track'),
+    ],
   };
 
-  const svg = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
-  const ICON = {
-    photo: svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/>'),
-    video: svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/>'),
-    doc: svg('<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>'),
-    award: svg('<circle cx="12" cy="9" r="5"/><path d="m9 13.5-1.5 7L12 18l4.5 2.5-1.5-7"/>'),
-  };
   const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v12l10-6z" fill="currentColor"/></svg>';
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const html = document.documentElement;
+  const isMotion = (it) => it.type === 'video' || it.type === 'clip';
+  const thumbOf = (it) => (it.type === 'doc' ? `${it.pages[0]}.thumb.jpg` : it.type === 'photo' ? it.thumb : it.poster);
+  const fullOf = (it) => (it.type === 'doc' ? `${it.pages[0]}.jpg` : it.type === 'photo' ? it.full : it.poster);
 
-  // slot: [placeholder label, viewer label, shape, icon]
-  const SLOT = {
-    photo: ['Photo', 'Photo', 'land', 'photo'],
-    video: ['Video', 'Video', 'wide', 'video'],
-    shot: ['Photo / Video', 'Photo', 'land', 'photo'],
-    poster: ['Poster', 'Poster', 'doc', 'doc'],
-    participation: ['Participation', 'Certificate of Participation', 'doc', 'doc'],
-    award: ['Award', 'Award Certificate', 'doc', 'award'],
-  };
-  const labelOf = (slot, it) => (it.type === 'video' ? 'Video' : SLOT[slot][1]);
-
-  /* ---------- viewer ---------- */
-  const dlg = document.getElementById('viewer');
-  const stage = dlg.querySelector('.v-stage');
-  const cap = dlg.querySelector('.v-cap');
-  const count = dlg.querySelector('.v-count');
-  const pdfLink = dlg.querySelector('.v-pdf');
-  const prev = dlg.querySelector('.v-prev');
-  const next = dlg.querySelector('.v-next');
-  let slides = [], at = 0, title = '';
-
-  function show() {
-    const s = slides[at];
-    let el;
-    if (s.type === 'video') {
-      el = document.createElement('video');
-      Object.assign(el, { src: s.src, controls: true, autoplay: true, playsInline: true, preload: 'metadata' });
-      if (s.poster) el.poster = s.poster;
-    } else {
-      el = new Image();
-      el.src = s.full;
-      el.alt = s.alt || `${labelOf(s.slot, s)}${s.of > 1 ? `, page ${s.page} of ${s.of}` : ''}: ${title}`;
-    }
-    stage.replaceChildren(el);
-    const b = document.createElement('b');
-    b.textContent = labelOf(s.slot, s) + (s.of > 1 ? ` · p. ${s.page}/${s.of}` : '');
-    cap.replaceChildren(b, document.createTextNode(` ${title}`));
-    count.textContent = slides.length > 1 ? `${at + 1} / ${slides.length}` : '';
-    pdfLink.hidden = !s.pdf;
-    if (s.pdf) pdfLink.href = s.pdf;
-    prev.hidden = next.hidden = slides.length < 2;
-    const n = slides[(at + 1) % slides.length];
-    if (n.full) new Image().src = n.full;
-  }
-  const go = (d) => { at = (at + d + slides.length) % slides.length; show(); };
-  function openViewer(list, start, t) {
-    slides = list; at = start; title = t;
-    show();
-    dlg.showModal();
-    document.documentElement.classList.add('lock');
-  }
-  prev.addEventListener('click', () => go(-1));
-  next.addEventListener('click', () => go(1));
-  dlg.querySelector('.v-close').addEventListener('click', () => dlg.close());
-  dlg.addEventListener('close', () => {
-    stage.replaceChildren();
-    document.documentElement.classList.remove('lock');
-  });
-  dlg.addEventListener('keydown', (e) => {
-    if (slides.length < 2) return;
-    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-  });
-  stage.addEventListener('click', (e) => { if (e.target === stage) dlg.close(); });
-  let x0 = null;
-  stage.addEventListener('pointerdown', (e) => { x0 = e.target.tagName === 'IMG' ? e.clientX : null; });
-  stage.addEventListener('pointerup', (e) => {
-    if (x0 !== null && slides.length > 1 && Math.abs(e.clientX - x0) > 50) go(e.clientX < x0 ? 1 : -1);
-    x0 = null;
-  });
-
-  /* ---------- media strips ---------- */
-  function placeholder(slot) {
-    const d = document.createElement('div');
-    d.className = 'slot';
-    d.dataset.shape = SLOT[slot][2];
-    d.setAttribute('aria-hidden', 'true');
-    d.innerHTML = `<span class="frame">${ICON[SLOT[slot][3]]}</span><span class="cap">${SLOT[slot][0]}</span>`;
-    return d;
-  }
-
-  function tile(slot, it, t, onOpen) {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'tile';
-    b.dataset.shape = it.type === 'video' ? 'wide' : SLOT[slot][2];
-    const pages = it.type === 'doc' ? it.pages.length : 1;
-    b.setAttribute('aria-label', `${labelOf(slot, it)}${pages > 1 ? `, ${pages} pages` : ''}: ${t}`);
-    const frame = document.createElement('span');
-    frame.className = 'frame';
-    const src = it.type === 'doc' ? `${it.pages[0]}.thumb.jpg` : it.type === 'video' ? it.poster : it.thumb;
-    const fallback = it.type === 'doc' ? `${it.pages[0]}.jpg` : it.type === 'photo' ? it.full : null;
+  function lazyImg(src, fallback) {
     const img = new Image();
     img.alt = '';
     img.loading = 'lazy';
     img.decoding = 'async';
-    if (fallback) img.addEventListener('error', () => { img.src = fallback; }, { once: true });
+    if (fallback && fallback !== src) img.addEventListener('error', () => { img.removeAttribute('srcset'); img.src = fallback; }, { once: true });
     img.src = src;
-    frame.append(img);
-    if (it.type === 'video') frame.insertAdjacentHTML('beforeend', `<span class="play">${PLAY}</span>`);
-    if (pages > 1) frame.insertAdjacentHTML('beforeend', `<span class="pages">${pages}p</span>`);
-    const c = document.createElement('span');
-    c.className = 'cap';
-    c.textContent = slot === 'shot' ? labelOf(slot, it) : SLOT[slot][0];
-    b.append(frame, c);
-    b.addEventListener('click', onOpen);
-    return b;
+    return img;
   }
 
-  for (const entry of document.querySelectorAll('[data-media]')) {
-    const media = MEDIA[entry.dataset.media];
-    if (!media) continue;
-    const t = entry.dataset.title || entry.querySelector('h3').textContent.trim();
-    const list = [];
-    const strip = document.createElement('div');
-    strip.className = 'media';
-    for (const [slot, items] of Object.entries(media)) {
-      if (!items.length) { strip.append(placeholder(slot)); continue; }
-      for (const it of items) {
-        const start = list.length;
-        if (it.type === 'doc') it.pages.forEach((p, k) => list.push({ slot, type: 'page', full: `${p}.jpg`, pdf: it.pdf, page: k + 1, of: it.pages.length }));
-        else list.push({ slot, ...it });
-        strip.append(tile(slot, it, t, () => openViewer(list, start, t)));
-      }
-    }
-    entry.append(strip);
+  /* ---------- image viewer ---------- */
+  const viewer = document.getElementById('viewer');
+  const stage = viewer.querySelector('.v-stage');
+  const vCap = viewer.querySelector('.v-cap');
+  const vCount = viewer.querySelector('.v-count');
+  const vPdf = viewer.querySelector('.v-pdf');
+  const vPrev = viewer.querySelector('.v-prev');
+  const vNext = viewer.querySelector('.v-next');
+  let slides = [], at = 0, vTitle = '';
+
+  const syncLock = () => html.classList.toggle('lock', viewer.open || detail.open);
+
+  function showSlide() {
+    const s = slides[at];
+    const img = new Image();
+    img.src = s.full;
+    img.alt = s.alt || `${s.label}: ${vTitle}`;
+    img.draggable = false;
+    stage.classList.remove('zoom', 'drag');
+    stage.replaceChildren(img);
+    const b = document.createElement('b');
+    b.textContent = s.label;
+    vCap.replaceChildren(b, document.createTextNode(` ${vTitle}`));
+    vCount.textContent = slides.length > 1 ? `${at + 1} / ${slides.length}` : '';
+    vPdf.hidden = !s.pdf;
+    if (s.pdf) vPdf.href = s.pdf;
+    vPrev.hidden = vNext.hidden = slides.length < 2;
+    new Image().src = slides[(at + 1) % slides.length].full;
   }
+  const step = (d) => { at = (at + d + slides.length) % slides.length; showSlide(); };
+  function openViewer(list, start, title) {
+    slides = list; at = start; vTitle = title;
+    showSlide();
+    viewer.showModal();
+    syncLock();
+  }
+  vPrev.addEventListener('click', () => step(-1));
+  vNext.addEventListener('click', () => step(1));
+  viewer.querySelector('.v-close').addEventListener('click', () => viewer.close());
+  viewer.addEventListener('close', () => { stage.classList.remove('zoom', 'drag'); stage.replaceChildren(); syncLock(); });
+  viewer.addEventListener('keydown', (e) => {
+    if (slides.length < 2) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+  });
+  // a click on the dark backdrop closes the viewer; clicks that started on the image never do
+  let downOnImg = false;
+  stage.addEventListener('click', (e) => {
+    if (e.target === stage && !downOnImg && !stage.classList.contains('zoom')) viewer.close();
+    downOnImg = false;
+  });
+
+  // click the image to view it at full resolution around that point, drag to pan,
+  // click again to fit; a horizontal swipe on the fitted image changes the slide
+  function toggleZoom(e) {
+    const img = stage.querySelector('img');
+    if (!img) return;
+    if (stage.classList.contains('zoom')) { stage.classList.remove('zoom'); return; }
+    const r = img.getBoundingClientRect();
+    if (img.naturalWidth <= r.width * 1.05 && img.naturalHeight <= r.height * 1.05) return;
+    const fx = (e.clientX - r.left) / r.width;
+    const fy = (e.clientY - r.top) / r.height;
+    stage.classList.add('zoom');
+    stage.scrollLeft = fx * img.naturalWidth - stage.clientWidth / 2;
+    stage.scrollTop = fy * img.naturalHeight - stage.clientHeight / 2;
+  }
+  let press = null;
+  let moved = false;
+  stage.addEventListener('pointerdown', (e) => {
+    downOnImg = e.target.tagName === 'IMG';
+    if (!downOnImg) return;
+    press = { x: e.clientX, y: e.clientY, left: stage.scrollLeft, top: stage.scrollTop };
+    moved = false;
+    if (stage.classList.contains('zoom')) {
+      stage.classList.add('drag');
+      stage.setPointerCapture(e.pointerId);
+    }
+  });
+  stage.addEventListener('pointermove', (e) => {
+    if (!press) return;
+    const dx = e.clientX - press.x;
+    const dy = e.clientY - press.y;
+    if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
+    if (stage.classList.contains('zoom')) {
+      stage.scrollLeft = press.left - dx;
+      stage.scrollTop = press.top - dy;
+    }
+  });
+  stage.addEventListener('pointerup', (e) => {
+    if (!press) return;
+    const dx = e.clientX - press.x;
+    stage.classList.remove('drag');
+    if (!moved) toggleZoom(e);
+    else if (!stage.classList.contains('zoom') && slides.length > 1 && Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+    press = null;
+  });
+
+  /* ---------- detail view ---------- */
+  const detail = document.getElementById('detail');
+  const dScroll = detail.querySelector('.d-scroll');
+  const dBody = detail.querySelector('.d-body');
+  const dKicker = detail.querySelector('.d-kicker');
+  const entries = new Map();
+  const clipWatch = new IntersectionObserver((list) => {
+    for (const e of list) {
+      if (e.isIntersecting) e.target.play().catch(() => {});
+      else e.target.pause();
+    }
+  }, { root: dScroll, threshold: 0.2 });
+
+  function gallery(items, title) {
+    const g = document.createElement('div');
+    g.className = 'gallery';
+    const list = [];
+    const flow = items.filter((i) => i.type !== 'video' && !i.wide).length;
+    const cols = Math.max(1, Math.min(3, flow));
+    const colWidth = cols === 1 ? 640 : Math.round(1040 / cols);
+    for (const it of items) {
+      const fig = document.createElement('figure');
+      fig.className = 'g-item';
+      if (isMotion(it)) {
+        const v = document.createElement('video');
+        Object.assign(v, { src: it.src, poster: it.poster, playsInline: true, preload: 'metadata' });
+        v.setAttribute('aria-label', it.alt || title);
+        if (it.type === 'clip' && !still) {
+          Object.assign(v, { muted: true, loop: true });
+          v.dataset.clip = '';
+        } else {
+          v.controls = true;
+          if (it.type === 'video') fig.classList.add('g-wide');
+        }
+        fig.append(v);
+      } else {
+        const start = list.length;
+        if (it.type === 'doc') {
+          it.pages.forEach((p, k) => list.push({ full: `${p}.jpg`, pdf: it.pdf, label: it.label, page: k + 1, of: it.pages.length }));
+        } else {
+          list.push({ full: it.full, label: it.label || 'Photo', alt: it.alt, pdf: it.pdf });
+        }
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'g-open';
+        b.setAttribute('aria-label', `Enlarge: ${it.alt || it.label}`);
+        // one- and two-column galleries and wide items use the full image; 3-column grids pick by size
+        const big = cols < 3 || it.wide;
+        const img = lazyImg(big ? fullOf(it) : thumbOf(it), fullOf(it));
+        if (!big) {
+          img.srcset = `${thumbOf(it)} 520w, ${fullOf(it)} 1800w`;
+          img.sizes = `${colWidth}px`;
+        }
+        img.alt = it.alt || `${it.label}: ${title}`;
+        b.append(img);
+        b.addEventListener('click', () => openViewer(list, start, title));
+        fig.append(b);
+        if (it.wide) fig.classList.add('g-wide');
+      }
+      g.append(fig);
+    }
+    g.style.columnCount = cols;
+    if (cols === 1) g.classList.add('single');
+    return g;
+  }
+
+  // certificates get their own screen: the one or two documents side by side
+  function renderDocs(key) {
+    clipWatch.disconnect();
+    const entry = entries.get(key);
+    const set = DOCS[key];
+    const title = titleOf(entry);
+    dKicker.textContent = entry.closest('section').querySelector('h2').textContent;
+    const head = document.createElement('header');
+    head.className = 'd-head';
+    const h = document.createElement('h2');
+    h.id = 'd-title';
+    h.textContent = set.label;
+    const sub = document.createElement('p');
+    sub.className = 'sub';
+    sub.textContent = title;
+    head.append(h, sub);
+    const pages = set.docs.flatMap((d) => d.pages.map((p) => ({
+      type: 'photo', full: `${p}.jpg`, thumb: `${p}.thumb.jpg`, alt: `${set.label}: ${title}`, label: set.label, pdf: d.pdf,
+    })));
+    dBody.replaceChildren(head, gallery(pages, title));
+    dScroll.scrollTop = 0;
+  }
+
+  function renderDetail(key) {
+    clipWatch.disconnect();
+    const entry = entries.get(key);
+    const items = MEDIA[key] || [];
+    const title = entry.dataset.title || entry.querySelector('h3').textContent.trim();
+    dKicker.textContent = entry.closest('section').querySelector('h2').textContent;
+    const head = document.createElement('header');
+    head.className = 'd-head';
+    const h = document.createElement('h2');
+    h.id = 'd-title';
+    h.textContent = entry.querySelector('h3').textContent.trim();
+    head.append(h);
+    for (const n of entry.querySelectorAll('.top .sub, .top .authors, .top .venue')) head.append(n.cloneNode(true));
+    const meta = entry.querySelector('.meta');
+    if (meta) {
+      const m = document.createElement('p');
+      m.className = 'd-meta';
+      m.textContent = [...meta.children].map((s) => s.textContent).join(' · ');
+      head.append(m);
+    }
+    const text = document.createElement('div');
+    text.className = 'd-text';
+    for (const n of entry.querySelectorAll(':scope > .stack, :scope > .pts, :scope > .docs, :scope > .award')) text.append(n.cloneNode(true));
+    dBody.replaceChildren(head, text);
+    if (items.length) dBody.append(gallery(items, title));
+    if (CREDIT[key]) {
+      const p = document.createElement('p');
+      p.className = 'credit';
+      p.innerHTML = CREDIT[key];
+      dBody.append(p);
+    }
+    dScroll.scrollTop = 0;
+    dBody.querySelectorAll('video[data-clip]').forEach((v) => clipWatch.observe(v));
+  }
+
+  /* hash routes (#/key) open the detail view; each in-page open pushes a history
+     entry with its depth, so Back steps out and closing unwinds all of them */
+  const keyFromHash = () => {
+    const m = /^#\/([\w-]+)(\/docs)?$/.exec(location.hash);
+    if (!m || !entries.has(m[1])) return null;
+    const docs = Boolean(m[2]);
+    if (docs ? !DOCS[m[1]] : !(MEDIA[m[1]] || []).length) return null;
+    return { key: m[1], docs };
+  };
+  function route() {
+    const r = keyFromHash();
+    if (viewer.open) viewer.close();
+    if (r) {
+      if (r.docs) renderDocs(r.key);
+      else renderDetail(r.key);
+      if (!detail.open) detail.showModal();
+      dScroll.focus({ preventScroll: true });
+    } else if (detail.open) {
+      detail.close();
+    }
+    syncLock();
+  }
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#/"]');
+    if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    const hash = a.getAttribute('href');
+    if (hash === location.hash) return;
+    history.pushState({ depth: ((history.state && history.state.depth) || 0) + 1 }, '', hash);
+    route();
+  });
+  detail.querySelector('.d-close').addEventListener('click', () => detail.close());
+  detail.addEventListener('close', () => {
+    clipWatch.disconnect();
+    dBody.replaceChildren();
+    syncLock();
+    if (keyFromHash()) {
+      const depth = history.state && history.state.depth;
+      if (depth) history.go(-depth);
+      else history.replaceState(null, '', location.pathname + location.search);
+    }
+  });
+  addEventListener('popstate', route);
+
+  /* ---------- entries: title links and thumbnails ---------- */
+  const titleOf = (entry) => entry.dataset.title || entry.querySelector('h3').textContent.trim();
+  const docRow = (key) => {
+    const row = document.createElement('p');
+    row.className = 'docs';
+    const a = document.createElement('a');
+    a.className = 'doc-link';
+    a.href = `#/${key}/docs`;
+    a.textContent = DOCS[key].label;
+    row.append(a);
+    return row;
+  };
+  // award blocks inside one competition entry carry their own certificate link
+  for (const holder of document.querySelectorAll('[data-docs]')) {
+    entries.set(holder.dataset.docs, holder);
+    holder.append(docRow(holder.dataset.docs));
+  }
+  for (const entry of document.querySelectorAll('[data-media]')) {
+    const key = entry.dataset.media;
+    const items = MEDIA[key] || [];
+    if (!items.length && !DOCS[key]) continue;
+    entries.set(key, entry);
+    const title = titleOf(entry);
+    if (DOCS[key]) entry.append(docRow(key));
+    if (!items.length) continue;
+    const h3 = entry.querySelector('h3');
+    const link = document.createElement('a');
+    link.className = 'open';
+    link.href = `#/${key}`;
+    link.append(...h3.childNodes);
+    h3.append(link);
+    const covers = items.filter((i) => i.cover);
+    const shown = (covers.length ? covers : [...items.filter((i) => i.type !== 'doc'), ...items.filter((i) => i.type === 'doc')]).slice(0, 2);
+    const row = document.createElement('div');
+    row.className = 'thumbs';
+    shown.forEach((it, n) => {
+      const a = document.createElement('a');
+      a.className = 'thumb';
+      a.href = `#/${key}`;
+      a.dataset.shape = it.type === 'doc' ? 'doc' : 'land';
+      a.setAttribute('aria-label', `Open details: ${title} (${items.length} ${items.length === 1 ? 'item' : 'items'})`);
+      const img = lazyImg(thumbOf(it), fullOf(it));
+      if (!isMotion(it)) {
+        img.srcset = `${thumbOf(it)} 520w, ${fullOf(it)} 1800w`;
+        img.sizes = it.type === 'doc' ? '147px' : '314px';
+      }
+      a.append(img);
+      if (isMotion(it)) a.insertAdjacentHTML('beforeend', `<span class="play">${PLAY}</span>`);
+      const rest = n === shown.length - 1 ? items.length - shown.length : 0;
+      if (rest > 0) a.insertAdjacentHTML('beforeend', `<span class="rest">+${rest}</span>`);
+      row.append(a);
+    });
+    entry.append(row);
+  }
+  route();
 
   /* ---------- chrome: bar, nav highlight, reveal ---------- */
   const bar = document.querySelector('.bar');
@@ -829,15 +1264,15 @@ a:hover { text-decoration-color: var(--accent); }
   onScroll();
 
   const navLinks = [...document.querySelectorAll('.nav a[href^="#"]')];
-  const spy = new IntersectionObserver((entries) => {
-    for (const e of entries) {
+  const spy = new IntersectionObserver((list) => {
+    for (const e of list) {
       if (e.isIntersecting) navLinks.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === `#${e.target.id}`));
     }
   }, { rootMargin: '-45% 0px -50% 0px' });
   document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
 
-  const reveal = new IntersectionObserver((entries) => {
-    for (const e of entries) {
+  const reveal = new IntersectionObserver((list) => {
+    for (const e of list) {
       if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
     }
   }, { rootMargin: '0px 0px -8% 0px' });
