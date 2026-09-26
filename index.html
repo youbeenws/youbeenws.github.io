@@ -239,7 +239,8 @@ a:hover { text-decoration-color: var(--accent); }
 .d-meta { margin: 12px 0 0; font: 400 13px/1.6 var(--mono); color: var(--ink-3); }
 .d-text { max-width: 760px; margin-top: 8px; }
 /* one competition with several awards: each award is a block inside the same entry */
-.award { margin-top: 20px; }
+.award { margin-top: 12px; }
+.award + .award { margin-top: 22px; }
 .award-name { margin: 0; font-size: 16px; color: var(--ink-3); }
 .award-name b { font-weight: 600; color: var(--ink); }
 .award-name span { font: italic 400 17.5px/1.35 var(--serif); color: var(--ink-2); }
@@ -537,28 +538,32 @@ a:hover { text-decoration-color: var(--accent); }
         <article class="entry" data-media="physical-ai-hackathon" data-title="Seoul RISE Director’s Award — 1st Physical AI Hackathon">
           <div class="top">
             <div>
-              <h3>Seoul RISE Director’s Award</h3>
-              <p class="sub">1st Physical AI Hackathon</p>
+              <h3>1st Physical AI Hackathon</h3>
             </div>
             <p class="meta"><span>Feb. 2026</span></p>
           </div>
-          <ul class="pts">
-            <li><b>Team Lead</b>, Team Ipalcheongchun. Track: Fine Folding (bimanual cloth folding).</li>
-            <li><b>Contribution</b>: Bimanual teleop setup, demo collection, ACT model training, and inference.</li>
-          </ul>
+          <div class="award">
+            <p class="award-name"><b>Seoul RISE Director’s Award</b></p>
+            <ul class="pts">
+              <li><b>Team Lead</b>, Team Ipalcheongchun. Track: Fine Folding (bimanual cloth folding).</li>
+              <li><b>Contribution</b>: Bimanual teleop setup, demo collection, ACT model training, and inference.</li>
+            </ul>
+          </div>
         </article>
         <article class="entry" data-media="hl-fma-amap" data-title="Encouragement Award — HL FMA 2025 aMAP Stride Championship">
           <div class="top">
             <div>
-              <h3>Encouragement Award</h3>
-              <p class="sub">HL FMA 2025 aMAP Stride Championship</p>
+              <h3>HL FMA 2025 aMAP Stride Championship</h3>
             </div>
             <p class="meta"><span>Nov. 2025</span></p>
           </div>
-          <ul class="pts">
-            <li><b>Team Lead</b>, Team Ganadi. MORAI + ROS1.</li>
-            <li><b>Contribution</b>: GPS–IMU fusion for state estimation, curvature-based velocity planning, custom ROS messages for planning and control.</li>
-          </ul>
+          <div class="award">
+            <p class="award-name"><b>Encouragement Award</b></p>
+            <ul class="pts">
+              <li><b>Team Lead</b>, Team Ganadi. MORAI + ROS1.</li>
+              <li><b>Contribution</b>: GPS–IMU fusion for state estimation, curvature-based velocity planning, custom ROS messages for planning and control.</li>
+            </ul>
+          </div>
         </article>
         <article class="entry" data-media="mobility-creative">
           <div class="top">
@@ -585,28 +590,32 @@ a:hover { text-decoration-color: var(--accent); }
         <article class="entry" data-media="kookmin-autonomous" data-title="Grand Prize — 8th Kookmin University Autonomous Driving Competition">
           <div class="top">
             <div>
-              <h3>Grand Prize</h3>
-              <p class="sub">8th Kookmin University Autonomous Driving Competition</p>
+              <h3>8th Kookmin University Autonomous Driving Competition</h3>
             </div>
             <p class="meta"><span>Aug. 2025</span></p>
           </div>
-          <ul class="pts">
-            <li><b>Team Lead</b>, Team KAI.</li>
-            <li><b>Contribution</b>: Reed–Shepp + Stanley parking system in Preliminary (Gazebo) / lane estimation with YOLO and obstacle distance estimation via camera–LiDAR calibration for overtaking driving in Final (ROS2, real vehicle).</li>
-          </ul>
+          <div class="award">
+            <p class="award-name"><b>Grand Prize</b></p>
+            <ul class="pts">
+              <li><b>Team Lead</b>, Team KAI.</li>
+              <li><b>Contribution</b>: Reed–Shepp + Stanley parking system in Preliminary (Gazebo) / lane estimation with YOLO and obstacle distance estimation via camera–LiDAR calibration for overtaking driving in Final (ROS2, real vehicle).</li>
+            </ul>
+          </div>
         </article>
         <article class="entry" data-media="intl-ev" data-title="ETRI Director’s Award — 4th International Collegiate EV Autonomous Driving Competition">
           <div class="top">
             <div>
-              <h3>ETRI Director’s Award</h3>
-              <p class="sub">4th International Collegiate EV Autonomous Driving Competition</p>
+              <h3>4th International Collegiate EV Autonomous Driving Competition</h3>
             </div>
             <p class="meta"><span>Jul. 2025</span></p>
           </div>
-          <ul class="pts">
-            <li><b>Team Lead</b>, Team S.V.E. Basic Autonomous Mobility Race.</li>
-            <li><b>Contribution</b>: micro-ROS based Arduino–Jetson data communication pipeline, wall-section driving using 2D LiDAR + VFH algorithm, global pose estimation via motor encoder + IMU odometry for waypoint navigation.</li>
-          </ul>
+          <div class="award">
+            <p class="award-name"><b>ETRI Director’s Award</b></p>
+            <ul class="pts">
+              <li><b>Team Lead</b>, Team S.V.E. Basic Autonomous Mobility Race.</li>
+              <li><b>Contribution</b>: micro-ROS based Arduino–Jetson data communication pipeline, wall-section driving using 2D LiDAR + VFH algorithm, global pose estimation via motor encoder + IMU odometry for waypoint navigation.</li>
+            </ul>
+          </div>
         </article>
       </div>
     </div>
