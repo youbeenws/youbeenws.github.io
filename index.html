@@ -148,12 +148,7 @@ a:hover { text-decoration-color: var(--accent); }
 
 /* entries that open a detail view */
 .open { text-decoration: none; }
-.open::after {
-  content: "→"; display: inline-block; margin-left: .35em;
-  font: 400 .85em/1 var(--mono); color: var(--accent-ink); transition: transform .25s var(--ease);
-}
 .open:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
-.open:hover::after { transform: translateX(3px); }
 
 /* research interests */
 .focus { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
