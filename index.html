@@ -369,7 +369,7 @@ a:hover { text-decoration-color: var(--accent); }
         <p class="lede rise" style="--d:2">My research interest is robot learning for manipulation, especially how to collect and structure training data and how to combine high-level planning with low-level control to solve long-horizon, contact-rich tasks.</p>
         <ul class="links rise" style="--d:3">
           <li><a href="mailto:yoobin1liyfcb@gmail.com">yoobin1liyfcb@gmail.com</a></li>
-          <li><a href="Yubin_Jeon_CV.pdf">CV (PDF)</a></li>
+          <li><a href="YouBeen_Jeon_CV.pdf">CV (PDF)</a></li>
         </ul>
       </div>
       <img class="portrait rise" style="--d:1" src="assets/profile.webp" width="591" height="748" alt="Portrait of YouBeen Jeon">
@@ -704,7 +704,7 @@ a:hover { text-decoration-color: var(--accent); }
        clip(base, alt)       short silent loop: base.mp4 + base.jpg poster
        video(base, alt)      video with controls: base.mp4 + base.jpg poster
        doc(base, label, n)   base.pdf + page images base.jpg, or base-1.jpg … base-n.jpg
-     alt is only used as the image description for screen readers.
+     alt supplies the visible caption and accessible image description.
   ------------------------------------------------------------------ */
   const photo = (base, alt = '') => ({ type: 'photo', full: `${base}.jpg`, thumb: `${base}.thumb.jpg`, alt });
   const clip = (base, alt = '') => ({ type: 'clip', src: `${base}.mp4`, poster: `${base}.jpg`, alt });
@@ -752,12 +752,25 @@ a:hover { text-decoration-color: var(--accent); }
   // Order each gallery from demonstrations to context and implementation details.
   const MEDIA = {
     vicon: [
-      video('assets/pubs/vicon/vicon', 'Hand and object tracking with contact points and forces during manipulation.'),
+      cover(video('assets/pubs/vicon/vicon', 'Hand and object tracking with contact points and forces during manipulation.')),
       cover(photo('assets/pubs/vicon/fig1', 'A visual-inertial glove and RGB-D camera capture hand, object, and contact data.')),
-      cover(photo('assets/pubs/vicon/fig5', 'Object tracking and contact reconstruction under increasing hand occlusion.')),
+      photo('assets/pubs/vicon/glove-hardware', 'Visual markers and eight force-sensitive resistors on the VICON glove.'),
+      wide(photo('assets/pubs/vicon/pipeline', 'Offline refinement combines visual pose estimates with contact-gated hand motion.')),
+      wide(photo('assets/pubs/vicon/block-assembly', 'Hand–object tracking and contact reconstruction during block assembly.')),
+      wide(photo('assets/pubs/vicon/bottle-contact', 'Contact points and normal-force arrows during bottle rotation.')),
+      wide(photo('assets/pubs/vicon/fig5', 'Object tracking and contact reconstruction under increasing hand occlusion.')),
     ],
     viva: [
-      cover(wide(photo('assets/pubs/viva/skills', 'Four manipulation skills in Isaac Sim: navigate, lift, carry, and place.'))),
+      cover(video('assets/pubs/viva/implementation', 'Implementation in Isaac Sim.')),
+      cover(wide(photo('assets/pubs/viva/skills', 'Four manipulation skills: navigate, lift, carry, and place.'))),
+      wide(photo('assets/pubs/viva/pipeline', 'VLM planning guides VLA control; skill-wise experts generate training data.')),
+      photo('assets/pubs/viva/teleop-scene', 'Teleoperation demonstrations for grasping the medicine bottle.'),
+      { ...video('assets/pubs/viva/bc-policy', 'Simulation evaluation of a BC policy trained on teleoperation demonstrations.'), compact: true },
+      photo('assets/pubs/viva/rl-training', 'Parallel simulation environments for skill-policy training.'),
+      { ...video('assets/pubs/viva/rl-policy', 'Residual-RL policy evaluation: approaching, grasping, and lifting the bottle.'), compact: true },
+      wide(photo('assets/pubs/viva/expert-rollout-scene', 'Expert rollout for automated skill-wise data collection.')),
+      photo('assets/pubs/viva/implementation-overview', 'Implementation in Isaac Sim.'),
+      photo('assets/pubs/viva/implementation-carry', 'Implementation in Isaac Sim.'),
       { ...doc('assets/pubs/viva/poster', 'Poster'), alt: 'Conference poster covering VIVA, skill-wise experts, and task evaluation.' },
     ],
     'emergency-stop': [
@@ -857,6 +870,7 @@ a:hover { text-decoration-color: var(--accent); }
     stage.replaceChildren(img);
     const b = document.createElement('b');
     b.textContent = s.label;
+    vCap.hidden = s.caption === false;
     vCap.replaceChildren(b, document.createTextNode(` ${s.alt || vTitle}`));
     vCount.textContent = slides.length > 1 ? `${at + 1} / ${slides.length}` : '';
     vPdf.hidden = !s.pdf;
@@ -953,7 +967,7 @@ a:hover { text-decoration-color: var(--accent); }
     for (const it of items) {
       const fig = document.createElement('figure');
       fig.className = 'g-item';
-      if (it.wide || it.type === 'video') fig.classList.add('g-wide');
+      if (it.wide || (it.type === 'video' && !it.compact)) fig.classList.add('g-wide');
       if (isMotion(it)) {
         const v = document.createElement('video');
         Object.assign(v, { src: it.src, poster: it.poster, playsInline: true, preload: 'metadata' });
@@ -963,7 +977,7 @@ a:hover { text-decoration-color: var(--accent); }
           v.dataset.clip = '';
         } else {
           v.controls = true;
-          if (it.type === 'video') fig.classList.add('g-wide');
+          if (it.type === 'video' && !it.compact) fig.classList.add('g-wide');
         }
         fig.append(v);
       } else {
@@ -971,7 +985,7 @@ a:hover { text-decoration-color: var(--accent); }
         if (it.type === 'doc') {
           it.pages.forEach((p, k) => list.push({ full: `${p}.jpg`, pdf: it.pdf, label: it.label, alt: it.alt, page: k + 1, of: it.pages.length }));
         } else {
-          list.push({ full: it.full, label: it.label || 'Photo', alt: it.alt, pdf: it.pdf });
+          list.push({ full: it.full, label: it.label || 'Photo', alt: it.alt, pdf: it.pdf, caption: it.caption });
         }
         const b = document.createElement('button');
         b.type = 'button';
@@ -984,10 +998,12 @@ a:hover { text-decoration-color: var(--accent); }
         fig.append(b);
         if (it.wide) fig.classList.add('g-wide');
       }
-      const caption = document.createElement('figcaption');
-      caption.className = 'g-caption';
-      caption.textContent = it.alt || it.label || title;
-      fig.append(caption);
+      if (it.caption !== false) {
+        const caption = document.createElement('figcaption');
+        caption.className = 'g-caption';
+        caption.textContent = it.alt || it.label || title;
+        fig.append(caption);
+      }
       g.append(fig);
     }
     if (flow < 2) g.classList.add('single');
@@ -1011,7 +1027,7 @@ a:hover { text-decoration-color: var(--accent); }
     sub.textContent = title;
     head.append(h, sub);
     const pages = set.docs.flatMap((d) => d.pages.map((p) => ({
-      type: 'photo', full: `${p}.jpg`, thumb: `${p}.thumb.jpg`, alt: `${set.label}: ${title}`, label: set.label, pdf: d.pdf,
+      type: 'photo', full: `${p}.jpg`, thumb: `${p}.thumb.jpg`, alt: `${set.label}: ${title}`, label: set.label, pdf: d.pdf, caption: false,
     })));
     dBody.replaceChildren(head, gallery(pages, title));
     dScroll.scrollTop = 0;
