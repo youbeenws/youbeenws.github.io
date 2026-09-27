@@ -252,6 +252,8 @@ a:hover { text-decoration-color: var(--accent); }
 .g-item video { display: block; width: 100%; max-height: 440px; object-fit: contain; border-radius: 8px; background: #000; }
 .g-wide video { max-height: min(68vh, 600px); }
 .g-caption { margin: 9px 0 0; color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.g-section-title { grid-column: 1 / -1; margin: 12px 0 0; padding-top: 24px; border-top: 1px solid var(--line); font: 600 18px/1.4 var(--sans); }
+.g-section-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .g-open {
   display: block; width: 100%; padding: 0; border: 0; overflow: hidden;
   border-radius: 8px; background: var(--sunk); cursor: zoom-in;
@@ -806,8 +808,9 @@ a:hover { text-decoration-color: var(--accent); }
       video(`${HL}run-1`, 'Urban-driving demonstration in MORAI, filmed from the simulator screen.'),
     ],
     'mobility-creative': [
-      cover(photo(`${MOB}intro-1`, 'Team KAI’s vehicle on the competition cone course.')),
+      cover(photo(`${MOB}intro-1`, 'Vehicle on the competition cone course.')),
       photo(`${MOB}intro-2`, 'The competition vehicle with the Special Award and Excellence Award.'),
+      photo(`${MOB}simulation-validation`, 'Cone-course validation in Gazebo.'),
       cover(clip(`${MOB}ct-video-4`, 'Delaunay triangulation generates a center path between the left and right cones.')),
       clip(`${MOB}ct-video-8`, 'Pure Pursuit tracks the cone-defined path using a forward look-ahead point.'),
       clip(`${MOB}shared-video-1`, 'Adaptive Pure Pursuit adjusts look-ahead distance with speed and path curvature.'),
@@ -815,16 +818,19 @@ a:hover { text-decoration-color: var(--accent); }
       wide(photo(`${MOB}shared-photo-8`, 'ROS 2 node architecture for cone processing, path planning, speed planning, and steering.')),
     ],
     'kookmin-autonomous': [
-      cover(video(`${KM}final-full`, 'Team KAI’s final-round autonomous-driving footage.')),
-      video(`${KM}prelim-video-1`, 'Preliminary simulation run covers traffic signals, cone driving, and overtaking.'),
-      cover(photo(`${KM}final-photo-1`, 'Team KAI’s competition vehicle with the first-place award.')),
+      { ...cover(video(`${KM}final-full`, 'Full final-round video.')), section: 'Final Round' },
+      cover(photo(`${KM}final-photo-1`, 'Competition vehicle with the first-place award.')),
+      { ...video(`${KM}prelim-video-1`, 'Preliminary-round simulation video.'), section: 'Preliminary Round' },
       photo(`${KM}dev-plan-page-1`, 'Parking development plan: AprilTag localization and reverse-capable path planning.'),
       photo(`${KM}prelim-photo-12`, 'Proposed parking pipeline combines AprilTag perception, Reeds–Shepp planning, and Stanley control.'),
       photo(`${KM}prelim-photo-13`, 'ROS 2 parking design connects tag detection, path planning, steering, and motor commands.'),
     ],
     'intl-ev': [
-      photo(`${IEV}intro-2`, 'Team S.V.E.’s vehicle on the marked competition course.'),
-      photo(`${IEV}intro-1`, 'Team S.V.E.’s vehicle beside the course barrier.'),
+      cover(photo(`${IEV}intro-2`, 'Vehicle on the marked competition course.')),
+      cover(photo(`${IEV}intro-1`, 'Vehicle beside the course barrier.')),
+      wide(photo(`${IEV}mission`, 'Competition course with three mission zones and moving obstacles.')),
+      photo(`${IEV}vehicle-hardware`, 'Vehicle hardware and onboard electronics.'),
+      photo(`${IEV}indoor-test`, 'Indoor corridor test with the competition vehicle.'),
     ],
   };
 
@@ -962,6 +968,12 @@ a:hover { text-decoration-color: var(--accent); }
     const list = [];
     const flow = items.filter((i) => i.type !== 'video' && !i.wide).length;
     for (const it of items) {
+      if (it.section) {
+        const heading = document.createElement('h3');
+        heading.className = 'g-section-title';
+        heading.textContent = it.section;
+        g.append(heading);
+      }
       const fig = document.createElement('figure');
       fig.className = 'g-item';
       if (it.wide || (it.type === 'video' && !it.compact)) fig.classList.add('g-wide');
