@@ -780,12 +780,6 @@ a:hover { text-decoration-color: var(--accent); }
     'hl-fma-amap': [
       cover(video(`${HL}screen-video-1`, 'Ego car in MORAI: waits for green, slows through an S-curve, speeds up on the straight')),
       video(`${HL}run-1`, 'Autonomous run in the MORAI simulator, recorded from the screen (1)'),
-      video(`${HL}run-2`, 'Autonomous run in the MORAI simulator, recorded from the screen (2)'),
-      cover(photo(`${HL}screen-photo-1`, 'Ego vehicle in MORAI turning left at an intersection at 10 km/h')),
-      photo(`${HL}screen-photo-2`, 'Top-down view of the ego vehicle stopped in the finish zone'),
-      photo(`${HL}screen-photo-3`, 'MORAI sensor setup for the ego vehicle: camera, 3D LiDAR, GNSS and IMU'),
-      photo(`${HL}intro-1`, 'Ego vehicle driving in the MORAI simulator'),
-      photo(`${HL}intro-2`, 'Ego vehicle passing a bus in the MORAI simulator'),
     ],
     // one competition, two awards: the media live here and both entries open this page
     'mobility-creative': [
@@ -824,27 +818,10 @@ a:hover { text-decoration-color: var(--accent); }
     'kookmin-autonomous': [
       cover(video(`${KM}final-full`, 'Final round (real car): full video of Team KAI’s runs')),
       video(`${KM}prelim-video-1`, 'Preliminary Task 1 (simulator): traffic-light start, cone lane, lane-change overtaking'),
-      clip(`${KM}final-video-1`, 'Final (ROS 2, real car, bag replay): YOLO car/lane detection during an overtake'),
-      clip(`${KM}final-video-2`, 'Final (ROS 2, real car, bag replay): YOLO traffic-light detection starts the cone mission'),
       cover(photo(`${KM}final-photo-1`, 'Final (Aug 28, 2025): Team KAI’s 1/10-scale car with the 1st-place board')),
       photo(`${KM}dev-plan-page-1`, 'Autonomous parking development plan, page 1: project overview, objectives, and system environment'),
-      photo(`${KM}intro-1`, 'Final round run (broadcast frame)'),
-      photo(`${KM}intro-2`, 'Final round obstacle run (broadcast frame)'),
-      ...series(photo, `${KM}prelim-photo`, [
-        'Preliminary Task 2 plan: Reeds–Shepp parking path from start pose into the goal slot (RViz2)',
-        'Preliminary Task 2 plan: Reeds–Shepp path with lateral offset into the parking slot',
-        'Preliminary Task 2 plan: start/goal poses and parking slot for a path test (start yaw 150°)',
-        'Preliminary Task 2 plan: start/goal poses and parking slot for a path test (start yaw 180°)',
-        'Preliminary Task 2 plan: Gazebo test world with the car model and an AprilTag (top view)',
-        'Preliminary Task 2 plan: Gazebo world with an AprilTag 36h11 marker and the car model',
-        'Preliminary Task 2 plan: Gazebo car after a manual test drive toward the AprilTag',
-        'Preliminary Task 2 plan: simulated car camera (rqt) viewing the AprilTag in Gazebo',
-        'Preliminary Task 2 plan: AprilTag #0 detected with a 3D pose box on a real camera',
-        'Preliminary Task 2 plan: checkerboard calibration of the USB camera',
-        'Preliminary Task 2 plan: undistorted camera frame of a striped test pattern',
-        'Preliminary Task 2 plan: parking stack of AprilTag perception, Reeds–Shepp and Stanley',
-        'Preliminary Task 2 plan: ROS 2 node graph, AprilTag → Reeds–Shepp → Stanley → motor',
-      ]),
+      photo(`${KM}prelim-photo-12`, 'Preliminary Task 2 plan: parking stack of AprilTag perception, Reeds–Shepp and Stanley'),
+      photo(`${KM}prelim-photo-13`, 'Preliminary Task 2 plan: ROS 2 node graph, AprilTag → Reeds–Shepp → Stanley → motor'),
     ],
     'intl-ev': [
       photo(`${IEV}intro-1`, 'Team S.V.E.’s 1/10-scale vehicle next to a wall section on the track'),
