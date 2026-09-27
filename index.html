@@ -763,12 +763,12 @@ a:hover { text-decoration-color: var(--accent); }
     viva: [
       cover(wide({ ...doc('assets/pubs/viva/poster', 'Poster'), alt: 'Conference poster covering VIVA, skill-wise experts, and task evaluation.' })),
       wide(photo('assets/pubs/viva/pipeline', 'VLM planning guides VLA control; skill-wise experts generate training data.')),
-      wide(photo('assets/pubs/viva/skills', 'Four manipulation skills: navigate, lift, carry, and place.')),
       photo('assets/pubs/viva/teleop-scene', 'Teleoperation demonstrations for grasping the medicine bottle.'),
-      { ...video('assets/pubs/viva/bc-policy', 'Simulation evaluation of a BC policy trained on teleoperation demonstrations.'), compact: true },
+      photo('assets/pubs/viva/bc-policy-capture', 'BC policy evaluation in simulation, trained on teleoperation demonstrations.'),
       photo('assets/pubs/viva/rl-training-live', 'Parallel simulation environments for residual-RL skill training.'),
-      cover({ ...video('assets/pubs/viva/rl-policy', 'Residual-RL policy evaluation: approaching, grasping, and lifting the bottle.'), compact: true }),
+      photo('assets/pubs/viva/rl-policy-capture', 'Residual-RL policy lifting the medicine bottle in simulation.'),
       wide(photo('assets/pubs/viva/expert-rollout-live', 'Base and wrist camera images recorded with robot actions during rollout.')),
+      cover(wide(photo('assets/pubs/viva/skills', 'VIVA execution in simulation: navigation, grasping and lifting, carrying, and placement.'))),
     ],
     'emergency-stop': [
       cover(clip(`${ES}video-1`, 'A PyBullet braking trial with a green risk indicator during approach.')),
