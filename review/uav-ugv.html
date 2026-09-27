@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>UAV–UGV Cooperative Reconnaissance Platform · 남길 자료 선택</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #faf9f6; color: #161615; font: 14px/1.5 system-ui, sans-serif; }
+.toolbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 24px; background: #fff; border-bottom: 1px solid #ddd; }
+.toolbar p { margin: 0; }
+.toolbar strong { color: #187446; white-space: nowrap; }
+button { font: inherit; cursor: pointer; }
+#copy { border: 0; border-radius: 6px; background: #187446; color: white; padding: 10px 16px; white-space: nowrap; }
+#copy:disabled { opacity: .45; cursor: default; }
+.screen { position: relative; max-width: 1440px; margin: 0 auto; }
+.screen > img { display: block; width: 100%; height: auto; }
+.pick { position: absolute; border: 2px solid transparent; border-radius: 8px; background: transparent; padding: 0; }
+.pick:hover { border-color: #187446; background: rgb(24 116 70 / .06); }
+.pick[aria-pressed="true"] { border: 3px solid #187446; background: rgb(24 116 70 / .16); box-shadow: 0 0 0 2px white; }
+.badge { position: absolute; top: 5px; right: 5px; padding: 2px 7px; border: 1px solid #d4d0c6; border-radius: 5px; background: white; color: #333; font-size: 12px; line-height: 1.5; }
+.pick[aria-pressed="true"] .badge { background: #187446; border-color: #187446; color: white; }
+button:focus-visible { outline: 3px solid #c15c26; outline-offset: 3px; }
+#status { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 3; padding: 10px 18px; border-radius: 8px; background: #161615; color: white; max-width: 90vw; text-align: center; }
+#status:empty { display: none; }
+dialog { width: min(600px, 90vw); border: 1px solid #ddd; border-radius: 10px; padding: 20px; }
+dialog::backdrop { background: #0007; }
+textarea { display: block; width: 100%; height: 260px; margin: 12px 0; font: 14px/1.6 monospace; }
+@media(max-width:600px) { .toolbar { padding: 10px 12px; font-size: 12px; } .badge { top: 2px; right: 2px; font-size: 10px; padding: 0 3px; } #copy { padding: 8px 10px; } }
+</style>
+</head>
+<body>
+<header class="toolbar">
+  <p>남길 자료를 클릭하세요. 다시 클릭하면 해제됩니다. <strong id="count">0개 선택</strong></p>
+  <button type="button" id="copy" disabled>선택 결과 복사</button>
+</header>
+<main class="screen" id="screen" aria-label="현재 홈페이지 화면에서 남길 자료 선택">
+  <img src="uav-ugv-screen.png" width="1440" height="2908" alt="UAV–UGV Cooperative Reconnaissance Platform 상세 화면. 각 자료를 클릭해 남길 항목을 선택하세요.">
+</main>
+<div id="status" role="status" aria-live="polite"></div>
+<dialog id="fallback"><p>아래 결과를 복사해서 대화창에 붙여넣어 주세요.</p><textarea readonly aria-label="선택 결과"></textarea><form method="dialog"><button>닫기</button></form></dialog>
+<script id="media-data" type="application/json">{"width": 1440, "height": 2908, "items": [{"number": 1, "file": "assets/projects/uav-ugv/mission.jpg", "type": "photo", "description": "Mission overview: take-off, waypoint following, obstacle avoidance, exploration points and rendezvous landing", "x": 240, "y": 511.21875, "width": 960, "height": 435.71875}, {"number": 2, "file": "assets/projects/uav-ugv/video-1.mp4", "type": "video", "description": "Full mission in simulation: UGV driving, UAV flight, marker tracking and precision landing", "x": 240, "y": 966.9375, "width": 960, "height": 499.5}, {"number": 3, "file": "assets/projects/uav-ugv/video-2.mp4", "type": "video", "description": "UAV waypoint flight with gimbal control and ArUco marker localization in RViz", "x": 240, "y": 1486.4375, "width": 960, "height": 448.5}, {"number": 4, "file": "assets/projects/uav-ugv/photo-1.jpg", "type": "photo", "description": "Simulation map with ArUco-marked targets (provided by the course)", "x": 240, "y": 1954.9375, "width": 640, "height": 836.1875}]}</script>
+<script>
+'use strict';
+const data = JSON.parse(document.getElementById('media-data').textContent);
+const key = 'uav-ugv-click-selection-v1';
+const selected = new Set();
+try {
+  const saved = JSON.parse(localStorage.getItem(key) || '[]');
+  if (Array.isArray(saved)) for (const id of saved) if (data.items.some(item => item.number === id)) selected.add(id);
+} catch {}
+const screen = document.getElementById('screen');
+const copy = document.getElementById('copy');
+function refresh() {
+  for (const button of screen.querySelectorAll('.pick')) {
+    const number = Number(button.dataset.number);
+    const keep = selected.has(number);
+    button.setAttribute('aria-pressed', String(keep));
+    button.firstChild.textContent = (keep ? '✓ ' : '') + number;
+  }
+  document.getElementById('count').textContent = selected.size + '개 선택';
+  copy.disabled = selected.size === 0;
+}
+for (const item of data.items) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'pick';
+  button.dataset.number = item.number;
+  button.setAttribute('aria-label', item.number + '. ' + item.description);
+  button.title = item.number + ' · ' + item.file.split('/').pop();
+  button.style.left = item.x / data.width * 100 + '%';
+  button.style.top = item.y / data.height * 100 + '%';
+  button.style.width = item.width / data.width * 100 + '%';
+  button.style.height = item.height / data.height * 100 + '%';
+  const badge = document.createElement('span');
+  badge.className = 'badge';
+  button.append(badge);
+  button.addEventListener('click', () => {
+    selected.has(item.number) ? selected.delete(item.number) : selected.add(item.number);
+    try { localStorage.setItem(key, JSON.stringify([...selected])); } catch {}
+    refresh();
+  });
+  screen.append(button);
+}
+copy.addEventListener('click', async () => {
+  const keep = data.items.filter(item => selected.has(item.number));
+  const result = 'UAV–UGV Cooperative Reconnaissance Platform\n아래 ' + keep.length + '개만 남겨줘.\n\n' + keep.map(item => item.number + '. ' + item.file.split('/').pop()).join('\n');
+  try {
+    await navigator.clipboard.writeText(result);
+    document.getElementById('status').textContent = '복사했습니다. 대화창에 붙여넣어 주세요.';
+  } catch {
+    const dialog = document.getElementById('fallback');
+    dialog.querySelector('textarea').value = result;
+    dialog.showModal();
+    dialog.querySelector('textarea').select();
+  }
+});
+refresh();
+</script>
+</body>
+</html>
