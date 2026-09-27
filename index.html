@@ -502,8 +502,8 @@ a:hover { text-decoration-color: var(--accent); }
           </div>
           <ul class="stack"><li>PyTorch</li><li>PyBullet</li></ul>
           <ul class="pts">
-            <li>Developed a time-series classifier that predicts vehicle braking failure caused by road condition changes (rain, snow) and triggers an early warning before failure occurs.</li>
-            <li><b>PyBullet simulation environment</b>: collected training data by randomizing physical variables (speed, mass, friction, braking timing) and integrated the model’s threshold-based early-warning system into the simulator.</li>
+            <li>Developed a model that predicts emergency-stop success or failure from initial conditions and compared its predictions with actual braking outcomes in PyBullet.</li>
+            <li><b>PyBullet simulation and data collection</b>: varied speed, mass, friction, and braking timing; displayed model predictions in green (success) or red (failure), without feeding predictions into vehicle control.</li>
             <li><b>Transformer model training and evaluation</b>: achieved F1 <span class="num">0.89</span> and Acc <span class="num">93.4%</span>, selected as the final model with stable Precision of <span class="num">93%</span>, compared to GRU’s <span class="num">53%</span>.</li>
           </ul>
         </article>
@@ -754,30 +754,30 @@ a:hover { text-decoration-color: var(--accent); }
     vicon: [
       cover(video('assets/pubs/vicon/vicon', 'Introduction to VICON: motivation, system design, and experimental results.')),
       cover(photo('assets/pubs/vicon/fig1', 'VICON overview: hand tracking, object pose, contact points, and normal forces.')),
-      photo('assets/pubs/vicon/fig2', 'Glove design: IMU layout, visual markers, contact-frequency map, and eight force sensors.'),
+      photo('assets/pubs/vicon/fig2', 'VICON glove design: (a) IMU placement, (b) visual markers, (c) FSR placement, and (d) assembled glove.'),
       wide(photo('assets/pubs/vicon/pipeline', 'Offline refinement combines visual pose estimates with contact-gated hand motion.')),
-      wide(photo('assets/pubs/vicon/block-assembly', 'Recorded block grasp: RGB tracking and reconstructed hand, object, and contact forces.')),
-      wide(photo('assets/pubs/vicon/bottle-contact', 'Recorded bottle grasp: RGB tracking and reconstructed contact points and normal forces.')),
-      wide(photo('assets/pubs/vicon/fig5', 'Object-pose comparisons and hand–object reconstructions under increasing hand occlusion.')),
+      wide(photo('assets/pubs/vicon/block-assembly', 'Recorded block grasp: RGB tracking and hand, object, contact points and forces visualization.')),
+      wide(photo('assets/pubs/vicon/bottle-contact', 'Recorded bottle grasp: RGB tracking and hand, object, contact points and forces visualization.')),
+      wide(photo('assets/pubs/vicon/fig5-final', 'Object-pose comparisons with vision based baselines and 3D visualization.')),
     ],
     viva: [
       cover(wide({ ...doc('assets/pubs/viva/poster', 'Poster'), alt: 'Conference poster covering VIVA, skill-wise experts, and task evaluation.' })),
-      wide(photo('assets/pubs/viva/pipeline', 'VLM planning guides VLA control; skill-wise experts generate training data.')),
-      photo('assets/pubs/viva/teleop-scene', 'Teleoperation data collection for bottle grasping in Isaac Sim.'),
+      wide(photo('assets/pubs/viva/pipeline', 'Overall Pipeline of VIVA, VLM-instructed VLA Architecture; Expert based Data Generation and Policy Training.')),
+      photo('assets/pubs/viva/teleop-scene', 'Teleoperation data collection in Isaac Sim.'),
       photo('assets/pubs/viva/bc-policy-capture', 'Simulation evaluation of a BC policy trained on teleoperation data.'),
       photo('assets/pubs/viva/rl-training-live', 'Parallel simulation environments for residual-RL skill training.'),
-      photo('assets/pubs/viva/rl-policy-capture', 'Residual-RL policy lifting the medicine bottle in simulation.'),
-      wide(photo('assets/pubs/viva/expert-rollout-live', 'Base and wrist camera observations from a recorded simulation rollout.')),
-      cover(wide(photo('assets/pubs/viva/skills', 'VIVA execution in simulation: navigation, grasping and lifting, carrying, and placement.'))),
+      photo('assets/pubs/viva/rl-policy-capture', 'Simulation evaluation of a Residual-RL policy.'),
+      wide(photo('assets/pubs/viva/expert-rollout-live', 'Base and wrist camera observations in simulation rollout.')),
+      cover(wide(photo('assets/pubs/viva/skills', 'VIVA execution: Navigate, Approach & Lift, Carry, Approach & Place.'))),
     ],
     'emergency-stop': [
-      cover(clip(`${ES}video-1`, 'Emergency-braking demonstration in PyBullet with a green risk indicator.')),
-      cover(clip(`${ES}video-3`, 'Emergency-braking demonstration in PyBullet with an initial red risk warning.')),
-      photo(`${ES}sim-3`, 'Braking-risk visualization in PyBullet: green indicator.'),
-      photo(`${ES}sim-2`, 'Braking-risk visualization in PyBullet: red warning indicator.'),
-      photo(`${ES}photo-3`, 'Software architecture for simulation, prediction, and risk warnings.'),
+      cover(clip(`${ES}video-1`, 'Green predicts a successful stop from initial conditions; the vehicle then stops without collision.')),
+      cover(clip(`${ES}video-3`, 'Red predicts stopping failure from initial conditions; the vehicle then collides with the obstacle.')),
+      photo(`${ES}sim-3`, 'Model prediction from initial conditions: successful stop (green).'),
+      photo(`${ES}sim-2`, 'Model prediction from initial conditions: stopping failure (red).'),
+      photo(`${ES}photo-3`, 'Software architecture for simulation, failure prediction, and prediction display.'),
       photo(`${ES}photo-2`, 'Deployment diagram connects the PyBullet simulator, trained model, and recorded data.'),
-      photo(`${ES}photo-4`, 'Class diagram links the vehicle, prediction models, and warning logic.'),
+      photo(`${ES}photo-4`, 'Class diagram for the simulation, prediction models, and prediction indicators.'),
       photo(`${ES}photo-5`, 'Development stack: Python, PyTorch, PyBullet, and analysis tools.'),
     ],
     'carla-planning': [
