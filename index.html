@@ -767,11 +767,8 @@ a:hover { text-decoration-color: var(--accent); }
       photo('assets/pubs/viva/teleop-scene', 'Teleoperation demonstrations for grasping the medicine bottle.'),
       { ...video('assets/pubs/viva/bc-policy', 'Simulation evaluation of a BC policy trained on teleoperation demonstrations.'), compact: true },
       photo('assets/pubs/viva/rl-training-live', 'Parallel simulation environments for residual-RL skill training.'),
-      { ...video('assets/pubs/viva/rl-policy', 'Residual-RL policy evaluation: approaching, grasping, and lifting the bottle.'), compact: true },
+      cover({ ...video('assets/pubs/viva/rl-policy', 'Residual-RL policy evaluation: approaching, grasping, and lifting the bottle.'), compact: true }),
       wide(photo('assets/pubs/viva/expert-rollout-live', 'Base and wrist camera images recorded with robot actions during rollout.')),
-      cover(video('assets/pubs/viva/implementation', 'Implementation in Isaac Sim.')),
-      photo('assets/pubs/viva/implementation-scene-1', 'Implementation in Isaac Sim.'),
-      photo('assets/pubs/viva/implementation-scene-2', 'Implementation in Isaac Sim.'),
     ],
     'emergency-stop': [
       cover(clip(`${ES}video-1`, 'A PyBullet braking trial with a green risk indicator during approach.')),
