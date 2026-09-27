@@ -15,7 +15,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10.5' fill='none' stroke='%23d2461f' stroke-width='5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
 <script>document.documentElement.classList.add('js')</script>
 <style>
 :root {
@@ -31,6 +31,7 @@
   --accent-ink: #b1391a;
   --dot: rgb(22 22 21 / .085);
   --shadow: 0 1px 2px rgb(0 0 0 / .05), 0 10px 24px -12px rgb(0 0 0 / .22);
+  --serif: "Instrument Serif", "Times New Roman", serif;
   --sans: "Geist", "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --wrap: 1080px;
@@ -67,6 +68,14 @@ a:hover { text-decoration-color: var(--accent); }
 .skip { position: absolute; left: -9999px; top: 8px; z-index: 50; background: var(--surface); padding: 6px 10px; }
 .skip:focus { left: 8px; }
 
+/* Keep the original serif face and width; soften its tall proportions.
+   Individual scale stays independent of the rise/reveal translate animations. */
+.brand, .hero h1, .sec h2, .sub, .pub h3, .d-head h2, .award-name span {
+  scale: 1 .82;
+  transform-origin: left center;
+}
+.award-name span { display: inline-block; }
+
 /* ---------- top bar ---------- */
 .bar {
   position: sticky; top: 0; z-index: 20;
@@ -78,7 +87,7 @@ a:hover { text-decoration-color: var(--accent); }
 }
 .bar.scrolled { border-bottom-color: var(--line); }
 .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; }
-.brand { font: 400 21px/1 var(--sans); text-decoration: none; }
+.brand { font: 400 21px/1 var(--serif); text-decoration: none; }
 .nav { display: flex; align-items: center; gap: 22px; font-size: 14px; }
 .nav a { position: relative; padding-block: 4px; color: var(--ink-2); text-decoration: none; }
 .nav a:hover, .nav a.on { color: var(--ink); }
@@ -97,7 +106,7 @@ a:hover { text-decoration-color: var(--accent); }
   mask-image: radial-gradient(ellipse 60% 75% at 88% 22%, #000 8%, transparent 72%);
 }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: center; }
-.hero h1 { margin: 0 0 20px; font: 400 clamp(48px, 7.5vw, 80px)/1.1 var(--sans); letter-spacing: -.015em; }
+.hero h1 { margin: 0 0 20px; font: 400 clamp(56px, 10vw, 104px)/.92 var(--serif); letter-spacing: -.015em; }
 .role { margin: 0 0 28px; color: var(--ink-2); }
 .lede { margin: 0 0 32px; max-width: 34em; font-size: clamp(18px, 2.1vw, 21px); line-height: 1.5; }
 .links { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 0; padding: 0; list-style: none; font: 400 13.5px/1.4 var(--mono); }
@@ -117,7 +126,7 @@ a:hover { text-decoration-color: var(--accent); }
 }
 .sec-head { position: sticky; top: 84px; align-self: start; }
 .idx { display: block; margin-bottom: 10px; font: 500 12px/1 var(--mono); letter-spacing: .08em; color: var(--accent-ink); }
-.sec h2 { margin: 0; font: 400 clamp(26px, 3vw, 32px)/1.2 var(--sans); }
+.sec h2 { margin: 0; font: 400 clamp(28px, 3.2vw, 36px)/1.05 var(--serif); }
 .sec-body { max-width: 740px; }
 .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js .reveal.in { opacity: 1; transform: none; }
@@ -126,7 +135,7 @@ a:hover { text-decoration-color: var(--accent); }
 .entry + .entry { margin-top: 44px; padding-top: 44px; border-top: 1px solid var(--line); }
 .top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 24px; align-items: baseline; }
 .entry h3 { margin: 0; font: 600 17px/1.35 var(--sans); letter-spacing: -.005em; }
-.sub { margin: 3px 0 0; font: italic 400 18px/1.35 var(--sans); color: var(--ink-2); }
+.sub { margin: 3px 0 0; font: italic 400 18px/1.35 var(--serif); color: var(--ink-2); }
 .meta { margin: 0; text-align: right; white-space: nowrap; font: 400 12.5px/1.6 var(--mono); color: var(--ink-3); }
 .meta span { display: block; }
 .pts { margin: 14px 0 0; padding: 0; list-style: none; font-size: 15.5px; color: var(--ink-2); }
@@ -157,7 +166,7 @@ a:hover { text-decoration-color: var(--accent); }
 .focus p { margin: 0; font-size: 15px; color: var(--ink-2); }
 
 /* publications */
-.pub h3 { font: 400 23px/1.35 var(--sans); letter-spacing: 0; }
+.pub h3 { font: 400 23px/1.25 var(--serif); letter-spacing: 0; }
 .authors { margin: 8px 0 0; font-size: 15px; color: var(--ink-2); }
 .authors b { font-weight: 600; color: var(--ink); }
 .authors sup { font-size: .7em; }
@@ -225,7 +234,7 @@ a:hover { text-decoration-color: var(--accent); }
 .d-scroll { overflow-y: auto; overscroll-behavior: contain; }
 .d-scroll:focus { outline: none; }
 .d-body { max-width: 1040px; margin-inline: auto; padding: clamp(28px, 5vw, 56px) var(--gutter) 96px; }
-.d-head h2 { margin: 0; font: 400 clamp(30px, 4vw, 44px)/1.2 var(--sans); letter-spacing: -.01em; }
+.d-head h2 { margin: 0; font: 400 clamp(32px, 4.6vw, 50px)/1.06 var(--serif); letter-spacing: -.01em; }
 .d-head .sub { margin-top: 8px; font-size: 21px; }
 .d-meta { margin: 12px 0 0; font: 400 13px/1.6 var(--mono); color: var(--ink-3); }
 .d-text { max-width: 760px; margin-top: 8px; }
@@ -234,7 +243,7 @@ a:hover { text-decoration-color: var(--accent); }
 .award + .award { margin-top: 22px; }
 .award-name { margin: 0; font-size: 16px; color: var(--ink-3); }
 .award-name b { font-weight: 600; color: var(--ink); }
-.award-name span { font: italic 400 17.5px/1.35 var(--sans); color: var(--ink-2); }
+.award-name span { font: italic 400 17.5px/1.35 var(--serif); color: var(--ink-2); }
 .award .pts { margin-top: 8px; }
 .gallery { columns: 3 260px; column-gap: 16px; margin-top: 40px; }
 .gallery.single .g-item:not(.g-wide) { max-width: 640px; }
