@@ -181,22 +181,21 @@ a:hover { text-decoration-color: var(--accent); }
 .skills dd { margin: 0; font-size: 15.5px; }
 
 /* ---------- thumbnails on the page ---------- */
-.thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 20px; }
+.thumbs { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 20px; margin-top: 20px; }
 .thumb {
-  position: relative; display: block; height: 196px; overflow: hidden; border-radius: 8px;
-  background: var(--sunk); text-decoration: none;
-  transition: box-shadow .3s var(--ease), transform .3s var(--ease);
+  display: block; max-width: 100%; color: var(--ink-2); text-decoration: none;
 }
 .thumb[data-shape="land"] { width: 314px; }
 .thumb[data-shape="doc"] { width: 147px; }
-.thumb::after {
+.thumb-image { position: relative; display: block; height: 196px; overflow: hidden; border-radius: 8px; background: var(--sunk); }
+.thumb-image::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08);
 }
-.thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
-.thumb[data-shape="doc"] img { object-position: top; }
-.thumb:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
-.thumb:hover img { transform: scale(1.045); }
+.thumb img { width: 100%; height: 100%; object-fit: contain; }
+.thumb-caption { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; }
+.thumb:hover .thumb-image { box-shadow: var(--shadow); }
+.thumb:hover .thumb-caption { color: var(--accent-ink); }
 .play {
   position: absolute; left: 50%; top: 50%; translate: -50% -50%;
   display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
@@ -245,20 +244,27 @@ a:hover { text-decoration-color: var(--accent); }
 .award-name b { font-weight: 600; color: var(--ink); }
 .award-name span { font: italic 400 17.5px/1.35 var(--serif); color: var(--ink-2); }
 .award .pts { margin-top: 8px; }
-.gallery { columns: 3 260px; column-gap: 16px; margin-top: 40px; }
-.gallery.single .g-item:not(.g-wide) { max-width: 640px; }
-.g-item { margin: 0 0 20px; break-inside: avoid; }
-.g-wide { column-span: all; }
-.g-item video { width: 100%; max-height: 78vh; border-radius: 8px; background: #000; }
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; align-items: start; margin-top: 36px; }
+.gallery.single { grid-template-columns: minmax(0, 1fr); }
+.gallery.single .g-item:not(.g-wide) { width: 100%; max-width: 640px; justify-self: center; }
+.g-item { min-width: 0; margin: 0; }
+.g-wide { grid-column: 1 / -1; }
+.g-item video { display: block; width: 100%; max-height: 440px; object-fit: contain; border-radius: 8px; background: #000; }
+.g-wide video { max-height: min(68vh, 600px); }
+.g-caption { margin: 9px 0 0; color: var(--ink-2); font-size: 13px; line-height: 1.6; }
 .g-open {
   display: block; width: 100%; padding: 0; border: 0; overflow: hidden;
   border-radius: 8px; background: var(--sunk); cursor: zoom-in;
 }
 .g-open img {
-  width: 100%; height: auto; outline: 1px solid rgb(0 0 0 / .08); outline-offset: -1px;
-  transition: transform .5s var(--ease);
+  display: block; width: 100%; height: auto; max-height: 440px; object-fit: contain;
 }
-.g-open:hover img { transform: scale(1.02); }
+.g-wide .g-open img { max-height: 560px; }
+.g-open:hover { box-shadow: var(--shadow); }
+@media (max-width: 640px) {
+  .gallery { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .g-item video, .g-open img, .g-wide .g-open img { max-height: 70vh; }
+}
 
 /* certificates: plain links that open just that document */
 .docs { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; font-size: 14.5px; }
@@ -312,6 +318,20 @@ a:hover { text-decoration-color: var(--accent); }
 .foot .wrap {
   display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 16px;
   padding-block: 28px 40px; font: 400 12.5px/1.6 var(--mono); color: var(--ink-3);
+}
+
+@media (max-width: 780px) {
+  .bar .wrap { height: auto; min-height: 56px; flex-wrap: wrap; gap: 4px 16px; padding-block: 10px; }
+  .brand { white-space: nowrap; }
+  .nav { flex-wrap: wrap; gap: 8px 18px; font-size: 13px; }
+  .hero .wrap, .sec > .wrap { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .portrait { width: 200px; }
+  .sec-head { position: static; }
+  .sec-body { min-width: 0; }
+  .top { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .meta { text-align: left; white-space: normal; }
+  .focus { grid-template-columns: minmax(0, 1fr); }
+  .skills div { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -458,7 +478,7 @@ a:hover { text-decoration-color: var(--accent); }
           <div class="top">
             <div>
               <h3>VIVA: VLM-Instructed VLA Architecture for Long-Horizon Tasks and Skill-wise Expert based Data Generation Pipeline<span class="tag">(Poster)</span></h3>
-              <p class="authors"><b>YouBeen Jeon</b><sup>∗</sup>, S. Bae, Y.-G. Eun, S.-W. Kim</p>
+              <p class="authors"><b>YouBeen Jeon</b><sup>∗</sup>, Seunghak Bae, Youngkee Eun, Sung Wook Kim</p>
               <p class="venue">KSME 2026 Spring Annual Conference</p>
             </div>
             <p class="meta"><span>Apr. 2026</span></p>
@@ -713,10 +733,6 @@ a:hover { text-decoration-color: var(--accent); }
   const PAI = 'assets/awards/2026-02-physical-ai/';
   const IEV = 'assets/awards/2025-07-intl-ev/';
 
-  const mobilityIntro = [
-    photo(`${MOB}intro-1`, 'Cone-course run at the competition (broadcast frame)'),
-    photo(`${MOB}intro-2`, 'Team KAI’s vehicle with the Special Award and Excellence Award signs'),
-  ];
   // certificates: shown as a link under the entry, never mixed into the gallery
   const DOCS = {
     hmobility: bundle('Certificate of Education', [doc(`${CE}hmobility-robotics-track`, ''), doc(`${CE}hmobility-car-inside-out`, '')]),
@@ -733,76 +749,72 @@ a:hover { text-decoration-color: var(--accent); }
     'intl-ev': certs('2025-07-intl-ev'),
   };
 
+  // Order each gallery from demonstrations to context and implementation details.
   const MEDIA = {
-    // Publications & Presentations
     vicon: [
-      video('assets/pubs/vicon/vicon', 'Supplementary video: glove hand tracking, object pose, contact points and normal forces'),
-      cover(photo('assets/pubs/vicon/fig1', 'VICON overview figure')),
-      cover(photo('assets/pubs/vicon/fig5', 'VICON tracking results figure')),
+      video('assets/pubs/vicon/vicon', 'Hand and object tracking with contact points and forces during manipulation.'),
+      cover(photo('assets/pubs/vicon/fig1', 'A visual-inertial glove and RGB-D camera capture hand, object, and contact data.')),
+      cover(photo('assets/pubs/vicon/fig5', 'Object tracking and contact reconstruction under increasing hand occlusion.')),
     ],
     viva: [
-      cover(photo('assets/pubs/viva/skills', 'Skill stages: navigate, approach and lift, carry, approach and place')),
-      doc('assets/pubs/viva/poster', 'Poster'),
+      cover(wide(photo('assets/pubs/viva/skills', 'Four manipulation skills in Isaac Sim: navigate, lift, carry, and place.'))),
+      { ...doc('assets/pubs/viva/poster', 'Poster'), alt: 'Conference poster covering VIVA, skill-wise experts, and task evaluation.' },
     ],
-    // Projects
     'emergency-stop': [
-      clip(`${ES}video-1`, 'Case 2: passes the pre-drive check, then a runtime warning fires on approach (red floor)'),
-      clip(`${ES}video-3`, 'Case 1: pre-drive risk exceeds the threshold, so the warning fires at the start'),
-      photo(`${ES}sim-2`, 'Warning state: red floor'),
-      photo(`${ES}sim-3`, 'Safe state: green floor'),
-      photo(`${ES}photo-2`, 'UML deployment diagram'),
-      photo(`${ES}photo-3`, 'Layered software architecture'),
-      photo(`${ES}photo-4`, 'UML class diagram: simulator, prediction models and warning policy'),
-      photo(`${ES}photo-5`, 'Deliverables and platform stack'),
+      cover(clip(`${ES}video-1`, 'A PyBullet braking trial with a green risk indicator during approach.')),
+      cover(clip(`${ES}video-3`, 'An early red warning flags braking risk in a second PyBullet trial.')),
+      photo(`${ES}sim-3`, 'Green floor shows the low-risk state of the braking-warning system.'),
+      photo(`${ES}sim-2`, 'Red floor shows the warning state for predicted braking failure.'),
+      photo(`${ES}photo-3`, 'Software layers separate simulation, prediction, and the warning policy.'),
+      photo(`${ES}photo-2`, 'Deployment diagram connects the PyBullet simulator, trained model, and recorded data.'),
+      photo(`${ES}photo-4`, 'Class diagram links the vehicle, prediction models, and warning logic.'),
+      photo(`${ES}photo-5`, 'PyBullet and PyTorch support simulation, model inference, and result analysis.'),
     ],
     'carla-planning': [
-      cover(video(`${CP}video-1`, 'Ego car following the global route in Town03 with pure pursuit (chase and top views)')),
-      cover(photo(`${CP}photo-1`, 'CARLA Town03 test course: start, barricade, static and dynamic obstacles, goal (Korean labels)')),
-      photo(`${CP}photo-5`, 'ROS2 node architecture: waypoint, global/local path, planner manager and control nodes'),
-      photo(`${CP}photo-6`, 'rqt_graph of the launched ROS2 nodes: CARLA bridge, path publishers and pure pursuit'),
-      photo(`${CP}photo-13`, 'Curvature-based speed plan along the global route; bar height shows target speed'),
-      photo(`${CP}photo-15`, 'LiDAR points clustered with DBSCAN (green) to detect obstacles around the ego car'),
-      photo(`${CP}photo-18`, 'RRT avoidance path around a static obstacle car on a two-lane road'),
-      photo(`${CP}photo-21`, 'Global route before D* Lite replanning (RViz)'),
-      photo(`${CP}photo-23`, 'Ego car at the roundabout entry with its planned path as another car circulates'),
+      cover(video(`${CP}video-1`, 'Pure Pursuit follows a planned route through CARLA Town03.')),
+      photo(`${CP}photo-1`, 'Town03 mission layout with static obstacles, moving traffic, and a blocked road.'),
+      cover(photo(`${CP}photo-5`, 'ROS 2 architecture connects global planning, local planning, and vehicle control.')),
+      wide(photo(`${CP}photo-6`, 'Runtime ROS 2 graph connects the CARLA bridge, path publishers, and controller.')),
+      photo(`${CP}photo-21`, 'The global route in RViz before replanning around a blocked road.'),
+      photo(`${CP}photo-13`, 'Bar heights show curvature-based target speeds along the planned route.'),
+      photo(`${CP}photo-15`, 'DBSCAN groups LiDAR points into nearby obstacles for local planning.'),
+      photo(`${CP}photo-18`, 'An RRT detour guides the vehicle around a stationary car.'),
+      photo(`${CP}photo-23`, 'Roundabout test with a moving vehicle crossing the planned route.'),
     ],
     'uav-ugv': [
-      cover(wide(photo(`${UV}mission`, 'Mission overview: take-off, waypoint following, obstacle avoidance, exploration points and rendezvous landing'))),
-      cover(video(`${UV}video-1`, 'Full mission in simulation: UGV driving, UAV flight, marker tracking and precision landing')),
-      video(`${UV}video-2`, 'UAV waypoint flight with gimbal control and ArUco marker localization in RViz'),
-      photo(`${UV}photo-1`, 'Simulation map with ArUco-marked targets (provided by the course)'),
+      cover(video(`${UV}video-1`, 'Full Gazebo mission: UGV transport, UAV reconnaissance, and rendezvous landing.')),
+      cover(wide(photo(`${UV}mission`, 'Mission route links takeoff, reconnaissance waypoints, and the landing rendezvous.'))),
+      video(`${UV}video-2`, 'The UAV tracks ArUco landmarks with its gimbal camera during waypoint flight.'),
+      photo(`${UV}photo-1`, 'Gazebo reconnaissance environment with ArUco landmarks on the buildings.'),
     ],
-    // Awards & Honors
     'physical-ai-hackathon': [
-      photo(`${PAI}intro-1`, 'Bimanual robot-arm setup for the Fine Folding track'),
-      photo(`${PAI}intro-2`, 'Bimanual arms folding cloth during the hackathon'),
+      photo(`${PAI}intro-2`, 'Two robot arms manipulate a towel in the Fine Folding task.'),
+      photo(`${PAI}intro-1`, 'Bimanual robot setup for teleoperation and demonstration collection.'),
     ],
     'hl-fma-amap': [
-      cover(video(`${HL}screen-video-1`, 'Ego car in MORAI: waits for green, slows through an S-curve, speeds up on the straight')),
-      video(`${HL}run-1`, 'Autonomous run in the MORAI simulator, recorded from the screen (1)'),
+      cover(video(`${HL}screen-video-1`, 'MORAI course run with traffic-light handling and speed adjustment through curves.')),
+      video(`${HL}run-1`, 'MORAI urban-driving trial through intersections and traffic, recorded during testing.'),
     ],
-    // one competition, two awards: the media live here and both entries open this page
     'mobility-creative': [
-      clip(`${MOB}shared-video-1`, 'Adaptive Pure Pursuit on driving data: look-ahead point, steering command and Ld HUD'),
-      clip(`${MOB}shared-video-3`, 'Potential-field surface in 3D with the smoothed local path along its trough'),
-      cover(clip(`${MOB}ct-video-4`, 'Delaunay triangulation of left/right cones; left-right edge midpoints form the path')),
-      clip(`${MOB}ct-video-8`, 'Pure Pursuit tracking the Delaunay path: look-ahead point and steering arrow'),
-      photo(`${MOB}shared-photo-8`, 'ROS node graph of the planning stack (rqt_graph)'),
-      mobilityIntro[0],
-      cover(mobilityIntro[1]),
+      cover(photo(`${MOB}intro-1`, 'Team KAI drives the cone course during the competition.')),
+      photo(`${MOB}intro-2`, 'The competition vehicle with the Special Award and Excellence Award.'),
+      cover(clip(`${MOB}ct-video-4`, 'Delaunay triangulation generates a center path between the left and right cones.')),
+      clip(`${MOB}ct-video-8`, 'Pure Pursuit tracks the cone-defined path using a forward look-ahead point.'),
+      clip(`${MOB}shared-video-1`, 'Adaptive Pure Pursuit adjusts look-ahead distance with speed and path curvature.'),
+      clip(`${MOB}shared-video-3`, 'Potential-field experiment generates a smooth path along the valley between cones.'),
+      wide(photo(`${MOB}shared-photo-8`, 'ROS node graph links cone processing, local planning, speed planning, and steering.')),
     ],
-    // Keep competition work; omit unrelated bundled examples and vendor documentation.
     'kookmin-autonomous': [
-      cover(video(`${KM}final-full`, 'Final round (real car): full video of Team KAI’s runs')),
-      video(`${KM}prelim-video-1`, 'Preliminary Task 1 (simulator): traffic-light start, cone lane, lane-change overtaking'),
-      cover(photo(`${KM}final-photo-1`, 'Final (Aug 28, 2025): Team KAI’s 1/10-scale car with the 1st-place board')),
-      photo(`${KM}dev-plan-page-1`, 'Autonomous parking development plan, page 1: project overview, objectives, and system environment'),
-      photo(`${KM}prelim-photo-12`, 'Preliminary Task 2 plan: parking stack of AprilTag perception, Reeds–Shepp and Stanley'),
-      photo(`${KM}prelim-photo-13`, 'Preliminary Task 2 plan: ROS 2 node graph, AprilTag → Reeds–Shepp → Stanley → motor'),
+      cover(video(`${KM}final-full`, 'Team KAI completes the final-round course with its autonomous model car.')),
+      video(`${KM}prelim-video-1`, 'Preliminary simulation run covers traffic signals, cone driving, and overtaking.'),
+      cover(photo(`${KM}final-photo-1`, 'Team KAI’s competition vehicle with the first-place award.')),
+      photo(`${KM}dev-plan-page-1`, 'Parking development plan: AprilTag localization and reverse-capable path planning.'),
+      photo(`${KM}prelim-photo-12`, 'Proposed parking pipeline combines AprilTag perception, Reeds–Shepp planning, and Stanley control.'),
+      photo(`${KM}prelim-photo-13`, 'ROS 2 parking design connects tag detection, path planning, steering, and motor commands.'),
     ],
     'intl-ev': [
-      photo(`${IEV}intro-1`, 'Team S.V.E.’s 1/10-scale vehicle next to a wall section on the track'),
-      photo(`${IEV}intro-2`, 'Team S.V.E.’s vehicle driving on the lane track'),
+      photo(`${IEV}intro-2`, 'Team S.V.E.’s autonomous vehicle follows the marked competition course.'),
+      photo(`${IEV}intro-1`, 'The vehicle approaches the wall section of the autonomous-driving course.'),
     ],
   };
 
@@ -845,7 +857,7 @@ a:hover { text-decoration-color: var(--accent); }
     stage.replaceChildren(img);
     const b = document.createElement('b');
     b.textContent = s.label;
-    vCap.replaceChildren(b, document.createTextNode(` ${vTitle}`));
+    vCap.replaceChildren(b, document.createTextNode(` ${s.alt || vTitle}`));
     vCount.textContent = slides.length > 1 ? `${at + 1} / ${slides.length}` : '';
     vPdf.hidden = !s.pdf;
     if (s.pdf) vPdf.href = s.pdf;
@@ -938,11 +950,10 @@ a:hover { text-decoration-color: var(--accent); }
     g.className = 'gallery';
     const list = [];
     const flow = items.filter((i) => i.type !== 'video' && !i.wide).length;
-    const cols = Math.max(1, Math.min(3, flow));
-    const colWidth = cols === 1 ? 640 : Math.round(1040 / cols);
     for (const it of items) {
       const fig = document.createElement('figure');
       fig.className = 'g-item';
+      if (it.wide || it.type === 'video') fig.classList.add('g-wide');
       if (isMotion(it)) {
         const v = document.createElement('video');
         Object.assign(v, { src: it.src, poster: it.poster, playsInline: true, preload: 'metadata' });
@@ -958,7 +969,7 @@ a:hover { text-decoration-color: var(--accent); }
       } else {
         const start = list.length;
         if (it.type === 'doc') {
-          it.pages.forEach((p, k) => list.push({ full: `${p}.jpg`, pdf: it.pdf, label: it.label, page: k + 1, of: it.pages.length }));
+          it.pages.forEach((p, k) => list.push({ full: `${p}.jpg`, pdf: it.pdf, label: it.label, alt: it.alt, page: k + 1, of: it.pages.length }));
         } else {
           list.push({ full: it.full, label: it.label || 'Photo', alt: it.alt, pdf: it.pdf });
         }
@@ -966,23 +977,20 @@ a:hover { text-decoration-color: var(--accent); }
         b.type = 'button';
         b.className = 'g-open';
         b.setAttribute('aria-label', `Enlarge: ${it.alt || it.label}`);
-        // one- and two-column galleries and wide items use the full image; 3-column grids pick by size
-        const big = cols < 3 || it.wide;
-        const img = lazyImg(big ? fullOf(it) : thumbOf(it), fullOf(it));
-        if (!big) {
-          img.srcset = `${thumbOf(it)} 520w, ${fullOf(it)} 1800w`;
-          img.sizes = `${colWidth}px`;
-        }
+        const img = lazyImg(fullOf(it));
         img.alt = it.alt || `${it.label}: ${title}`;
         b.append(img);
         b.addEventListener('click', () => openViewer(list, start, title));
         fig.append(b);
         if (it.wide) fig.classList.add('g-wide');
       }
+      const caption = document.createElement('figcaption');
+      caption.className = 'g-caption';
+      caption.textContent = it.alt || it.label || title;
+      fig.append(caption);
       g.append(fig);
     }
-    g.style.columnCount = cols;
-    if (cols === 1) g.classList.add('single');
+    if (flow < 2) g.classList.add('single');
     return g;
   }
 
@@ -1127,15 +1135,22 @@ a:hover { text-decoration-color: var(--accent); }
       a.href = `#/${key}`;
       a.dataset.shape = it.type === 'doc' ? 'doc' : 'land';
       a.setAttribute('aria-label', `Open details: ${title} (${items.length} ${items.length === 1 ? 'item' : 'items'})`);
+      const frame = document.createElement('span');
+      frame.className = 'thumb-image';
       const img = lazyImg(thumbOf(it), fullOf(it));
+      img.alt = it.alt || it.label || title;
       if (!isMotion(it)) {
         img.srcset = `${thumbOf(it)} 520w, ${fullOf(it)} 1800w`;
         img.sizes = it.type === 'doc' ? '147px' : '314px';
       }
-      a.append(img);
-      if (isMotion(it)) a.insertAdjacentHTML('beforeend', `<span class="play">${PLAY}</span>`);
+      frame.append(img);
+      if (isMotion(it)) frame.insertAdjacentHTML('beforeend', `<span class="play">${PLAY}</span>`);
       const rest = n === shown.length - 1 ? items.length - shown.length : 0;
-      if (rest > 0) a.insertAdjacentHTML('beforeend', `<span class="rest">+${rest}</span>`);
+      if (rest > 0) frame.insertAdjacentHTML('beforeend', `<span class="rest">+${rest}</span>`);
+      const caption = document.createElement('span');
+      caption.className = 'thumb-caption';
+      caption.textContent = it.alt || it.label || title;
+      a.append(frame, caption);
       row.append(a);
     });
     entry.append(row);
