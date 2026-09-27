@@ -810,12 +810,12 @@ a:hover { text-decoration-color: var(--accent); }
     'mobility-creative': [
       cover(photo(`${MOB}intro-1`, 'Vehicle on the competition cone course.')),
       cover(photo(`${MOB}intro-2`, 'The competition vehicle with the Special Award and Excellence Award.')),
-      photo(`${MOB}simulation-validation`, 'Cone-course validation in Gazebo.'),
+      wide(photo(`${MOB}shared-photo-8`, 'ROS 2 node architecture for cone processing, path planning, speed planning, and steering.')),
       clip(`${MOB}ct-video-4`, 'Delaunay triangulation generates a center path between the left and right cones.'),
+      clip(`${MOB}shared-video-3`, 'Potential-field experiment generates a smooth path along the valley between cones.'),
       clip(`${MOB}ct-video-8`, 'Pure Pursuit tracks the cone-defined path using a forward look-ahead point.'),
       clip(`${MOB}shared-video-1`, 'Adaptive Pure Pursuit adjusts look-ahead distance with speed and path curvature.'),
-      clip(`${MOB}shared-video-3`, 'Potential-field experiment generates a smooth path along the valley between cones.'),
-      wide(photo(`${MOB}shared-photo-8`, 'ROS 2 node architecture for cone processing, path planning, speed planning, and steering.')),
+      photo(`${MOB}simulation-validation`, 'Cone-course validation in Gazebo.'),
     ],
     'kookmin-autonomous': [
       { ...cover(video(`${KM}final-full`, 'Full final-round video.')), section: 'Final Round' },
