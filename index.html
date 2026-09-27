@@ -809,10 +809,10 @@ a:hover { text-decoration-color: var(--accent); }
       cover(photo(`${MOB}intro-1`, 'Competition photo.')),
       cover(photo(`${MOB}intro-2`, 'Vehicle and awards.')),
       wide(photo(`${MOB}shared-photo-8`, 'ROS 2 node architecture for cone processing, path planning, speed planning, and steering.')),
-      { ...clip(`${MOB}ct-video-4`, 'Delaunay triangulation generates a center path between the left and right cones.'), section: 'Path Planning' },
+      clip(`${MOB}ct-video-4`, 'Delaunay triangulation generates a center path between the left and right cones.'),
       clip(`${MOB}shared-video-3`, 'Potential-field experiment generates a smooth path along the valley between cones.'),
       photo(`${MOB}simulation-validation`, 'Cone-course validation in Gazebo.'),
-      { ...clip(`${MOB}ct-video-8`, 'Pure Pursuit tracks the cone-defined path using a forward look-ahead point.'), section: 'Control' },
+      clip(`${MOB}ct-video-8`, 'Pure Pursuit tracks the cone-defined path using a forward look-ahead point.'),
       clip(`${MOB}shared-video-1`, 'Adaptive Pure Pursuit adjusts look-ahead distance with speed and path curvature.'),
     ],
     'kookmin-autonomous': [
