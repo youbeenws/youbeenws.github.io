@@ -259,7 +259,6 @@ a:hover { text-decoration-color: var(--accent); }
   transition: transform .5s var(--ease);
 }
 .g-open:hover img { transform: scale(1.02); }
-.credit { margin: 8px 0 0; font-size: 13px; color: var(--ink-3); }
 
 /* certificates: plain links that open just that document */
 .docs { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; font-size: 14.5px; }
@@ -572,14 +571,14 @@ a:hover { text-decoration-color: var(--accent); }
             </div>
             <p class="meta"><span>Nov. 2025</span></p>
           </div>
-          <div class="award" data-docs="mobility-special" data-title="Special Award at the 2025 University Creative Mobility Competition (Autonomous Driving Track)">
+          <div class="award">
             <p class="award-name"><b>Special Award</b> <span>(Autonomous Driving Track)</span></p>
             <ul class="pts">
               <li><b>Planning/Control SW Module Member</b>, Team KAI.</li>
               <li><b>Contribution</b>: Centroid-graph-based Greedy path planner, control using steering sensitivity adaptive Pure Pursuit algorithm.</li>
             </ul>
           </div>
-          <div class="award" data-docs="mobility-excellence" data-title="Excellence Award at the 2025 University Creative Mobility Competition (Creative Technology Track)">
+          <div class="award" data-docs="mobility-excellence" data-title="Special Award and Excellence Award at the 2025 University Creative Mobility Competition">
             <p class="award-name"><b>Excellence Award</b> <span>(Creative Technology Track)</span></p>
             <ul class="pts">
               <li><b>Planning/Control SW Module Member</b>, Team KAI.</li>
@@ -718,13 +717,6 @@ a:hover { text-decoration-color: var(--accent); }
     photo(`${MOB}intro-1`, 'Cone-course run at the competition (broadcast frame)'),
     photo(`${MOB}intro-2`, 'Team KAI’s vehicle with the Special Award and Excellence Award signs'),
   ];
-  const FSD_REPO = '<a href="https://github.com/imhyeonwoo/Formula-Student-Driverless-Planning-Control">Team K.A.I. planning &amp; control repository</a> by Hyeonwoo Im (MIT License)';
-
-  const CREDIT = {
-    'mobility-creative': `Planning visualizations: ${FSD_REPO}.`,
-    'uav-ugv': 'Videos from the team’s <a href="https://github.com/imhyeonwoo/AutonomousSystemPlatform">project repository</a>; the map image is provided by the course.',
-  };
-
   // certificates: shown as a link under the entry, never mixed into the gallery
   const DOCS = {
     hmobility: bundle('Certificate of Education', [doc(`${CE}hmobility-robotics-track`, ''), doc(`${CE}hmobility-car-inside-out`, '')]),
@@ -732,8 +724,11 @@ a:hover { text-decoration-color: var(--accent); }
     kitech: bundle('Certificate of Experience', [doc(`${CE}kitech-training-certificate`, '')]),
     'physical-ai-hackathon': certs('2026-02-physical-ai'),
     'hl-fma-amap': certs('2025-11-hl-fma'),
-    'mobility-special': certs('2025-11-creative-mobility', { award: 'award-autonomous', pages: 2 }),
-    'mobility-excellence': certs('2025-11-creative-mobility', { award: 'award-creative-tech', pages: 2 }),
+    'mobility-excellence': bundle('Certificate of Award and Participation', [
+      doc(`${MOB}award-autonomous`, 'Special Award'),
+      doc(`${MOB}award-creative-tech`, 'Excellence Award'),
+      doc(`${MOB}participation`, 'Certificate of Participation', 2),
+    ]),
     'kookmin-autonomous': certs('2025-08-kookmin'),
     'intl-ev': certs('2025-07-intl-ev'),
   };
@@ -882,6 +877,7 @@ a:hover { text-decoration-color: var(--accent); }
       clip(`${KM}final-video-1`, 'Final (ROS 2, real car, bag replay): YOLO car/lane detection during an overtake'),
       clip(`${KM}final-video-2`, 'Final (ROS 2, real car, bag replay): YOLO traffic-light detection starts the cone mission'),
       cover(photo(`${KM}final-photo-1`, 'Final (Aug 28, 2025): Team KAI’s 1/10-scale car with the 1st-place board')),
+      photo(`${KM}dev-plan-page-1`, 'Autonomous parking development plan, page 1: project overview, objectives, and system environment'),
       photo(`${KM}intro-1`, 'Final round run (broadcast frame)'),
       photo(`${KM}intro-2`, 'Final round obstacle run (broadcast frame)'),
       ...series(photo, `${KM}prelim-photo`, [
@@ -1136,12 +1132,6 @@ a:hover { text-decoration-color: var(--accent); }
     for (const n of entry.querySelectorAll(':scope > .stack, :scope > .pts, :scope > .docs, :scope > .award')) text.append(n.cloneNode(true));
     dBody.replaceChildren(head, text);
     if (items.length) dBody.append(gallery(items, title));
-    if (CREDIT[key]) {
-      const p = document.createElement('p');
-      p.className = 'credit';
-      p.innerHTML = CREDIT[key];
-      dBody.append(p);
-    }
     dScroll.scrollTop = 0;
     dBody.querySelectorAll('video[data-clip]').forEach((v) => clipWatch.observe(v));
   }
