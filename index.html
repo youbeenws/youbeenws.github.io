@@ -696,7 +696,6 @@ a:hover { text-decoration-color: var(--accent); }
   });
   const cover = (item) => ({ ...item, cover: true });
   const wide = (item) => ({ ...item, wide: true });
-  const series = (make, base, captions) => captions.map((c, i) => make(`${base}-${i + 1}`, c));
 
   // one "→ …" link per entry; its documents open together, page after page
   const bundle = (label, docs) => ({ label, docs });
@@ -714,16 +713,11 @@ a:hover { text-decoration-color: var(--accent); }
   const PAI = 'assets/awards/2026-02-physical-ai/';
   const IEV = 'assets/awards/2025-07-intl-ev/';
 
-  const mobilityIntro = [
-    photo(`${MOB}intro-1`, 'Cone-course run at the competition (broadcast frame)'),
-    photo(`${MOB}intro-2`, 'Team KAI’s vehicle with the Special Award and Excellence Award signs'),
-  ];
   const FSD_REPO = '<a href="https://github.com/imhyeonwoo/Formula-Student-Driverless-Planning-Control">Team K.A.I. planning &amp; control repository</a> by Hyeonwoo Im (MIT License)';
 
   const CREDIT = {
     'mobility-creative': `Planning visualizations: ${FSD_REPO}.`,
-    'uav-ugv': 'Videos from the team’s <a href="https://github.com/imhyeonwoo/AutonomousSystemPlatform">project repository</a>; the map image is provided by the course.',
-    'kookmin-autonomous': 'Some images are vendor assets and sample data bundled with the contest code base (Xytron, YDLidar).',
+    'uav-ugv': 'Video from the team’s <a href="https://github.com/imhyeonwoo/AutonomousSystemPlatform">project repository</a>.',
   };
 
   // certificates: shown as a link under the entry, never mixed into the gallery
@@ -739,8 +733,10 @@ a:hover { text-decoration-color: var(--accent); }
     'intl-ev': certs('2025-07-intl-ev'),
   };
 
+  // Curated evidence: working demos, essential system/mission context, and results.
+  // Keep each item explicit so slide exports and repository samples do not enter galleries.
   const MEDIA = {
-    // Publications & Presentations
+    // Publications & Presentations: overview, research evidence, and the published poster.
     vicon: [
       video('assets/pubs/vicon/vicon', 'Supplementary video: glove hand tracking, object pose, contact points and normal forces'),
       cover(photo('assets/pubs/vicon/fig1', 'VICON overview figure')),
@@ -752,176 +748,39 @@ a:hover { text-decoration-color: var(--accent); }
     ],
     // Projects
     'emergency-stop': [
-      ...series(clip, `${ES}video`, [
-        'Case 2: passes the pre-drive check, then a runtime warning fires on approach (red floor)',
-        'PyBullet simulation: the robot drives the walled curve toward the red stop wall',
-        'Case 1: pre-drive risk exceeds the threshold, so the warning fires at the start',
-      ]),
-      ...series(photo, `${ES}sim`, [
-        'PyBullet track: walled curved road with the red stop wall',
-        'Warning state: red floor',
-        'Safe state: green floor',
-      ]),
-      ...series(photo, `${ES}photo`, [
-        'Project pipeline, from the PyBullet environment to the warning policy',
-        'UML deployment diagram',
-        'Layered software architecture',
-        'UML class diagram: simulator, prediction models and warning policy',
-        'Deliverables and platform stack',
-        'Time-weighted BCE loss',
-        'Transformer confusion matrix on 2,033 held-out episodes (threshold 0.58)',
-        'Predicted failure probability with the 0.58 threshold',
-        'Predicted failure probability by true class',
-        'Pre-drive risk by road surface',
-        'In-drive risk by road surface (log scale)',
-        'GRU confusion matrix (threshold 0.65)',
-        'GRU input and temporal attention for one episode',
-        'GRU SHAP feature importance',
-        'Transformer SHAP feature importance',
-        'Future work: closing the loop between the simulator and the trained Transformer',
-      ]),
+      cover(video(`${ES}video-1`, 'PyBullet demo: vehicle approach and the runtime early-warning response')),
     ],
     'carla-planning': [
       cover(video(`${CP}video-1`, 'Ego car following the global route in Town03 with pure pursuit (chase and top views)')),
-      ...series(clip, `${CP}video`, [
-        '', 'Dynamic obstacle car driving through the Town03 roundabout',
-        'RViz view of the spawned static and dynamic obstacle positions',
-        'Raw LiDAR point cloud in RViz while the ego car drives',
-        'LiDAR point cloud after ground removal and height filtering',
-        'DBSCAN clusters (green) marking nearby vehicles and structures while driving',
-        'RRT tree growing around obstacles until a path to the goal is found',
-        'RRT generating a detour when an obstacle appears on the current path',
-        'DWA local planner steering toward the goal on an RViz grid map with obstacles',
-        'DWA local planner run on a second obstacle grid',
-        'DWA local planner run on a third obstacle grid',
-      ]).slice(1),
-      ...series(photo, `${CP}photo`, [
-        'CARLA Town03 test course: start, barricade, static and dynamic obstacles, goal (Korean labels)',
-        'CARLA Town03 roundabout from street level in the simulator',
-        'Fire trucks placed as a barricade blocking the road ahead',
-        'Aerial view of the Town03 roundabout with a spawned dynamic obstacle car',
-        'ROS2 node architecture: waypoint, global/local path, planner manager and control nodes',
-        'rqt_graph of the launched ROS2 nodes: CARLA bridge, path publishers and pure pursuit',
-        'Town03 lane waypoints published over ROS2 and drawn in RViz',
-        'A* global route (blue dots) from start to goal on Town03',
-        'A* global route (blue dots) planned on Town01',
-        'A* global route (blue) planned on Town04',
-        'A* global route (blue dots) planned on Town05',
-        'Third-degree B-spline smoothing of the global route waypoints in RViz',
-        'Curvature-based speed plan along the global route; bar height shows target speed',
-        'Ego car tracking the planned route (blue dots) toward a red look-ahead point',
-        'LiDAR points clustered with DBSCAN (green) to detect obstacles around the ego car',
-        'RRT practice in RViz: tree (green) grows around obstacles, path to goal in blue',
-        'RRT replanning in RViz: detour (blue) around an obstacle placed on the old path (red)',
-        'RRT avoidance path around a static obstacle car on a two-lane road',
-        'Ego car following an RRT detour around the next static obstacle',
-        'Ego car stopped at the fire-truck barricade before replanning its route',
-        'Global route before D* Lite replanning (RViz)',
-        'Global route after D* Lite replanning around the blocked road (RViz)',
-        'Ego car at the roundabout entry with its planned path as another car circulates',
-        'Ego car stopped at the final goal, with its global route in RViz',
-      ]).map((it, i) => (i === 0 ? cover(it) : it)),
+      cover(photo(`${CP}photo-1`, 'Mission: start, barricade, static and dynamic obstacles, and goal in CARLA Town03')),
+      photo(`${CP}photo-5`, 'ROS2 node architecture: global and local planning, planner manager, and vehicle control'),
     ],
     'uav-ugv': [
-      cover(wide(photo(`${UV}mission`, 'Mission overview: take-off, waypoint following, obstacle avoidance, exploration points and rendezvous landing'))),
       cover(video(`${UV}video-1`, 'Full mission in simulation: UGV driving, UAV flight, marker tracking and precision landing')),
-      video(`${UV}video-2`, 'UAV waypoint flight with gimbal control and ArUco marker localization in RViz'),
-      photo(`${UV}photo-1`, 'Simulation map with ArUco-marked targets (provided by the course)'),
+      cover(wide(photo(`${UV}mission`, 'Mission overview: take-off, waypoint following, obstacle avoidance, exploration points and rendezvous landing'))),
     ],
     // Awards & Honors
     'physical-ai-hackathon': [
-      photo(`${PAI}intro-1`, 'Bimanual robot-arm setup for the Fine Folding track'),
       photo(`${PAI}intro-2`, 'Bimanual arms folding cloth during the hackathon'),
     ],
     'hl-fma-amap': [
-      cover(video(`${HL}screen-video-1`, 'Ego car in MORAI: waits for green, slows through an S-curve, speeds up on the straight')),
-      video(`${HL}run-1`, 'Autonomous run in the MORAI simulator, recorded from the screen (1)'),
-      video(`${HL}run-2`, 'Autonomous run in the MORAI simulator, recorded from the screen (2)'),
-      cover(photo(`${HL}screen-photo-1`, 'Ego vehicle in MORAI turning left at an intersection at 10 km/h')),
-      photo(`${HL}screen-photo-2`, 'Top-down view of the ego vehicle stopped in the finish zone'),
-      photo(`${HL}screen-photo-3`, 'MORAI sensor setup for the ego vehicle: camera, 3D LiDAR, GNSS and IMU'),
-      photo(`${HL}intro-1`, 'Ego vehicle driving in the MORAI simulator'),
-      photo(`${HL}intro-2`, 'Ego vehicle passing a bus in the MORAI simulator'),
+      video(`${HL}screen-video-1`, 'Ego car in MORAI: waits for green, slows through an S-curve, speeds up on the straight'),
     ],
-    // one competition, two awards: the media live here and both entries open this page
+    // Two competition tracks: one planning demo for each, plus the race and awards.
     'mobility-creative': [
-      clip(`${MOB}ad-video-1`, 'Greedy graph-guided centerline search between cone boundary lines, with driving HUD'),
-      ...series(clip, `${MOB}shared-video`, [
-        'Adaptive Pure Pursuit on driving data: look-ahead point, steering command and Ld HUD',
-        'Potential-field planning (top view): cone repulsion map and trough waypoints',
-        'Potential-field surface in 3D with the smoothed local path along its trough',
-      ]),
-      ...series(clip, `${MOB}ct-video`, [
-        'RTK-GPS global path in RViz: the reference used to sort cones into left and right',
-        'Simulated cones along the GPS path, with the fan-shaped cone ROI ahead of the car',
-        'ROI cones labeled left (blue) / right (yellow) against the path via Frenet + k-d tree',
-        'Delaunay triangulation of left/right cones; left-right edge midpoints form the path',
-        'Delaunay midpoints smoothed and resampled into evenly spaced waypoints',
-        'Cone safety radii and the safe corridor around the Delaunay local path',
-        'Local speed planning: per-waypoint target speeds (magenta bars) on the Delaunay path',
-        'Pure Pursuit tracking the Delaunay path: look-ahead point and steering arrow',
-        'Delaunay local path with speed bars over a long cone corridor (MPC test input)',
-        'MPC path output (green heading ticks) along the cone corridor, with speed bars',
-      ]).map((it, i) => (i === 3 ? cover(it) : it)),
-      ...series(photo, `${MOB}shared-photo`, [
-        'Path curvature from three waypoints via the circumradius formula (slide)',
-        'Averaging upcoming path curvature as a feed-forward speed input (slide)',
-        'Target speed under lateral and longitudinal acceleration limits (slide)',
-        'Path curvature vs. distance from a speed-planner debug run',
-        'Minimum slack vs. time from a speed-planner debug run',
-        'Commanded vs. measured vehicle speed over time',
-        'Curvature limit, forward-pass limit and final speed profile vs. distance',
-        'ROS node graph of the planning stack (rqt_graph)',
-      ]),
-      mobilityIntro[0],
-      cover(mobilityIntro[1]),
+      cover(photo(`${MOB}intro-1`, 'Cone-course run at the competition (broadcast frame)')),
+      clip(`${MOB}ad-video-1`, 'Autonomous Driving Track: greedy graph-guided centerline planning between cone boundaries'),
+      cover(clip(`${MOB}ct-video-4`, 'Creative Technology Track: Delaunay triangulation generates a path between left and right cones')),
+      photo(`${MOB}intro-2`, 'Team KAI’s vehicle with the Special Award and Excellence Award signs'),
     ],
     'kookmin-autonomous': [
       cover(video(`${KM}final-full`, 'Final round (real car): full video of Team KAI’s runs')),
-      video(`${KM}prelim-video-1`, 'Preliminary Task 1 (simulator): traffic-light start, cone lane, lane-change overtaking'),
       clip(`${KM}final-video-1`, 'Final (ROS 2, real car, bag replay): YOLO car/lane detection during an overtake'),
-      clip(`${KM}final-video-2`, 'Final (ROS 2, real car, bag replay): YOLO traffic-light detection starts the cone mission'),
-      cover(photo(`${KM}final-photo-1`, 'Final (Aug 28, 2025): Team KAI’s 1/10-scale car with the 1st-place board')),
-      photo(`${KM}intro-1`, 'Final round run (broadcast frame)'),
-      photo(`${KM}intro-2`, 'Final round obstacle run (broadcast frame)'),
-      ...series(photo, `${KM}prelim-photo`, [
-        'Preliminary Task 2 plan: Reeds–Shepp parking path from start pose into the goal slot (RViz2)',
-        'Preliminary Task 2 plan: Reeds–Shepp path with lateral offset into the parking slot',
-        'Preliminary Task 2 plan: start/goal poses and parking slot for a path test (start yaw 150°)',
-        'Preliminary Task 2 plan: start/goal poses and parking slot for a path test (start yaw 180°)',
-        'Preliminary Task 2 plan: Gazebo test world with the car model and an AprilTag (top view)',
-        'Preliminary Task 2 plan: Gazebo world with an AprilTag 36h11 marker and the car model',
-        'Preliminary Task 2 plan: Gazebo car after a manual test drive toward the AprilTag',
-        'Preliminary Task 2 plan: simulated car camera (rqt) viewing the AprilTag in Gazebo',
-        'Preliminary Task 2 plan: AprilTag #0 detected with a 3D pose box on a real camera',
-        'Preliminary Task 2 plan: checkerboard calibration of the USB camera',
-        'Preliminary Task 2 plan: undistorted camera frame of a striped test pattern',
-        'Preliminary Task 2 plan: parking stack of AprilTag perception, Reeds–Shepp and Stanley',
-        'Preliminary Task 2 plan: ROS 2 node graph, AprilTag → Reeds–Shepp → Stanley → motor',
-      ]),
-      clip(`${KM}final-video-3`, 'Repo study sample: onboard-camera drive on an indoor model-car track'),
-      clip(`${KM}final-video-4`, 'Repo study sample: highway dashcam clip for lane-detection practice'),
-      clip(`${KM}final-video-5`, 'Repo study sample: mountain-road dashcam clip for lane-detection practice'),
-      ...['indoor lab track camera frame', 'indoor lab track frame with a curved lane', 'indoor lab track frame with an AprilTag stand',
-        'indoor lab track frame with a stop line and model car', 'indoor lab track frame with a curve and AprilTag', 'Hough line-segment output']
-        .map((c, i) => photo(`${KM}final-photo-${i + 2}`, `Repo study sample: ${c}`)),
-      ...series(photo, `${KM}repo-extra`, [
-        'Repo study sample: blank (all-black) frame',
-        'Repo asset: car icon (path-planning app)',
-        'Repo asset: Xytron logo (path-planning app)',
-        'Repo asset: car image (ultrasonic viewer app)',
-        'Repo asset: Xytron logo (ultrasonic viewer app)',
-        'YDLidar driver docs: EAI banner',
-        'YDLidar driver docs: product photo',
-        'YDLidar driver docs: point-cloud view',
-        'YDLidar driver docs: RViz setup',
-        'YDLidar driver docs: build finished',
-        'YDLidar driver docs: CMake error',
-      ]),
+      photo(`${KM}prelim-photo-13`, 'Preliminary parking architecture: AprilTag perception, Reeds–Shepp planning, and Stanley control'),
+      cover(photo(`${KM}final-photo-1`, 'Team KAI’s 1/10-scale car with the 1st-place board')),
     ],
     'intl-ev': [
-      photo(`${IEV}intro-1`, 'Team S.V.E.’s 1/10-scale vehicle next to a wall section on the track'),
-      photo(`${IEV}intro-2`, 'Team S.V.E.’s vehicle driving on the lane track'),
+      photo(`${IEV}intro-1`, 'Team S.V.E.’s 1/10-scale vehicle navigating the wall section of the track'),
     ],
   };
 
